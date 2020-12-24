@@ -2,23 +2,30 @@ import React, { useState, useEffect } from "react";
 
 // App
 import db from "../../firebase";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import QRCode from "qrcode.react";
 
 // Styles
 import "./Decks.scss";
 
 function Decks() {
   const [decks, setDecks] = useState([]);
+  const { userId } = useParams();
 
   useEffect(() => {
-    const unsubscribe = db.collection("decks").onSnapshot((snapshot) =>
-      setDecks(
-        snapshot.docs.map((doc) => ({
-          id: doc.id,
-          data: doc.data(),
-        }))
-      )
-    );
+    const unsubscribe = db
+      .collection("users")
+      .doc(userId)
+      .collection("decks")
+      .onSnapshot((snapshot) => {
+        console.log(snapshot.docs[0].data());
+        setDecks(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            data: doc.data(),
+          }))
+        );
+      });
 
     return () => {
       unsubscribe();
@@ -27,6 +34,9 @@ function Decks() {
 
   return (
     <div className="decks">
+      <div className="decks__link">
+        <QRCode value={window.location.href} />
+      </div>
       {decks.map((deck) => (
         <div
           key={deck.id}
@@ -39,10 +49,10 @@ function Decks() {
             <div className="deck__image">
               <img
                 className="decks__commander"
-                src={deck.data.image}
-                alt={deck.data.commander_name}
+                src={deck.data.commander_image}
+                alt={deck.data.commander}
               />
-              {deck.data.commander2 ? (
+              {/* {deck.data.commander2 ? (
                 <img
                   className="decks__commander decks__commander--commander2"
                   src={deck.data.image2}
@@ -50,10 +60,10 @@ function Decks() {
                 />
               ) : (
                 <></>
-              )}
+              )} */}
             </div>
           </Link>
-          <div className="decks__score">Rating: {deck.data.score}</div>
+          <div className="decks__score">Rating: {deck.data.deck_score}</div>
         </div>
       ))}
     </div>

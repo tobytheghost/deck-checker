@@ -13,8 +13,9 @@ function Routes() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/search" component={SearchPage} />
-          <Route exact path="/decks" component={Decks} />
-          <Route path="/decks/:deckId" component={Deck} />
+          {/* <Route exact Path="/:userId" component={User} /> */}
+          <Route exact path="/:userId/decks" component={Decks} />
+          <Route path="/:userId/decks/:deckId" component={Deck} />
           <Route component={Error} />
         </Switch>
       </main>

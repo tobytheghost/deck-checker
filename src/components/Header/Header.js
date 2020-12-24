@@ -20,12 +20,18 @@ function Header() {
           <li className="header__item">
             <Link to="/search">Search</Link>
           </li>
-          <li className="header__item">
-            <Link to="/decks">Decks</Link>
-          </li>
-          <li className="header__item">
-            <Link to="/profile">Profile</Link>
-          </li>
+          {user != null ? (
+            <>
+              <li className="header__item">
+                <Link to={"/" + user.uid + "/decks"}>My Decks</Link>
+              </li>
+              <li className="header__item">
+                <Link to="/profile">My Profile</Link>
+              </li>
+            </>
+          ) : (
+            <></>
+          )}
         </ul>
       </nav>
     </header>

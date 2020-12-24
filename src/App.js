@@ -3,7 +3,6 @@ import React from "react";
 // App
 import Routes from "./Routes";
 import { Login } from "./views";
-import { useStateValue } from "./StateProvider";
 
 // Styles
 import "./App.scss";
