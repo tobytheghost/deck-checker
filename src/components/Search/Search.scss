@@ -1,0 +1,21 @@
+.search {
+  display: flex;
+  &__main {
+    width: calc(100vw - 450px);
+  }
+  &__preview {
+    width: 450px;
+  }
+  &__image {
+    width: 450px;
+  }
+  &__list {
+    padding-left: 0;
+    margin: 0;
+    list-style: none;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  &__item {
+  }
+}

@@ -1,0 +1,51 @@
+.decks {
+  $self: &;
+  display: flex;
+  flex-wrap: wrap;
+  &__deck {
+    position: relative;
+    max-width: 320px;
+    margin: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    &--partner {
+      #{ $self }__commander {
+        padding-right: 3rem;
+        padding-bottom: 3rem;
+        &--commander2 {
+          position: absolute;
+          top: 0;
+          left: 0;
+          padding: 0;
+          padding-left: 3rem;
+          padding-top: 3rem;
+        }
+      }
+    }
+    a {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+  }
+  &__image {
+    flex-grow: 1;
+  }
+  &__commander {
+    max-width: 100%;
+    &--commander2 {
+      position: absolute;
+      top: 3rem;
+      left: 3rem;
+    }
+  }
+  &__name {
+    text-align: center;
+    padding: 0.5rem;
+  }
+  &__score {
+    padding: 0.5rem;
+    font-size: 1.25rem;
+    text-align: center;
+  }
+}
