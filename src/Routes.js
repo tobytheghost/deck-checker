@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 //App
-import { Error, Home, Deck, Decks, SearchPage } from "./views";
+import { Error, Home, Deck, Profile, SearchPage } from "./views";
 import { Header } from "./components";
 
 function Routes() {
@@ -14,8 +14,8 @@ function Routes() {
           <Route exact path="/" component={Home} />
           <Route exact path="/search" component={SearchPage} />
           {/* <Route exact Path="/:userId" component={User} /> */}
-          <Route exact path="/:userId/decks" component={Decks} />
-          <Route path="/:userId/decks/:deckId" component={Deck} />
+          <Route exact path="/:userId" component={Profile} />
+          <Route exact path="/:userId/deck/:deckId" component={Deck} />
           <Route component={Error} />
         </Switch>
       </main>

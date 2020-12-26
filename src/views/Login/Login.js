@@ -9,6 +9,7 @@ import { useStateValue } from "../../StateProvider";
 import { Button } from "@material-ui/core";
 
 function Login() {
+  // eslint-disable-next-line
   const [{}, dispatch] = useStateValue();
 
   const signIn = () => {

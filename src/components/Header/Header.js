@@ -8,6 +8,7 @@ import { useStateValue } from "../../StateProvider";
 import "./Header.scss";
 
 function Header() {
+  // eslint-disable-next-line
   const [{ user }, dispatch] = useStateValue();
 
   return (
@@ -23,10 +24,7 @@ function Header() {
           {user != null ? (
             <>
               <li className="header__item">
-                <Link to={"/" + user.uid + "/decks"}>My Decks</Link>
-              </li>
-              <li className="header__item">
-                <Link to="/profile">My Profile</Link>
+                <Link to={"/" + user.uid}>My Profile</Link>
               </li>
             </>
           ) : (

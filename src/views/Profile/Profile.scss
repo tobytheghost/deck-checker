@@ -1,11 +1,31 @@
-.decks {
+.profile {
   $self: &;
   display: flex;
   flex-wrap: wrap;
+  &__actions {
+    width: 100%;
+    margin-bottom: 1rem;
+    ul {
+      list-style: none;
+      padding: 1rem;
+      margin: 0;
+    }
+  }
+  &__action {
+    display: inline-block;
+  }
+  &__decks {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: 1rem;
+  }
+  &__info {
+  }
   &__deck {
     position: relative;
     max-width: 320px;
-    margin: 0.5rem;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     &--partner {
@@ -40,8 +60,11 @@
     }
   }
   &__name {
+    margin: 0;
+    padding: 0;
     text-align: center;
-    padding: 0.5rem;
+    padding-bottom: 1rem;
+    font-size: 1.25rem;
   }
   &__score {
     padding: 0.5rem;

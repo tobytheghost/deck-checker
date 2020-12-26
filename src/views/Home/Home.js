@@ -1,5 +1,5 @@
 import React from "react";
-import { Search, Header } from "../../components";
+import { Search } from "../../components";
 
 // Styles
 import "./Home.scss";

@@ -17,4 +17,20 @@ body {
 main {
   flex: 1;
   padding: 1rem;
+  background: #efefef;
+}
+
+.section {
+  display: flex;
+  flex-wrap: wrap;
+  &__card {
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    &:last-child {
+      margin-right: 0;
+    }
+    &--full {
+      flex: 1;
+    }
+  }
 }

@@ -12,7 +12,7 @@ function Search() {
 
   const searchUrl = "https://api.scryfall.com/cards/search?q=";
   const searchCards = (search) => {
-    console.log(`Searching for ${search}`);
+    //console.log(`Searching for ${search}`);
     fetch(searchUrl + search)
       .then((response) => response.json())
       .then((data) => {
