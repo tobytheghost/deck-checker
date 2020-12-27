@@ -1,0 +1,73 @@
+.decklist {
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  &__section {
+    padding-bottom: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 1.5rem;
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+    &--title {
+      column-span: all;
+    }
+  }
+  &__title {
+    padding: 0;
+    margin: 0;
+  }
+  &__subtitle {
+    padding: 0;
+    margin: 0;
+    padding-bottom: 1rem;
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  &__main {
+    flex: 1;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+    margin-bottom: 1rem;
+    columns: 2;
+    -moz-column-fill: auto;
+    column-fill: auto;
+    > div {
+      -webkit-column-break-inside: avoid;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    @media (max-width: 768px) {
+      width: 100%;
+      columns: 1;
+    }
+  }
+  &__side {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+    columns: 2;
+    -moz-column-fill: auto;
+    column-fill: auto;
+    > div {
+      -webkit-column-break-inside: avoid;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    @media (max-width: 768px) {
+      width: 100%;
+      columns: 1;
+    }
+  }
+  &__item {
+  }
+}

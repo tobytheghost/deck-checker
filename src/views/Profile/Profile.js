@@ -4,13 +4,16 @@ import React, { useState, useEffect } from "react";
 import db from "../../firebase";
 import { Link, useParams } from "react-router-dom";
 import { QR } from "../../components";
+import { useStateValue } from "../../StateProvider";
 
 // Styles
 import { Card, Button } from "@material-ui/core";
 import "./Profile.scss";
 
 function Profile() {
+  const [{ user }, dispatch] = useStateValue();
   const [decks, setDecks] = useState([]);
+  const [canEdit, setCanEdit] = useState(false);
   const { userId } = useParams();
 
   useEffect(() => {
@@ -19,7 +22,6 @@ function Profile() {
       .doc(userId)
       .collection("decks")
       .onSnapshot((snapshot) => {
-        //console.log(snapshot.docs[0].data());
         setDecks(
           snapshot.docs.map((doc) => ({
             id: doc.id,
@@ -28,24 +30,32 @@ function Profile() {
         );
       });
 
+    if (userId === user.uid) {
+      setCanEdit(true);
+    }
+
     return () => {
       unsubscribe();
     };
-  }, [userId]);
+  }, [userId, user]);
 
   return (
     <div className="profile">
-      <section className="profile__actions">
-        <Card>
-          <ul>
-            <li className="profile__action">
-              <Button variant="contained" color="primary">
-                Add New Deck
-              </Button>
-            </li>
-          </ul>
-        </Card>
-      </section>
+      {canEdit ? (
+        <section className="profile__actions">
+          <Card>
+            <ul>
+              <li className="profile__action">
+                <Button variant="contained" color="primary">
+                  Add New Deck
+                </Button>
+              </li>
+            </ul>
+          </Card>
+        </section>
+      ) : (
+        <></>
+      )}
       <section className="profile__decks">
         {decks.map((deck) => (
           <Card key={deck.id}>
@@ -56,7 +66,7 @@ function Profile() {
               }
             >
               <h2 className="profile__name">{deck.data.commander}</h2>
-              <Link to={`/${userId}/deck/${deck.id}`}>
+              <Link to={`/d/${deck.id}`}>
                 <div className="profile__image">
                   <img
                     className="profile__commander"
@@ -72,11 +82,15 @@ function Profile() {
           </Card>
         ))}
       </section>
-      <section className="profile__info">
-        <div className="profile__link">
-          <QR imageName={userId} qrTitle="Profile QR Code"></QR>
-        </div>
-      </section>
+      {canEdit ? (
+        <section className="profile__info">
+          <div className="profile__link">
+            <QR imageName={userId} qrTitle="Profile QR Code"></QR>
+          </div>
+        </section>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

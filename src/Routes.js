@@ -13,9 +13,9 @@ function Routes() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/search" component={SearchPage} />
-          {/* <Route exact Path="/:userId" component={User} /> */}
-          <Route exact path="/:userId" component={Profile} />
-          <Route exact path="/:userId/deck/:deckId" component={Deck} />
+          <Route exact path="/profile" component={Profile} />
+          <Route exact path="/u/:userId" component={Profile} />
+          <Route exact path="/d/:deckId" component={Deck} />
           <Route component={Error} />
         </Switch>
       </main>

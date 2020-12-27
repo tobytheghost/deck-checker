@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 // Styles
-import { TextField } from "@material-ui/core";
+import { TextField, Card } from "@material-ui/core";
 import "./Search.scss";
 
 function Search() {
@@ -33,7 +33,7 @@ function Search() {
 
   return (
     <div className="search">
-      <div className="search__main">
+      <Card className="search__main">
         <TextField
           label="Search"
           variant="outlined"
@@ -45,7 +45,7 @@ function Search() {
           }}
         />
         {loading ? (
-          <div>Searching ...</div>
+          <div className="search__list">Searching ...</div>
         ) : input.length > 2 && cardList.data.length > 0 ? (
           <ul className="search__list">
             {cardList.data
@@ -59,8 +59,7 @@ function Search() {
               .slice(0, 100)
               .map((item, i) => (
                 <li className="search__item" key={i}>
-                  <a
-                    href={item.image_uris.normal}
+                  <span
                     onMouseOver={() =>
                       setCardPreview({
                         name: item.name,
@@ -69,15 +68,15 @@ function Search() {
                     }
                   >
                     {item.name}
-                  </a>
+                  </span>
                 </li>
               ))}
           </ul>
         ) : (
-          <></>
+          <div className="search__list"></div>
         )}
-      </div>
-      <div className="search__preview">
+      </Card>
+      <Card className="search__preview">
         {cardPreview.name ? (
           <img
             className="search__image"
@@ -87,7 +86,7 @@ function Search() {
         ) : (
           <img className="search__image" src="/card_back.jpg" alt="Card Back" />
         )}
-      </div>
+      </Card>
     </div>
   );
 }

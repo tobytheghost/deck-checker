@@ -24,7 +24,7 @@ function Header() {
           {user != null ? (
             <>
               <li className="header__item">
-                <Link to={"/" + user.uid}>My Profile</Link>
+                <Link to={"/u/" + user.uid}>My Profile</Link>
               </li>
             </>
           ) : (

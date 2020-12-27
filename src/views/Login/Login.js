@@ -20,6 +20,7 @@ function Login() {
           type: actionTypes.SET_USER,
           user: result.user,
         });
+        localStorage.setItem("authUser", JSON.stringify(result.user));
       })
       .catch((error) => alert(error.message));
   };

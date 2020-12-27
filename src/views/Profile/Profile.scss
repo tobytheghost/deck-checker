@@ -18,9 +18,18 @@
     flex: 1;
     display: flex;
     flex-wrap: wrap;
-    margin-right: 1rem;
+    margin-bottom: 1rem;
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+    > div {
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+    }
   }
   &__info {
+    @media (max-width: 768px) {
+      width: 100%;
+    }
   }
   &__deck {
     position: relative;
@@ -28,6 +37,9 @@
     padding: 1rem;
     display: flex;
     flex-direction: column;
+    @media (max-width: 500px) {
+      max-width: unset;
+    }
     &--partner {
       #{ $self }__commander {
         padding-right: 3rem;
