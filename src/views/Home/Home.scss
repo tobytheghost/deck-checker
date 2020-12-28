@@ -1,0 +1,35 @@
+.home {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+  &__card {
+    flex: 1;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    margin-bottom: 1rem;
+    @media (max-width: 992px) {
+      flex: unset;
+    }
+  }
+  &__page {
+    padding: 1rem;
+  }
+  &__content {
+    p {
+      margin: 0;
+      margin-bottom: 1rem;
+    }
+  }
+  &__title {
+    margin: 0;
+    padding: 0;
+  }
+  &__subtitle {
+    padding: 0;
+    margin: 0;
+    margin-bottom: 1rem;
+  }
+}
