@@ -9,7 +9,8 @@ import { DeckList } from "../../components";
 import { checkCardType } from "../../helpers";
 
 // Styles
-import { Button, Card, TextField } from "@material-ui/core";
+import { Button, Card, TextField, Snackbar } from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
 import "./EditDeck.scss";
 import { actionTypes } from "../../Reducer";
 
@@ -39,9 +40,36 @@ function EditDeck() {
     });
   }, [dispatch]);
 
+  //Snackbar
+  function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
+  const [openSnackbar, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarStatus, setSnackbarStatus] = useState("");
+
+  const handleSnackbarOpen = (status, message) => {
+    setSnackbarStatus(status);
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setSnackbarOpen(false);
+  };
+
   const saveDeck = (e) => {
     e.preventDefault();
-    console.log("You saved a deck", deckName ? deckName : deck.commander_name);
+
+    if (!deck.commander_name || !deck.commander_id) {
+      handleSnackbarOpen("error", "Deck not added. No commander set.");
+      return;
+    }
 
     const data = {
       deck_name: deckName ? deckName : deck.commander_name,
@@ -59,6 +87,8 @@ function EditDeck() {
         //console.log(deck);
         assignDeckToUser(deck, data);
       });
+
+    handleSnackbarOpen("success", "Deck added!");
   };
 
   const assignDeckToUser = (deck, data) => {
@@ -327,6 +357,15 @@ function EditDeck() {
           </form>
         </div>
       </Card>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={4000}
+        onClose={handleSnackbarClose}
+      >
+        <Alert onClose={handleSnackbarClose} severity={snackbarStatus}>
+          <>{snackbarMessage}</>
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
