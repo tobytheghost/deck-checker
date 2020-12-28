@@ -2,6 +2,12 @@
   $self: &;
   display: flex;
   flex-wrap: wrap;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+  section {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
   &__actions {
     width: 100%;
     margin-bottom: 1rem;
@@ -25,13 +31,21 @@
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 1rem;
+    place-content: space-between;
+  }
+  &__decks-wrapper {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
     margin-left: -0.5rem;
     margin-right: -0.5rem;
-    > div {
-      margin-left: 0.5rem;
-      margin-right: 0.5rem;
-      margin-bottom: 1rem;
-    }
+    padding: 1rem;
+    padding-bottom: 0;
+  }
+  &__deck-wrapper {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    margin-bottom: 1rem;
   }
   &__info {
     @media (max-width: 768px) {
@@ -95,4 +109,7 @@
     text-align: center;
     margin-bottom: 1rem;
   }
+  // &__card {
+  //   background-color: #fefefe;
+  // }
 }

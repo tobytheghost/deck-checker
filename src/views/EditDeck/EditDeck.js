@@ -282,24 +282,35 @@ function EditDeck() {
               .map((item, i) => (
                 <li className="edit-deck__search-item" key={i}>
                   <span>
-                    {item.name}
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      onClick={() => {
-                        addCardToDeck(item);
-                      }}
-                    >
-                      Add to Deck
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      onClick={() => {
-                        addCommander(item);
-                      }}
-                    >
-                      Set Commander
-                    </Button>
+                    <div className="deck__search-name">{item.name}</div>
+                    <div className="deck__search-buttons">
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => {
+                          addCardToDeck(item);
+                        }}
+                      >
+                        Add to Deck
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => {
+                          addCardToDeck(item, "side");
+                        }}
+                      >
+                        Add to Side
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        onClick={() => {
+                          addCommander(item);
+                        }}
+                      >
+                        Set Commander
+                      </Button>
+                    </div>
                   </span>
                 </li>
               ))}
@@ -326,11 +337,17 @@ function EditDeck() {
             <div className="edit-deck__list">
               {deck && deck.deck_name !== "" ? (
                 <div className="edit-deck__preview">
-                  <h2 className="edit-deck__name">{deck.commander_name}</h2>
+                  <h2 className="edit-deck__name">
+                    {deck.commander_name ? deck.commander_name : "New Deck"}
+                  </h2>
                   <div className="edit-deck__image">
                     <img
                       className="edit-deck__commander"
-                      src={deck.commander_image}
+                      src={
+                        deck.commander_image
+                          ? deck.commander_image
+                          : "/card_back.jpg"
+                      }
                       alt={deck.commander_name}
                     />
                   </div>

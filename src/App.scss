@@ -20,6 +20,7 @@ main {
   background: #efefef;
   display: flex;
   flex-direction: column;
+  margin-top: 48px;
 }
 
 .section {
@@ -27,10 +28,16 @@ main {
   flex-wrap: wrap;
   margin-left: -0.5rem;
   margin-right: -0.5rem;
+  &--deck {
+    flex-direction: column;
+  }
   &__card {
     padding-right: 0.5rem;
     padding-left: 0.5rem;
     margin-bottom: 1rem;
+    > div {
+      height: 100%;
+    }
     @media (max-width: 768px) {
       width: 100%;
     }

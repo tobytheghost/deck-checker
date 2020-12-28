@@ -468,14 +468,14 @@ function Deck() {
       .catch(function (error) {
         console.error("Error removing deck: ", error);
       });
-    db.collection("users")
+    db.collection("users"
       .doc(user.uid)
       .collection("decks")
       .doc(deckId)
       .delete()
       .then(function () {
         //console.log("User deck successfully deleted!");
-        history.push("/");
+        history.push("/u/" + user.uid);
       })
       .catch(function (error) {
         console.error("Error removing user deck: ", error);
@@ -522,79 +522,6 @@ function Deck() {
         <>
           {deck ? (
             <>
-              {canEdit ? (
-                <Card className="deck__card">
-                  <section className="deck__actions deck__actions--top">
-                    <TextField
-                      label="Search"
-                      variant="outlined"
-                      name="addCard"
-                      type="text"
-                      placeholder="Search Cards ..."
-                      value={addCard}
-                      onChange={handleFormOnChange}
-                    />
-                    {searching ? (
-                      <div className="deck__search-list">Searching ...</div>
-                    ) : addCard.length > 2 && cardList.data.length > 0 ? (
-                      <ul className="deck__search-list">
-                        {cardList.data
-                          .filter((item, i) => {
-                            if (!addCard) return true;
-                            if (
-                              item.name
-                                .toLowerCase()
-                                .includes(addCard.toLowerCase())
-                            ) {
-                              return true;
-                            }
-                            return false;
-                          })
-                          .slice(0, 100)
-                          .map((item, i) => (
-                            <li className="deck__search-item" key={i}>
-                              <span>
-                                {item.name}{" "}
-                                <Button
-                                  variant="outlined"
-                                  color="primary"
-                                  onClick={() => {
-                                    addCardToDeck(item);
-                                  }}
-                                >
-                                  Add to Main
-                                </Button>
-                                <Button
-                                  variant="outlined"
-                                  color="primary"
-                                  onClick={() => {
-                                    addCardToDeck(item, "side");
-                                  }}
-                                >
-                                  Add to Side
-                                </Button>
-                                <Button
-                                  variant="outlined"
-                                  onClick={() => {
-                                    addCommander(item);
-                                  }}
-                                >
-                                  Set Commander
-                                </Button>
-                              </span>
-                            </li>
-                          ))}
-                      </ul>
-                    ) : cardList.length ? (
-                      <div className="search__list"></div>
-                    ) : (
-                      <></>
-                    )}
-                  </section>
-                </Card>
-              ) : (
-                <></>
-              )}
               <section className="section section--deck">
                 <div className="section__card section__card--full">
                   <Card>
@@ -692,6 +619,87 @@ function Deck() {
                     </div>
                   </Card>
                 </div>
+                {canEdit ? (
+                  <div className="section__card">
+                    <Card className="deck__card">
+                      <section className="deck__actions deck__actions--top">
+                        <TextField
+                          label="Search"
+                          variant="outlined"
+                          name="addCard"
+                          type="text"
+                          placeholder="Search Cards ..."
+                          value={addCard}
+                          onChange={handleFormOnChange}
+                        />
+                        {searching ? (
+                          <div className="deck__search-list">Searching ...</div>
+                        ) : addCard.length > 2 && cardList.data.length > 0 ? (
+                          <ul className="deck__search-list">
+                            {cardList.data
+                              .filter((item, i) => {
+                                if (!addCard) return true;
+                                if (
+                                  item.name
+                                    .toLowerCase()
+                                    .includes(addCard.toLowerCase())
+                                ) {
+                                  return true;
+                                }
+                                return false;
+                              })
+                              .slice(0, 100)
+                              .map((item, i) => (
+                                <li className="deck__search-item" key={i}>
+                                  <span>
+                                    <div className="deck__search-name">
+                                      {item.name}
+                                    </div>
+                                    <div className="deck__search-buttons">
+                                      <Button
+                                        variant="outlined"
+                                        color="primary"
+                                        onClick={() => {
+                                          addCardToDeck(item);
+                                        }}
+                                      >
+                                        Add to Main
+                                      </Button>
+                                      <Button
+                                        variant="outlined"
+                                        color="primary"
+                                        onClick={() => {
+                                          addCardToDeck(item, "side");
+                                        }}
+                                      >
+                                        Add to Side
+                                      </Button>
+                                      <Button
+                                        variant="outlined"
+                                        onClick={() => {
+                                          addCommander(item);
+                                        }}
+                                      >
+                                        Set Commander
+                                      </Button>
+                                    </div>
+                                  </span>
+                                </li>
+                              ))}
+                          </ul>
+                        ) : cardList.length ? (
+                          <div className="search__list"></div>
+                        ) : (
+                          <></>
+                        )}
+                      </section>
+                    </Card>
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </section>
+              <section className="section">
                 {canEdit ? (
                   <div className="section__card">
                     <QR imageName={deckId} qrTitle="Deck QR Code"></QR>

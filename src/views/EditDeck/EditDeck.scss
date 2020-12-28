@@ -21,8 +21,27 @@
     padding-bottom: 1rem;
   }
   &__search-item {
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid #efefef;
+    > span {
+      display: flex;
+      flex-wrap: wrap;
+      place-items: center;
+    }
     button {
-      margin-left: 1rem;
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+  }
+  &__search-name {
+    margin-bottom: 0.5rem;
+  }
+  &__search-buttons {
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+    @media (min-width: 767px) {
+      margin-left: auto;
     }
   }
   &__preview {
