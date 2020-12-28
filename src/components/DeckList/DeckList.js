@@ -4,25 +4,22 @@ import { actionTypes } from "../../Reducer";
 import { useStateValue } from "../../StateProvider";
 
 // Styles
-import { IconButton } from "@material-ui/core";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import "./DeckList.scss";
 
 function DeckList(props) {
-  const [{ user, deck }, dispatch] = useStateValue();
-
-  console.log(deck);
+  const [{ deck }, dispatch] = useStateValue();
 
   const removeCard = (board, sectionKey, cardKey) => {
     let newDeck = deck;
     newDeck.deck[board][sectionKey].quantity--;
     newDeck.deck[board][sectionKey].cards[cardKey].quantity--;
-    if (newDeck.deck[board][sectionKey].cards[cardKey].quantity == 0) {
-      delete newDeck.deck[board][sectionKey].cards[cardKey];
+    if (newDeck.deck[board][sectionKey].cards[cardKey].quantity === 0) {
+      newDeck.deck[board][sectionKey].cards.splice(cardKey, 1);
     }
-    if (newDeck.deck[board][sectionKey].quantity == 0) {
-      delete newDeck.deck[board][sectionKey];
+    if (newDeck.deck[board][sectionKey].quantity === 0) {
+      newDeck.deck[board].splice(sectionKey, 1);
     }
     dispatch({
       type: actionTypes.SET_DECK,
@@ -40,12 +37,16 @@ function DeckList(props) {
     });
   };
 
-  return deck.deck && deck.deck.main ? (
+  return deck != null && deck.deck && deck.deck.main ? (
     <div className="decklist">
       <div className="decklist__main">
-        <div className="decklist__section decklist__section--title">
-          <h2 className="decklist__title">Main Deck</h2>
-        </div>
+        {deck.deck.main.length ? (
+          <div className="decklist__section decklist__section--title">
+            <h2 className="decklist__title">Main Deck</h2>
+          </div>
+        ) : (
+          <></>
+        )}
         {deck.deck.main.map((section, sectionKey) => (
           <div className="decklist__section" key={sectionKey}>
             <h3 className="decklist__subtitle">

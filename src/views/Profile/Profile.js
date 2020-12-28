@@ -11,6 +11,7 @@ import { Card, Button } from "@material-ui/core";
 import "./Profile.scss";
 
 function Profile() {
+  // eslint-disable-next-line
   const [{ user }, dispatch] = useStateValue();
   const [decks, setDecks] = useState([]);
   const [canEdit, setCanEdit] = useState(false);
@@ -58,7 +59,7 @@ function Profile() {
       )}
       <section className="profile__decks">
         {decks.map((deck) => (
-          <Card key={deck.id}>
+          <Card key={deck.data.timestamp.seconds}>
             <div
               className={
                 "profile__deck " +
@@ -69,6 +70,7 @@ function Profile() {
               <Link to={`/d/${deck.id}`}>
                 <div className="profile__image">
                   <img
+                    key={deck.commander_image}
                     className="profile__commander"
                     src={deck.data.commander_image}
                     alt={deck.data.commander_name}
