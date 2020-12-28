@@ -468,7 +468,7 @@ function Deck() {
       .catch(function (error) {
         console.error("Error removing deck: ", error);
       });
-    db.collection("users"
+    db.collection("users")
       .doc(user.uid)
       .collection("decks")
       .doc(deckId)
