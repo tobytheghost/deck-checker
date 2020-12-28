@@ -1,0 +1,24 @@
+.edit-deck {
+  > div {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  &__list {
+    margin-bottom: 1rem;
+  }
+  &__input {
+    margin-bottom: 1rem;
+  }
+  &__search-list {
+    padding-left: 0;
+    margin: 0;
+    list-style: none;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  &__search-item {
+    button {
+      margin-left: 1rem;
+    }
+  }
+}

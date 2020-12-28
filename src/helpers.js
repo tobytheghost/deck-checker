@@ -17,4 +17,30 @@ const convertQR = (canvas, imageName) => {
   document.body.removeChild(downloadLink);
 };
 
-export { parseTextForSymbols, convertQR };
+const checkCardType = (card) => {
+  const types = card.type_line;
+
+  if (types.includes("Creature")) {
+    return "Creatures";
+  }
+  if (types.includes("Land")) {
+    return "Lands";
+  }
+  if (types.includes("Instant")) {
+    return "Instants";
+  }
+  if (types.includes("Sorcery")) {
+    return "Sorceries";
+  }
+  if (types.includes("Artifact")) {
+    return "Artifacts";
+  }
+  if (types.includes("Enchantment")) {
+    return "Enchantments";
+  }
+  if (types.includes("Planeswalker")) {
+    return "Planeswalkers";
+  }
+};
+
+export { parseTextForSymbols, convertQR, checkCardType };

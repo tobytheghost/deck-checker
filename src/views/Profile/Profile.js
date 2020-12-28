@@ -47,7 +47,7 @@ function Profile() {
             <ul>
               <li className="profile__action">
                 <Button variant="contained" color="primary">
-                  Add New Deck
+                  <Link to="/add-deck">Add New Deck</Link>
                 </Button>
               </li>
             </ul>
@@ -65,19 +65,19 @@ function Profile() {
                 (deck.data.commander2 ? "profile__deck--partner" : "")
               }
             >
-              <h2 className="profile__name">{deck.data.commander}</h2>
+              <h2 className="profile__name">{deck.data.deck_name}</h2>
               <Link to={`/d/${deck.id}`}>
                 <div className="profile__image">
                   <img
                     className="profile__commander"
                     src={deck.data.commander_image}
-                    alt={deck.data.commander}
+                    alt={deck.data.commander_name}
                   />
                 </div>
               </Link>
-              <div className="profile__score">
+              {/* <div className="profile__score">
                 Rating: {deck.data.deck_score}
-              </div>
+              </div> */}
             </div>
           </Card>
         ))}

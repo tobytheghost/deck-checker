@@ -15,11 +15,18 @@
     display: flex;
     flex-wrap: wrap;
     padding: 1rem;
+    &--decklist {
+      margin-left: -0.5rem;
+      margin-right: -0.5rem;
+      & > div {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+      }
+    }
   }
   &__preview {
     max-width: 100%;
     width: 320px;
-    padding-top: 1rem;
     @media (max-width: 768px) {
       max-width: unset;
       width: 100%;
@@ -40,5 +47,57 @@
     margin: 0;
     padding-bottom: 1rem;
     font-size: 1.25rem;
+    display: flex;
+    place-content: space-between;
+    button {
+      border: 0;
+      background: 0;
+      cursor: pointer;
+      svg {
+        font-size: 1rem;
+      }
+    }
+  }
+  &__actions {
+    width: 100%;
+    margin-bottom: 1rem;
+    > div {
+      padding: 1rem;
+    }
+  }
+  &__action {
+    display: block;
+    button {
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+    }
+    &--delete {
+      margin-left: auto;
+      button {
+        background-color: #f44336;
+        &:hover {
+          background-color: #aa2e25;
+        }
+      }
+    }
+  }
+  &__search-list {
+    padding-left: 0;
+    margin: 0;
+    list-style: none;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  &__search-item {
+    button {
+      margin-left: 1rem;
+    }
+  }
+  &__name-edit {
+  }
+  &__name-input {
+    margin-bottom: 1rem !important;
   }
 }

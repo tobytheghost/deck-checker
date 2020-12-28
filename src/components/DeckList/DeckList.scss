@@ -1,10 +1,10 @@
 .decklist {
-  margin-left: -0.5rem;
-  margin-right: -0.5rem;
   flex: 1;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
   &__section {
     padding-bottom: 1rem;
     padding-left: 0.5rem;
@@ -32,6 +32,22 @@
   }
   &__main {
     flex: 1;
+    margin-bottom: 1rem;
+    columns: 2;
+    -moz-column-fill: auto;
+    column-fill: auto;
+    > div {
+      -webkit-column-break-inside: avoid;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    @media (max-width: 768px) {
+      width: 100%;
+      columns: 1;
+    }
+  }
+  &__side,
+  &__maybe {
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     margin-left: -0.5rem;
@@ -50,24 +66,9 @@
       columns: 1;
     }
   }
-  &__side {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    margin-left: -0.5rem;
-    margin-right: -0.5rem;
-    columns: 2;
-    -moz-column-fill: auto;
-    column-fill: auto;
-    > div {
-      -webkit-column-break-inside: avoid;
-      page-break-inside: avoid;
-      break-inside: avoid;
-    }
-    @media (max-width: 768px) {
-      width: 100%;
-      columns: 1;
-    }
-  }
   &__item {
+  }
+  > div:last-of-type {
+    margin-bottom: unset;
   }
 }

@@ -13,6 +13,12 @@
   }
   &__action {
     display: inline-block;
+    button {
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+    }
   }
   &__decks {
     flex: 1;
@@ -24,6 +30,7 @@
     > div {
       margin-left: 0.5rem;
       margin-right: 0.5rem;
+      margin-bottom: 1rem;
     }
   }
   &__info {
