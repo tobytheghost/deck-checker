@@ -30,7 +30,7 @@ function Profile() {
         );
       });
 
-    if (userId === user.uid) {
+    if (user && userId === user.uid) {
       setCanEdit(true);
     }
 

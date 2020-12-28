@@ -11,9 +11,6 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import "./App.scss";
 
 function App() {
-  // eslint-disable-next-line
-  const [{ user }, dispatch] = useStateValue();
-
   const theme = createMuiTheme({
     palette: {
       primary: {
@@ -33,7 +30,9 @@ function App() {
 
   return (
     <MuiThemeProvider theme={theme}>
-      <div className="app">{!user ? <Login /> : <Routes />}</div>
+      <div className="app">
+        <Routes />
+      </div>
     </MuiThemeProvider>
   );
 }

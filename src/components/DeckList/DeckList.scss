@@ -67,8 +67,31 @@
     }
   }
   &__item {
+    display: flex;
+    place-items: center;
+    svg {
+      margin-left: 0.5rem;
+      cursor: pointer;
+    }
   }
   > div:last-of-type {
     margin-bottom: unset;
+  }
+  &__button {
+    &--add {
+      color: #0277bd;
+      &:hover {
+        color: #004c8c;
+      }
+    }
+    &--remove {
+      color: #f44336;
+      &:hover {
+        color: #aa2e25;
+      }
+    }
+  }
+  &__quantity {
+    width: 1.5rem;
   }
 }

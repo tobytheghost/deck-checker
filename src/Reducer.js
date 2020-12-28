@@ -6,6 +6,7 @@ export const initialState = {
 
 export const actionTypes = {
   SET_USER: "SET_USER",
+  SET_DECK: "SET_DECK",
 };
 
 const reducer = (state, action) => {
@@ -15,6 +16,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         user: action.user,
+      };
+    case actionTypes.SET_DECK:
+      return {
+        ...state,
+        deck: action.deck,
       };
     default:
       return state;

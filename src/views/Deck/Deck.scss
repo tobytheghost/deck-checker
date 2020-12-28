@@ -61,6 +61,9 @@
   &__actions {
     width: 100%;
     margin-bottom: 1rem;
+    &--bottom {
+      margin-bottom: unset;
+    }
     > div {
       padding: 1rem;
     }
@@ -91,6 +94,7 @@
     padding-bottom: 1rem;
   }
   &__search-item {
+    margin-bottom: 0.5rem;
     button {
       margin-left: 1rem;
     }

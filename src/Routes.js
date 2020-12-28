@@ -1,9 +1,28 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 //App
-import { Error, Home, Deck, Profile, SearchPage, EditDeck } from "./views";
+import {
+  Error,
+  Home,
+  Deck,
+  Profile,
+  SearchPage,
+  EditDeck,
+  Login,
+} from "./views";
 import { Header } from "./components";
+import { useStateValue } from "./StateProvider";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
+function PrivateRoute({ component: Component, ...rest }) {
+  const [{ user }, dispatch] = useStateValue();
+  return (
+    <Route
+      {...rest}
+      render={(props) => (user ? <Component {...props} /> : <Login />)}
+    />
+  );
+}
 
 function Routes() {
   return (
@@ -12,11 +31,10 @@ function Routes() {
       <main>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/search" component={SearchPage} />
-          <Route exact path="/profile" component={Profile} />
+          <PrivateRoute exact path="/search" component={SearchPage} />
           <Route exact path="/u/:userId" component={Profile} />
           <Route exact path="/d/:deckId" component={Deck} />
-          <Route exact path="/add-deck" component={EditDeck} />
+          <PrivateRoute exact path="/add-deck" component={EditDeck} />
           <Route component={Error} />
         </Switch>
       </main>

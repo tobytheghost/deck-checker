@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import { QR, DeckList } from "../../components";
 import { Error } from "../../views";
 import { useStateValue } from "../../StateProvider";
+import { actionTypes } from "../../Reducer";
 import { checkCardType } from "../../helpers";
 
 // Styles
@@ -53,126 +54,129 @@ function a11yProps(index) {
 
 function Deck() {
   // eslint-disable-next-line
-  const [{ user }, dispatch] = useStateValue();
-  const [deck, setDeck] = useState({});
+  const [{ user, deck }, dispatch] = useStateValue();
+  //const [deck, setDeck] = useState({});
   const [loading, setLoading] = useState(true);
   const [canEdit, setCanEdit] = useState(false);
   const { deckId } = useParams();
   const [value, setValue] = useState(0);
-  const [reloadingImage, setReloadingImage] = useState(false);
-  const [reloadingList, setReloadingList] = useState(false);
   const [editTitle, setEditTitle] = useState(false);
 
-  const exampleDeck = {
-    main: [
-      {
-        type: "Creatures",
-        quantity: 16,
-        cards: [
-          {
-            name: "Scourge of the Skyclaves",
-            quantity: 4,
-          },
-          {
-            name: "Deaths Shadow",
-            quantity: 4,
-          },
-          {
-            name: "Monastery Swiftspear",
-            quantity: 4,
-          },
-          {
-            name: "Tarmogoyf",
-            quantity: 4,
-          },
-        ],
-      },
-      {
-        type: "Instants",
-        quantity: 4,
-        cards: [
-          {
-            name: "Lightning Bolt",
-            quantity: 4,
-          },
-        ],
-      },
-      {
-        type: "Sorceries",
-        quantity: 4,
-        cards: [
-          {
-            name: "Lightning Bolt",
-            quantity: 4,
-          },
-        ],
-      },
-      {
-        type: "Enchantments",
-        quantity: 4,
-        cards: [
-          {
-            name: "Lightning Bolt",
-            quantity: 4,
-          },
-        ],
-      },
-      {
-        type: "Artifacts",
-        quantity: 4,
-        cards: [
-          {
-            name: "Lightning Bolt",
-            quantity: 4,
-          },
-        ],
-      },
-      {
-        type: "Lands",
-        quantity: 4,
-        cards: [
-          {
-            name: "Lightning Bolt",
-            quantity: 4,
-          },
-        ],
-      },
-    ],
-    side: [
-      {
-        type: "Creatures",
-        quantity: 1,
-        cards: [
-          {
-            name: "Lurrus of the Dream-Den",
-            quantity: 1,
-          },
-        ],
-      },
-      {
-        type: "Lands",
-        quantity: 4,
-        cards: [
-          {
-            name: "Lightning Bolt",
-            quantity: 4,
-          },
-        ],
-      },
-    ],
-    maybe: [
-      {
-        type: "Creatures",
-        quantity: 1,
-        cards: [
-          {
-            name: "Lurrus of the Dream-Den",
-            quantity: 1,
-          },
-        ],
-      },
-    ],
-  };
+  // eslint-disable-next-line
+  const [reloadingImage, setReloadingImage] = useState(false);
+  // eslint-disable-next-line
+  const [reloadingList, setReloadingList] = useState(false);
+
+  // const exampleDeck = {
+  //   main: [
+  //     {
+  //       type: "Creatures",
+  //       quantity: 16,
+  //       cards: [
+  //         {
+  //           name: "Scourge of the Skyclaves",
+  //           quantity: 4,
+  //         },
+  //         {
+  //           name: "Deaths Shadow",
+  //           quantity: 4,
+  //         },
+  //         {
+  //           name: "Monastery Swiftspear",
+  //           quantity: 4,
+  //         },
+  //         {
+  //           name: "Tarmogoyf",
+  //           quantity: 4,
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       type: "Instants",
+  //       quantity: 4,
+  //       cards: [
+  //         {
+  //           name: "Lightning Bolt",
+  //           quantity: 4,
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       type: "Sorceries",
+  //       quantity: 4,
+  //       cards: [
+  //         {
+  //           name: "Lightning Bolt",
+  //           quantity: 4,
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       type: "Enchantments",
+  //       quantity: 4,
+  //       cards: [
+  //         {
+  //           name: "Lightning Bolt",
+  //           quantity: 4,
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       type: "Artifacts",
+  //       quantity: 4,
+  //       cards: [
+  //         {
+  //           name: "Lightning Bolt",
+  //           quantity: 4,
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       type: "Lands",
+  //       quantity: 4,
+  //       cards: [
+  //         {
+  //           name: "Lightning Bolt",
+  //           quantity: 4,
+  //         },
+  //       ],
+  //     },
+  //   ],
+  //   side: [
+  //     {
+  //       type: "Creatures",
+  //       quantity: 1,
+  //       cards: [
+  //         {
+  //           name: "Lurrus of the Dream-Den",
+  //           quantity: 1,
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       type: "Lands",
+  //       quantity: 4,
+  //       cards: [
+  //         {
+  //           name: "Lightning Bolt",
+  //           quantity: 4,
+  //         },
+  //       ],
+  //     },
+  //   ],
+  //   maybe: [
+  //     {
+  //       type: "Creatures",
+  //       quantity: 1,
+  //       cards: [
+  //         {
+  //           name: "Lurrus of the Dream-Den",
+  //           quantity: 1,
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -184,8 +188,12 @@ function Deck() {
       .doc(deckId)
       .onSnapshot((snapshot) => {
         console.log(snapshot.data());
-        setDeck(snapshot.data());
-        if (snapshot.data() && user.uid === snapshot.data().user_id) {
+        dispatch({
+          type: actionTypes.SET_DECK,
+          deck: snapshot.data(),
+        });
+        setDeckName(snapshot.data().deck_name);
+        if (user && snapshot.data() && user.uid === snapshot.data().user_id) {
           setCanEdit(true);
         }
         setLoading(false);
@@ -193,14 +201,14 @@ function Deck() {
 
     return () => {
       unsubscribe();
-      alert("Save!");
     };
-  }, [user, deckId]);
+  }, [user, deckId, dispatch]);
 
   // Card DB
   const [cardList, setCardList] = useState({ data: [] });
   const [searching, setSearching] = useState(false);
   const [addCard, setAddCard] = useState("");
+  const [deckName, setDeckName] = useState("");
 
   const searchUrl = "https://api.scryfall.com/cards/search?q=";
   const searchCards = (search) => {
@@ -230,42 +238,67 @@ function Deck() {
     newDeck.commander_id = item.id;
     newDeck.commander_image = item.image_uris.normal;
     console.log(newDeck);
-    setDeck(newDeck, deck);
+    dispatch({
+      type: actionTypes.SET_DECK,
+      deck: newDeck,
+    });
+    addCardToDeck(item, "main", 1);
     setTimeout(() => {
       setReloadingImage(false);
     }, 0);
   };
 
-  const addCardToDeck = (item, limit = false) => {
+  const addCardToDeck = (item, board = "main", limit = null) => {
     setReloadingList(true);
-    console.log(item);
     let newDeck = deck;
     const cardType = checkCardType(item);
-    console.log(newDeck.deck.main);
-    const { checkExistingType, typeKey } = newDeck.deck.main.filter(
-      (obj, typeKey) => {
-        return obj.type === cardType, typeKey;
+    let checkExistingType = false;
+    let typeKey = null;
+
+    for (let i = 0; i < newDeck.deck[board].length; i++) {
+      if (newDeck.deck[board][i].type === cardType) {
+        checkExistingType = true;
+        typeKey = i;
+        break;
       }
-    );
+    }
 
-    if (checkExistingType) {
-      const { checkExisting, itemKey } = newDeck.deck.main.typeKey.cards.filter(
-        (obj, itemKey) => {
-          return obj.name === item.name, itemKey;
+    if (checkExistingType && typeKey != null) {
+      let checkExisting = false;
+      let itemKey = null;
+
+      for (let i = 0; i < newDeck.deck[board][typeKey].cards.length; i++) {
+        console.log(newDeck.deck[board][typeKey].cards[i].name);
+        if (newDeck.deck[board][typeKey].cards[i].name === item.name) {
+          checkExisting = true;
+          itemKey = i;
+          console.log(
+            newDeck.deck[board][typeKey].cards,
+            checkExisting,
+            itemKey
+          );
+          break;
         }
-      );
+      }
 
-      if (checkExisting) {
-        newDeck.deck.main.typeKey.cards.itemKey.quantity++;
+      if (checkExisting && itemKey != null) {
+        if (
+          !limit ||
+          limit > newDeck.deck[board][typeKey].cards[itemKey].quantity
+        ) {
+          newDeck.deck[board][typeKey].cards[itemKey].quantity++;
+        }
       } else {
-        newDeck.deck.main.typeKey.cards.push({
+        newDeck.deck[board][typeKey].cards.push({
           name: item.name,
           quantity: 1,
         });
       }
-      newDeck.deck.main.typeKey.quantity++;
+      if (!limit || limit > newDeck.deck[board][typeKey].quantity) {
+        newDeck.deck[board][typeKey].quantity++;
+      }
     } else {
-      newDeck.deck.main.push({
+      newDeck.deck[board].push({
         type: cardType,
         quantity: 1,
         cards: [
@@ -277,7 +310,10 @@ function Deck() {
       });
     }
 
-    setDeck(newDeck);
+    dispatch({
+      type: actionTypes.SET_DECK,
+      deck: newDeck,
+    });
     console.log(deck);
     setTimeout(() => {
       setReloadingList(false);
@@ -291,7 +327,7 @@ function Deck() {
 
     switch (name) {
       case "deckName":
-        //setDeckName(value);
+        setDeckName(value);
         break;
       case "addCard":
         setAddCard(value);
@@ -299,6 +335,20 @@ function Deck() {
       default:
         break;
     }
+  };
+
+  const saveDeck = () => {
+    let newDeck = deck;
+    newDeck.deck_name = deckName;
+    setEditTitle(false);
+    setAddCard("");
+    dispatch({
+      type: actionTypes.SET_DECK,
+      deck: newDeck,
+    });
+    console.log(deck);
+
+    db.collection("decks").doc(deckId).set(deck);
   };
 
   return (
@@ -347,12 +397,21 @@ function Deck() {
                                     addCardToDeck(item);
                                   }}
                                 >
-                                  Add to Main Deck
+                                  Add to Main
+                                </Button>
+                                <Button
+                                  variant="outlined"
+                                  color="primary"
+                                  onClick={() => {
+                                    addCardToDeck(item);
+                                  }}
+                                >
+                                  Add to Side
                                 </Button>
                                 <Button
                                   variant="outlined"
                                   onClick={() => {
-                                    addCommander(item);
+                                    addCommander(item, "side");
                                   }}
                                 >
                                   Set Commander
@@ -395,27 +454,25 @@ function Deck() {
                                 variant="outlined"
                                 name="deckName"
                                 type="text"
-                                value={deck.deck_name}
+                                value={deckName}
                                 onChange={handleFormOnChange}
                               />
                             ) : (
-                              <a>
-                                <h2 className="deck__name">
-                                  {deck.deck_name}
-                                  {canEdit ? (
-                                    <button
-                                      className="deck__name-edit"
-                                      onClick={() => {
-                                        setEditTitle(true);
-                                      }}
-                                    >
-                                      <EditIcon />
-                                    </button>
-                                  ) : (
-                                    <></>
-                                  )}
-                                </h2>
-                              </a>
+                              <h2 className="deck__name">
+                                {deckName}
+                                {canEdit ? (
+                                  <button
+                                    className="deck__name-edit"
+                                    onClick={() => {
+                                      setEditTitle(true);
+                                    }}
+                                  >
+                                    <EditIcon />
+                                  </button>
+                                ) : (
+                                  <></>
+                                )}
+                              </h2>
                             )}
                             <div className="deck__image">
                               <img
@@ -427,8 +484,26 @@ function Deck() {
                             </div>
                           </div>
                           <div className="deck__decklist">
-                            <DeckList deck={deck.deck} key={deck.deck} />
+                            <DeckList
+                              key={deck.deck}
+                              canEdit={canEdit}
+                              //onChangeDeckList={handleDeckChange(deck)}
+                            />
                           </div>
+                          {canEdit ? (
+                            <div className="deck__actions deck__actions--bottom">
+                              <Button
+                                type="submit"
+                                onClick={saveDeck}
+                                variant="contained"
+                                color="primary"
+                              >
+                                Save Changes
+                              </Button>
+                            </div>
+                          ) : (
+                            <></>
+                          )}
                         </div>
                       </TabPanel>
                       <TabPanel value={value} index={1}>
@@ -440,9 +515,13 @@ function Deck() {
                     </div>
                   </Card>
                 </div>
-                <div className="section__card">
-                  <QR imageName={deckId} qrTitle="Deck QR Code"></QR>
-                </div>
+                {canEdit ? (
+                  <div className="section__card">
+                    <QR imageName={deckId} qrTitle="Deck QR Code"></QR>
+                  </div>
+                ) : (
+                  <></>
+                )}
               </section>
             </>
           ) : (
