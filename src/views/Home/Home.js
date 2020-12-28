@@ -5,7 +5,7 @@ import { Search } from "../../components";
 import "./Home.scss";
 
 function Home() {
-  return <Search></Search>;
+  return <div></div>;
 }
 
 export default Home;

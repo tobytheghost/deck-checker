@@ -1,0 +1,16 @@
+.login {
+  place-content: center;
+  place-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  height: 100%;
+  flex: 1;
+  &__container {
+    padding: 1rem;
+  }
+  &__title {
+    margin: 0;
+    text-align: center;
+    padding-bottom: 1rem;
+  }
+}

@@ -32,7 +32,7 @@ function Routes() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />
-          <PrivateRoute exact path="/search" component={SearchPage} />
+          <Route exact path="/search" component={SearchPage} />
           <Route exact path="/u/:userId" component={Profile} />
           <Route exact path="/d/:deckId" component={Deck} />
           <PrivateRoute exact path="/add-deck" component={EditDeck} />

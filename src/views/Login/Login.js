@@ -7,7 +7,8 @@ import { useStateValue } from "../../StateProvider";
 import { Redirect } from "react-router-dom";
 
 // Styles
-import { Button } from "@material-ui/core";
+import { Button, Card } from "@material-ui/core";
+import "./Login.scss";
 
 function Login() {
   // eslint-disable-next-line
@@ -29,18 +30,23 @@ function Login() {
   return (
     <>
       {user ? <Redirect to="/" /> : <></>}
-      <main>
-        <div className="login">
+      <div className="login">
+        <Card>
           <div className="login__container">
             <div className="login__text">
-              <h1>Sign in</h1>
+              <h1 className="login__title">Sign in</h1>
             </div>
-            <Button type="submit" onClick={signIn}>
+            <Button
+              type="submit"
+              onClick={signIn}
+              variant="contained"
+              color="primary"
+            >
               Sign in with Google
             </Button>
           </div>
-        </div>
-      </main>
+        </Card>
+      </div>
     </>
   );
 }

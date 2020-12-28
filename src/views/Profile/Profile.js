@@ -58,31 +58,36 @@ function Profile() {
         <></>
       )}
       <section className="profile__decks">
-        {decks.map((deck) => (
-          <Card key={deck.data.timestamp.seconds}>
-            <div
-              className={
-                "profile__deck " +
-                (deck.data.commander2 ? "profile__deck--partner" : "")
-              }
-            >
-              <h2 className="profile__name">{deck.data.deck_name}</h2>
-              <Link to={`/d/${deck.id}`}>
-                <div className="profile__image">
-                  <img
-                    key={deck.commander_image}
-                    className="profile__commander"
-                    src={deck.data.commander_image}
-                    alt={deck.data.commander_name}
-                  />
+        {decks
+          .sort((b, a) => a.data.timestamp.seconds - b.data.timestamp.seconds)
+          .map((deck) => (
+            <Card key={deck.data.timestamp.seconds}>
+              <div
+                className={
+                  "profile__deck " +
+                  (deck.data.commander2 ? "profile__deck--partner" : "")
+                }
+              >
+                <h2 className="profile__name">{deck.data.deck_name}</h2>
+                <div className="profile__date">
+                  Last updated: {deck.data.timestamp.toDate().toDateString()}
                 </div>
-              </Link>
-              {/* <div className="profile__score">
+                <Link to={`/d/${deck.id}`}>
+                  <div className="profile__image">
+                    <img
+                      key={deck.commander_image}
+                      className="profile__commander"
+                      src={deck.data.commander_image}
+                      alt={deck.data.commander_name}
+                    />
+                  </div>
+                </Link>
+                {/* <div className="profile__score">
                 Rating: {deck.data.deck_score}
               </div> */}
-            </div>
-          </Card>
-        ))}
+              </div>
+            </Card>
+          ))}
       </section>
       {canEdit ? (
         <section className="profile__info">

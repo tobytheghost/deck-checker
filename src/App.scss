@@ -18,6 +18,8 @@ main {
   flex: 1;
   padding: 1rem;
   background: #efefef;
+  display: flex;
+  flex-direction: column;
 }
 
 .section {
