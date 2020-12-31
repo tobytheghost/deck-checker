@@ -57,51 +57,55 @@ function Profile() {
       ) : (
         <></>
       )}
-      <section className="profile__decks">
-        <Card>
-          <div className="profile__decks-wrapper">
-            {decks
-              .sort(
-                (b, a) => a.data.timestamp.seconds - b.data.timestamp.seconds
-              )
-              .map((deck) => (
-                <div
-                  className="profile__deck-wrapper"
-                  key={deck.data.timestamp.seconds}
-                >
-                  <Card variant="outlined" className="profile__card">
-                    <div
-                      className={
-                        "profile__deck " +
-                        (deck.data.commander2 ? "profile__deck--partner" : "")
-                      }
-                    >
-                      <h2 className="profile__name">{deck.data.deck_name}</h2>
-                      <div className="profile__date">
-                        Last updated:{" "}
-                        {deck.data.timestamp.toDate().toDateString()}
-                      </div>
-                      <Link to={`/d/${deck.id}`}>
-                        <div className="profile__image">
-                          <img
-                            width="488"
-                            key={deck.commander_image}
-                            className="profile__commander"
-                            src={deck.data.commander_image}
-                            alt={deck.data.commander_name}
-                          />
+      {!decks.length ? (
+        <></>
+      ) : (
+        <section className="profile__decks">
+          <Card>
+            <div className="profile__decks-wrapper">
+              {decks
+                .sort(
+                  (b, a) => a.data.timestamp.seconds - b.data.timestamp.seconds
+                )
+                .map((deck) => (
+                  <div
+                    className="profile__deck-wrapper"
+                    key={deck.data.timestamp.seconds}
+                  >
+                    <Card variant="outlined" className="profile__card">
+                      <div
+                        className={
+                          "profile__deck " +
+                          (deck.data.commander2 ? "profile__deck--partner" : "")
+                        }
+                      >
+                        <h2 className="profile__name">{deck.data.deck_name}</h2>
+                        <div className="profile__date">
+                          Last updated:{" "}
+                          {deck.data.timestamp.toDate().toDateString()}
                         </div>
-                      </Link>
-                      {/* <div className="profile__score">
+                        <Link to={`/d/${deck.id}`}>
+                          <div className="profile__image">
+                            <img
+                              width="488"
+                              key={deck.commander_image}
+                              className="profile__commander"
+                              src={deck.data.commander_image}
+                              alt={deck.data.commander_name}
+                            />
+                          </div>
+                        </Link>
+                        {/* <div className="profile__score">
                 Rating: {deck.data.deck_score}
               </div> */}
-                    </div>
-                  </Card>
-                </div>
-              ))}
-          </div>
-        </Card>
-      </section>
+                      </div>
+                    </Card>
+                  </div>
+                ))}
+            </div>
+          </Card>
+        </section>
+      )}
       {canEdit ? (
         <section className="profile__info">
           <div className="profile__link">
