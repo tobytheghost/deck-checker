@@ -1,15 +1,7 @@
 import React from "react";
 
 //App
-import {
-  Error,
-  Home,
-  Deck,
-  Profile,
-  SearchPage,
-  EditDeck,
-  Login,
-} from "./views";
+import { Error, Home, Deck, Profile, SearchPage, Login } from "./views";
 import { Header } from "./components";
 import { useStateValue } from "./StateProvider";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -35,7 +27,7 @@ function Routes() {
           <Route exact path="/search" component={SearchPage} />
           <Route exact path="/u/:userId" component={Profile} />
           <Route exact path="/d/:deckId" component={Deck} />
-          <PrivateRoute exact path="/add-deck" component={EditDeck} />
+          <PrivateRoute exact path="/add-deck" component={Deck} />
           <Route component={Error} />
         </Switch>
       </main>

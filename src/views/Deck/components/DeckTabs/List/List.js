@@ -49,6 +49,7 @@ function List() {
     providerList: { list, setList },
     providerCanEdit: { canEdit },
     providerLoading: { loading },
+    providerIsNewDeck: { isNewDeck },
   } = useContext(DeckContext);
 
   const history = useHistory();
@@ -213,6 +214,51 @@ function List() {
     handleSnackbarOpen("success", "Deck saved!");
   };
 
+  const saveNewDeck = (e) => {
+    e.preventDefault();
+
+    if (!deck.commander_name || !deck.commander_id) {
+      handleSnackbarOpen("error", "No commander set.");
+      return;
+    }
+
+    const data = {
+      deck_name: deckName ? deckName : deck.commander_name,
+      commander_name: deck.commander_name,
+      commander_id: deck.commander_id,
+      commander_image: deck.commander_image,
+      user_id: user.uid,
+      list: deck.list,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    };
+
+    db.collection("decks")
+      .add(data)
+      .then((deck) => {
+        assignDeckToUser(deck, data);
+      });
+
+    handleSnackbarOpen("success", "Deck added!");
+  };
+
+  const assignDeckToUser = (deck, data) => {
+    //console.log(deck, data);
+    db.collection("users")
+      .doc(user.uid)
+      .collection("decks")
+      .doc(deck.id)
+      .set({
+        deck_name: deckName ? deckName : data.commander_name,
+        commander_name: data.commander_name,
+        commander_id: data.commander_id,
+        commander_image: data.commander_image,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      })
+      .then(() => {
+        history.push("/d/" + deck.id);
+      });
+  };
+
   const modalBody = (
     <div style={modalStyle} className={classes.paper + " modal"}>
       <h2 className="modal__title">Delete Deck</h2>
@@ -238,11 +284,13 @@ function List() {
     <>
       {console.log(deck)}
       <div className="deck__preview">
-        <h2 className="deck__name">{deck.deck_name}</h2>
+        <h2 className="deck__name">
+          {deck.deck_name ? deck.deck_name : "New Deck"}
+        </h2>
         <div className="deck__image">
           <img
             className="decks__commander"
-            src={deck.commander_image}
+            src={deck.commander_image ? deck.commander_image : "/card_back.jpg"}
             alt={deck.commander}
             key={deck.commander}
           />
@@ -310,29 +358,33 @@ function List() {
           <></>
         )}
       </div>
-      {canEdit ? (
+      {canEdit || isNewDeck ? (
         <>
           <div className="deck__actions deck__actions--bottom">
             <div className="deck__action">
               <Button
                 type="submit"
-                onClick={saveDeck}
+                onClick={isNewDeck ? saveNewDeck : saveDeck}
                 variant="contained"
                 color="primary"
               >
-                Save Changes
+                {isNewDeck ? "Save New Deck" : "Save Changes"}
               </Button>
             </div>
-            <div className="deck__action deck__action--delete">
-              <Button
-                type="submit"
-                onClick={deleteDeckCheck}
-                variant="contained"
-                color="primary"
-              >
-                Delete Deck
-              </Button>
-            </div>
+            {!isNewDeck ? (
+              <div className="deck__action deck__action--delete">
+                <Button
+                  type="submit"
+                  onClick={deleteDeckCheck}
+                  variant="contained"
+                  color="primary"
+                >
+                  Delete Deck
+                </Button>
+              </div>
+            ) : (
+              <></>
+            )}
           </div>
           <Modal
             open={modalOpen}

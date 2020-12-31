@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useMemo, createContext } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation, useHistory } from "react-router-dom";
 import firebase from "firebase";
 
 import db from "../../firebase";
 import { useStateValue } from "../../StateProvider";
 import { QR } from "../../components";
 import { Search, SnackBar, DeckTabs } from "./components";
+import { Error } from "../../views";
 
 import { Card, CircularProgress } from "@material-ui/core";
 import "./Deck.scss";
@@ -18,7 +19,14 @@ function Deck() {
   const [list, setList] = useState({});
   const [canEdit, setCanEdit] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isNewDeck, setIsNewDeck] = useState(false);
+  const [isError, setIsError] = useState(false);
   const { deckId } = useParams();
+
+  const location = useLocation();
+  const history = useHistory();
+
+  console.log(deckId);
 
   const providerDeck = useMemo(() => ({ deck, setDeck }), [deck, setDeck]);
   const providerList = useMemo(() => ({ list, setList }), [list, setList]);
@@ -29,6 +37,10 @@ function Deck() {
   const providerLoading = useMemo(() => ({ loading, setLoading }), [
     loading,
     setLoading,
+  ]);
+  const providerIsNewDeck = useMemo(() => ({ isNewDeck, setIsNewDeck }), [
+    isNewDeck,
+    setIsNewDeck,
   ]);
 
   useEffect(() => {
@@ -47,23 +59,29 @@ function Deck() {
           setLoading(false);
         });
       } else {
-        const newList = {
-          main: [],
-          side: [],
-          maybe: [],
-        };
-        const newDeck = {
-          deck_name: "",
-          commander_name: "",
-          commander_id: "",
-          commander_image: "",
-          user_id: user.uid,
-          list: JSON.stringify(newList),
-          timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        };
-        setDeck(newDeck);
-        setList(newList);
-        setLoading(false);
+        if (location.pathname === "/add-deck") {
+          const newList = {
+            main: [],
+            side: [],
+            maybe: [],
+          };
+          const newDeck = {
+            deck_name: "",
+            commander_name: "",
+            commander_id: "",
+            commander_image: "",
+            user_id: user.uid,
+            list: JSON.stringify(newList),
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+          };
+          setDeck(newDeck);
+          setList(newList);
+          setLoading(false);
+          setIsNewDeck(true);
+        } else {
+          setIsError(true);
+          setLoading(false);
+        }
       }
     };
     fetchData();
@@ -72,41 +90,53 @@ function Deck() {
       setDeck(null);
       setList(null);
     };
-  }, [user, deckId]);
+  }, [user, deckId, location]);
 
   return (
-    <DeckContext.Provider
-      value={{ providerDeck, providerList, providerCanEdit, providerLoading }}
-    >
-      {loading ? (
-        <div className="section__loading">
-          <CircularProgress />
-        </div>
-      ) : (
-        <>
-          <section className="section section--deck">
-            <div className="section__card section__card--full">
-              <Card>
-                <div className="deck">
-                  <DeckTabs />
-                </div>
-              </Card>
+    <>
+      {!isError ? (
+        <DeckContext.Provider
+          value={{
+            providerDeck,
+            providerList,
+            providerCanEdit,
+            providerLoading,
+            providerIsNewDeck,
+          }}
+        >
+          {loading ? (
+            <div className="section__loading">
+              <CircularProgress />
             </div>
-            <Search />
-          </section>
-          <section className="section">
-            {canEdit ? (
-              <div className="section__card">
-                <QR imageName={deckId} qrTitle="Deck QR Code"></QR>
-              </div>
-            ) : (
-              <></>
-            )}
-          </section>
-          {/* <SnackBar /> */}
-        </>
+          ) : (
+            <>
+              <section className="section section--deck">
+                <div className="section__card section__card--full">
+                  <Card>
+                    <div className="deck">
+                      <DeckTabs />
+                    </div>
+                  </Card>
+                </div>
+                <Search />
+              </section>
+              <section className="section">
+                {canEdit ? (
+                  <div className="section__card">
+                    <QR imageName={deckId} qrTitle="Deck QR Code"></QR>
+                  </div>
+                ) : (
+                  <></>
+                )}
+              </section>
+              {/* <SnackBar /> */}
+            </>
+          )}
+        </DeckContext.Provider>
+      ) : (
+        <Error>Error</Error>
       )}
-    </DeckContext.Provider>
+    </>
   );
 }
 

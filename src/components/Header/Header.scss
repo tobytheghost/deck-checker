@@ -2,9 +2,9 @@
   box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
     0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
   z-index: 99;
-  position: fixed;
-  left: 0;
-  right: 0;
+  //position: fixed;
+  //left: 0;
+  //right: 0;
   background: #fff;
   &__menu {
     padding: 0;
@@ -44,8 +44,8 @@
   }
   &__close {
     position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
+    top: 1rem;
+    right: 1rem;
   }
   &__button {
     background: none;
@@ -57,7 +57,7 @@
     }
   }
   &__hamburger {
-    margin: 0.5rem;
+    margin: 1rem;
     margin-left: auto;
   }
 }

@@ -11,6 +11,7 @@ function Search(props) {
     providerDeck: { deck, setDeck },
     providerList: { list, setList },
     providerCanEdit: { canEdit },
+    providerIsNewDeck: { isNewDeck },
   } = useContext(DeckContext);
 
   const [cardList, setCardList] = useState([]);
@@ -56,16 +57,33 @@ function Search(props) {
 
   const addNewCommander = (item, board = "main", limit = 1) => {
     const updatedList = addCardToDeck(list, item, board, limit);
+    console.log(item);
     setList(updatedList);
-    const updatedDeck = {
-      deck_name: deck.deck_name,
-      commander_name: item.name,
-      commander_id: item.id,
-      commander_image: item.image_uris.normal,
-      user_id: deck.user_id,
-      list: JSON.stringify(updatedList),
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    };
+    let updatedDeck;
+    if (item.layout === "transform") {
+      updatedDeck = {
+        commander_type: "transform",
+        deck_name: deck.deck_name,
+        commander_name: item.name,
+        commander_id: item.id,
+        commander_image: item.card_faces[0].image_uris.normal,
+        commander_image_2: item.card_faces[1].image_uris.normal,
+        user_id: deck.user_id,
+        list: JSON.stringify(updatedList),
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      };
+    } else {
+      updatedDeck = {
+        commander_type: "normal",
+        deck_name: deck.deck_name,
+        commander_name: item.name,
+        commander_id: item.id,
+        commander_image: item.image_uris.normal,
+        user_id: deck.user_id,
+        list: JSON.stringify(updatedList),
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      };
+    }
     setDeck(updatedDeck);
   };
 
@@ -101,7 +119,7 @@ function Search(props) {
 
   return (
     <>
-      {canEdit ? (
+      {canEdit || isNewDeck ? (
         <div className="section__card">
           <Card className="deck__card">
             <section className="deck__actions deck__actions--top">
