@@ -69,8 +69,8 @@
   &__item {
     display: flex;
     place-items: center;
+    line-height: 1.5rem;
     svg {
-      margin-left: 0.5rem;
       cursor: pointer;
     }
   }
@@ -92,7 +92,25 @@
     }
   }
   &__quantity {
-    width: 1.5rem;
+    display: flex;
+    place-content: center;
+    place-items: center;
+    margin-right: 1rem;
+  }
+  &__quantity-number {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+  &__mana {
+    margin-left: auto;
+    display: flex;
+    .ms-cost.ms-shadow {
+      margin-left: 0.2rem;
+      box-shadow: none;
+    }
+  }
+  &__card-name {
+    margin-right: 1rem;
   }
 }
 

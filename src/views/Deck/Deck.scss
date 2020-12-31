@@ -96,14 +96,24 @@
     }
     &--search {
       display: flex;
+      flex-wrap: wrap;
       margin-left: -0.5rem;
       margin-right: -0.5rem;
       .MuiFormControl-root {
         flex: 1;
+        @media (max-width: 768px) {
+          margin-bottom: 1rem;
+          input {
+            text-align: center;
+          }
+        }
       }
       > * {
         padding-left: 0.5rem !important;
         padding-right: 0.5rem !important;
+        @media (max-width: 768px) {
+          width: 100%;
+        }
       }
     }
   }
@@ -114,6 +124,10 @@
   }
   &__clear-button {
     display: flex;
+    @media (max-width: 768px) {
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
   }
   &__search-list {
     padding-left: 0;
@@ -129,6 +143,10 @@
       display: flex;
       flex-wrap: wrap;
       place-items: center;
+      @media (max-width: 768px) {
+        text-align: center;
+        justify-content: center;
+      }
     }
     button {
       margin-left: 0.5rem;
@@ -138,6 +156,10 @@
   }
   &__search-name {
     margin-bottom: 0.5rem;
+    @media (max-width: 768px) {
+      margin-bottom: 1rem;
+      margin-top: 0.5rem;
+    }
   }
   &__search-buttons {
     margin-left: -0.5rem;

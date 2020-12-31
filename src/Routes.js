@@ -7,7 +7,7 @@ import { useStateValue } from "./StateProvider";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 function PrivateRoute({ component: Component, ...rest }) {
-  const [{ user }, dispatch] = useStateValue();
+  const [{ user }] = useStateValue();
   return (
     <Route
       {...rest}

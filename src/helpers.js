@@ -1,12 +1,11 @@
-import firebase from "firebase";
-
-import db from "./firebase";
-
 const parseTextForSymbols = (text) => {
   const regex = /{(.*?)}/g;
-  return text.replaceAll(regex, function (match, string) {
-    return `<i class="ms ms-${string.toLowerCase()}"></i>`;
+  let parsedCost = [];
+  text.replaceAll(regex, function (match, string) {
+    // return `<i class="ms ms-${string.toLowerCase()}"></i>`;
+    parsedCost.push(string.toLowerCase().replace("/", ""));
   });
+  return parsedCost;
 };
 
 const convertQR = (canvas, imageName) => {
@@ -22,7 +21,7 @@ const convertQR = (canvas, imageName) => {
 };
 
 const checkCardType = (card) => {
-  console.log(card);
+  //console.log(card);
 
   const types = card.type_line;
 
@@ -50,7 +49,8 @@ const checkCardType = (card) => {
 };
 
 const addCardToDeck = (list, item, board = "main", limit = null) => {
-  console.log(list, item);
+  // console.log(item);
+  //console.log(list, item);
   let newDeck = list;
   const cardType = checkCardType(item);
   let checkExistingType = false;
@@ -81,35 +81,77 @@ const addCardToDeck = (list, item, board = "main", limit = null) => {
         newDeck[board][typeKey].cards[itemKey].quantity++;
       }
     } else {
-      newDeck[board][typeKey].cards.push({
-        name: item.name,
-        quantity: 1,
-      });
+      if (item.layout === "transform") {
+        newDeck[board][typeKey].cards.push({
+          name: item.name,
+          cmc: item.cmc,
+          mana_cost: item.card_faces[0].mana_cost,
+          image: item.card_faces[0].image_uris.normal,
+          quantity: 1,
+        });
+      } else {
+        newDeck[board][typeKey].cards.push({
+          name: item.name,
+          cmc: item.cmc,
+          mana_cost: item.mana_cost,
+          image: item.image_uris.normal,
+          quantity: 1,
+        });
+      }
     }
     if (!limit || (limit > newDeck[board][typeKey].quantity && checkExisting)) {
       newDeck[board][typeKey].quantity++;
     }
 
-    newDeck[board][typeKey].cards.sort((a, b) => {
-      if (a.name < b.name) {
-        return -1;
-      }
-      if (a.name > b.name) {
-        return 1;
-      }
-      return 0;
-    });
+    newDeck[board][typeKey].cards
+      .sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      })
+      .sort((a, b) => {
+        if (a.cmc < b.cmc) {
+          return -1;
+        }
+        if (a.cmc > b.cmc) {
+          return 1;
+        }
+        return 0;
+      });
   } else {
-    newDeck[board].push({
-      type: cardType,
-      quantity: 1,
-      cards: [
-        {
-          name: item.name,
-          quantity: 1,
-        },
-      ],
-    });
+    if (item.layout === "transform") {
+      newDeck[board].push({
+        type: cardType,
+        quantity: 1,
+        cards: [
+          {
+            name: item.name,
+            cmc: item.cmc,
+            mana_cost: item.card_faces[0].mana_cost,
+            image: item.card_faces[0].image_uris.normal,
+            quantity: 1,
+          },
+        ],
+      });
+    } else {
+      newDeck[board].push({
+        type: cardType,
+        quantity: 1,
+        cards: [
+          {
+            name: item.name,
+            cmc: item.cmc,
+            mana_cost: item.mana_cost,
+            image: item.image_uris.normal,
+            quantity: 1,
+          },
+        ],
+      });
+    }
   }
 
   return newDeck;

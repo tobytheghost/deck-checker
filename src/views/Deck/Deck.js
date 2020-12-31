@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useMemo, createContext } from "react";
-import { useParams, useLocation, useHistory } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import firebase from "firebase";
 
 import db from "../../firebase";
 import { useStateValue } from "../../StateProvider";
 import { QR } from "../../components";
-import { Search, SnackBar, DeckTabs } from "./components";
+import { Search, DeckTabs } from "./components";
 import { Error } from "../../views";
 
 import { Card, CircularProgress } from "@material-ui/core";
@@ -24,9 +24,6 @@ function Deck() {
   const { deckId } = useParams();
 
   const location = useLocation();
-  const history = useHistory();
-
-  //console.log(deckId);
 
   const providerDeck = useMemo(() => ({ deck, setDeck }), [deck, setDeck]);
   const providerList = useMemo(() => ({ list, setList }), [list, setList]);

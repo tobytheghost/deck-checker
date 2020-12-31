@@ -5,6 +5,7 @@ import firebase from "firebase";
 import db from "../../../../../firebase";
 import { DeckContext } from "../../../Deck";
 import { useStateValue } from "../../../../../StateProvider";
+import { parseTextForSymbols } from "../../../../../helpers";
 
 import {
   TextField,
@@ -12,12 +13,11 @@ import {
   makeStyles,
   Modal,
   Snackbar,
-  IconButton,
 } from "@material-ui/core";
-import { EditIcon } from "@material-ui/icons/Edit";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import MuiAlert from "@material-ui/lab/Alert";
+import { Mana } from "@saeris/react-mana";
 import "./List.scss";
 
 function getModalStyle() {
@@ -60,6 +60,7 @@ function List() {
   const [modalStyle] = useState(getModalStyle);
   const [deckName, setDeckName] = useState(deck.deck_name);
   const [editTitle, setEditTitle] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
 
   const classes = useStyles();
 
@@ -77,15 +78,25 @@ function List() {
     let updatedList = list;
     updatedList[board][sectionKey].quantity++;
     updatedList[board][sectionKey].cards[cardKey].quantity++;
-    updatedList[board][sectionKey].cards.sort((a, b) => {
-      if (a.name < b.name) {
-        return -1;
-      }
-      if (a.name > b.name) {
-        return 1;
-      }
-      return 0;
-    });
+    updatedList[board][sectionKey].cards
+      .sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      })
+      .sort((a, b) => {
+        if (a.cmc < b.cmc) {
+          return -1;
+        }
+        if (a.cmc > b.cmc) {
+          return 1;
+        }
+        return 0;
+      });
     setList(updatedList);
     const updatedDeck = {
       deck_name: deck.deck_name,
@@ -324,7 +335,13 @@ function List() {
         <div className="deck__image">
           <img
             className="decks__commander"
-            src={deck.commander_image ? deck.commander_image : "/card_back.jpg"}
+            src={
+              previewImage
+                ? previewImage
+                : deck.commander_image
+                ? deck.commander_image
+                : "/card_back.jpg"
+            }
             alt={deck.commander}
             key={deck.commander}
           />
@@ -355,29 +372,61 @@ function List() {
                       </h3>
                       <ul>
                         {section.cards.map((card, cardKey) => (
-                          <li className="decklist__item" key={cardKey}>
+                          <li
+                            className="decklist__item"
+                            key={cardKey}
+                            onMouseEnter={() => {
+                              setPreviewImage(card.image);
+                            }}
+                            onMouseLeave={() => {
+                              setPreviewImage("");
+                            }}
+                          >
                             <span className="decklist__quantity">
-                              {card.quantity}
-                            </span>{" "}
-                            {card.name}{" "}
-                            {canEdit ? (
-                              <>
+                              {canEdit ? (
                                 <AddCircleIcon
                                   className="decklist__button decklist__button--add"
                                   onClick={() =>
                                     addCard(key, sectionKey, cardKey)
                                   }
                                 ></AddCircleIcon>
+                              ) : (
+                                <></>
+                              )}
+                              <span className="decklist__quantity-number">
+                                {card.quantity}
+                              </span>
+                              {canEdit ? (
                                 <RemoveCircleIcon
                                   className="decklist__button decklist__button--remove"
                                   onClick={() =>
                                     removeCard(key, sectionKey, cardKey)
                                   }
                                 ></RemoveCircleIcon>
-                              </>
-                            ) : (
-                              <></>
-                            )}
+                              ) : (
+                                <></>
+                              )}
+                            </span>
+                            <span className="decklist__card-name">
+                              {card.name}
+                            </span>
+                            <span className="decklist__mana">
+                              {card.mana_cost
+                                ? parseTextForSymbols(card.mana_cost).map(
+                                    (item, i) => {
+                                      return (
+                                        <Mana
+                                          key={i}
+                                          symbol={item}
+                                          shadow
+                                          fixed
+                                          size="1x"
+                                        />
+                                      );
+                                    }
+                                  )
+                                : ""}
+                            </span>
                           </li>
                         ))}
                       </ul>

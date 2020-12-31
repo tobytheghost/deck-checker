@@ -17,6 +17,7 @@ function Search(props) {
   const [cardList, setCardList] = useState([]);
   const [searching, setSearching] = useState(false);
   const [addCard, setAddCard] = useState("");
+  // eslint-disable-next-line
   const [deckName, setDeckName] = useState("");
 
   const handleFormOnChange = (e) => {
