@@ -89,13 +89,33 @@
         }
       }
     }
+    &--search {
+      display: flex;
+      margin-left: -0.5rem;
+      margin-right: -0.5rem;
+      .MuiFormControl-root {
+        flex: 1;
+      }
+      > * {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+      }
+    }
+  }
+  &__action-title {
+    padding: 0;
+    margin: 0;
+    padding-bottom: 1rem;
+  }
+  &__clear-button {
+    display: flex;
   }
   &__search-list {
     padding-left: 0;
     margin: 0;
     list-style: none;
     padding-top: 1rem;
-    padding-bottom: 1rem;
+    //padding-bottom: 1rem;
   }
   &__search-item {
     margin-bottom: 0.5rem;
@@ -125,23 +145,5 @@
   }
   &__name-input {
     margin-bottom: 1rem !important;
-  }
-}
-
-.modal {
-  &__actions {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  &__action {
-    margin-right: 0.5rem;
-    &--delete {
-      button {
-        background-color: #f44336;
-        &:hover {
-          background-color: #aa2e25;
-        }
-      }
-    }
   }
 }

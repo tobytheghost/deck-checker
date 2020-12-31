@@ -95,3 +95,21 @@
     width: 1.5rem;
   }
 }
+
+.modal {
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  &__action {
+    margin-right: 0.5rem;
+    &--delete {
+      button {
+        background-color: #f44336;
+        &:hover {
+          background-color: #aa2e25;
+        }
+      }
+    }
+  }
+}
