@@ -29,7 +29,7 @@ function Login() {
 
   return (
     <>
-      {user ? <Redirect to="/" /> : <></>}
+      {user ? <Redirect to={"/u/" + user.uid} /> : <></>}
       <div className="login">
         <Card>
           <div className="login__container">
