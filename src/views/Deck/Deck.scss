@@ -134,6 +134,9 @@
     margin: 0;
     list-style: none;
     padding-top: 1rem;
+    max-height: 575px;
+    overflow-y: auto;
+    overflow-x: hidden;
     //padding-bottom: 1rem;
   }
   &__search-item {

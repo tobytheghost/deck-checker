@@ -121,7 +121,7 @@ function Search(props) {
   return (
     <>
       {canEdit || isNewDeck ? (
-        <div className="section__card">
+        <div className="section__card section__card--search">
           <Card className="deck__card">
             <section className="deck__actions deck__actions--top">
               <div className="deck__action deck__action--info">
