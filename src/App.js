@@ -2,9 +2,9 @@ import React from "react";
 
 // App
 import Routes from "./Routes";
-import { Login } from "./views";
+// import { Login } from "./views";
 //import { auth } from "./firebase";
-import { useStateValue } from "./StateProvider";
+// import { useStateValue } from "./StateProvider";
 
 // Styles
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";

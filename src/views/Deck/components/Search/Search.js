@@ -56,9 +56,9 @@ function Search(props) {
   };
 
   const addNewCommander = (item, board = "main", limit = 1) => {
-    const updatedList = addCardToDeck(list, item, board, limit);
-    console.log(item);
-    setList(updatedList);
+    //const updatedList = addCardToDeck(list, item, board, limit);
+    //console.log(item);
+    //setList(updatedList);
     let updatedDeck;
     if (item.layout === "transform") {
       updatedDeck = {
@@ -69,7 +69,7 @@ function Search(props) {
         commander_image: item.card_faces[0].image_uris.normal,
         commander_image_2: item.card_faces[1].image_uris.normal,
         user_id: deck.user_id,
-        list: JSON.stringify(updatedList),
+        list: JSON.stringify(list),
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       };
     } else {
@@ -80,7 +80,7 @@ function Search(props) {
         commander_id: item.id,
         commander_image: item.image_uris.normal,
         user_id: deck.user_id,
-        list: JSON.stringify(updatedList),
+        list: JSON.stringify(list),
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       };
     }
@@ -190,7 +190,7 @@ function Search(props) {
                                 addNewCommander(item);
                               }}
                             >
-                              Set Commander
+                              Set Deck Image
                             </Button>
                           </div>
                         </span>

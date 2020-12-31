@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import firebase from "firebase";
 
@@ -12,8 +12,9 @@ import {
   makeStyles,
   Modal,
   Snackbar,
+  IconButton,
 } from "@material-ui/core";
-// import { EditIcon } from "@material-ui/icons/Edit";
+import { EditIcon } from "@material-ui/icons/Edit";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -55,13 +56,22 @@ function List() {
   const history = useHistory();
   const { deckId } = useParams();
 
-  // const [editTitle, setEditTitle] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalStyle] = useState(getModalStyle);
   const [deckName, setDeckName] = useState(deck.deck_name);
   const [editTitle, setEditTitle] = useState(false);
 
   const classes = useStyles();
+
+  useEffect(() => {
+    if (isNewDeck) {
+      setEditTitle(true);
+    }
+  }, [isNewDeck]);
+
+  const handleDeckNameChange = (e) => {
+    setDeckName(e.target.value);
+  };
 
   const addCard = (board, sectionKey, cardKey) => {
     let updatedList = list;
@@ -197,20 +207,22 @@ function List() {
       .collection("decks")
       .doc(deckId)
       .update({
-        deck_name: deck.deck_name,
+        deck_name: deckName ? deckName : deck.deck_name,
         commander_name: deck.commander_name,
         commander_id: deck.commander_id,
         commander_image: deck.commander_image,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       });
-    db.collection("decks").doc(deckId).update({
-      deck_name: deck.deck_name,
-      commander_name: deck.commander_name,
-      commander_id: deck.commander_id,
-      commander_image: deck.commander_image,
-      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      list: deck.list,
-    });
+    db.collection("decks")
+      .doc(deckId)
+      .update({
+        deck_name: deckName ? deckName : deck.deck_name,
+        commander_name: deck.commander_name,
+        commander_id: deck.commander_id,
+        commander_image: deck.commander_image,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        list: deck.list,
+      });
     handleSnackbarOpen("success", "Deck saved!");
   };
 
@@ -218,7 +230,7 @@ function List() {
     e.preventDefault();
 
     if (!deck.commander_name || !deck.commander_id) {
-      handleSnackbarOpen("error", "No commander set.");
+      handleSnackbarOpen("error", "No deck image set.");
       return;
     }
 
@@ -282,11 +294,33 @@ function List() {
 
   return (
     <>
-      {console.log(deck)}
       <div className="deck__preview">
-        <h2 className="deck__name">
-          {deck.deck_name ? deck.deck_name : "New Deck"}
-        </h2>
+        {editTitle ? (
+          <TextField
+            label="Deck Name"
+            variant="outlined"
+            name="deckName"
+            type="text"
+            value={deckName}
+            onChange={handleDeckNameChange}
+          />
+        ) : (
+          <h2 className="deck__name">
+            {deck.deck_name ? deck.deck_name : "New Deck"}
+            {canEdit ? (
+              <Button
+                size="small"
+                onClick={() => {
+                  setEditTitle(true);
+                }}
+              >
+                Edit
+              </Button>
+            ) : (
+              <></>
+            )}
+          </h2>
+        )}
         <div className="deck__image">
           <img
             className="decks__commander"
@@ -320,7 +354,6 @@ function List() {
                         {section.type} ({section.quantity})
                       </h3>
                       <ul>
-                        {console.log(section.cards)}
                         {section.cards.map((card, cardKey) => (
                           <li className="decklist__item" key={cardKey}>
                             <span className="decklist__quantity">

@@ -26,7 +26,7 @@ function Deck() {
   const location = useLocation();
   const history = useHistory();
 
-  console.log(deckId);
+  //console.log(deckId);
 
   const providerDeck = useMemo(() => ({ deck, setDeck }), [deck, setDeck]);
   const providerList = useMemo(() => ({ list, setList }), [list, setList]);
@@ -50,11 +50,13 @@ function Deck() {
       if (doc.exists) {
         docRef.onSnapshot((snapshot) => {
           const deck = snapshot.data();
-          const list = deck.list || deck.deck;
-          setDeck(deck);
-          setList(JSON.parse(list));
-          if (user && deck && user.uid === deck.user_id) {
-            setCanEdit(true);
+          if (deck) {
+            const list = deck.list || deck.deck;
+            setDeck(deck);
+            setList(JSON.parse(list));
+            if (user && deck && user.uid === deck.user_id) {
+              setCanEdit(true);
+            }
           }
           setLoading(false);
         });
