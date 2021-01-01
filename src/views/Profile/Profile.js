@@ -42,26 +42,37 @@ function Profile() {
 
   return (
     <div className="profile">
-      {canEdit ? (
-        <section className="profile__actions">
+      {!decks.length ? (
+        <section className="profile__decks">
           <Card>
-            <ul>
-              <li className="profile__action">
+            <div className="profile__decks-wrapper profile__decks-wrapper--top">
+              <h2 className="profile__subtitle">Decks:</h2>
+              {canEdit ? (
                 <Button variant="contained" color="primary">
                   <Link to="/add-deck">Add New Deck</Link>
                 </Button>
-              </li>
-            </ul>
+              ) : (
+                <></>
+              )}
+            </div>
+            <div className="profile__decks-wrapper profile__decks-wrapper--bottom">
+              Nothing to see here ...
+            </div>
           </Card>
         </section>
       ) : (
-        <></>
-      )}
-      {!decks.length ? (
-        <></>
-      ) : (
         <section className="profile__decks">
           <Card>
+            <div className="profile__decks-wrapper profile__decks-wrapper--top">
+              <h2 className="profile__subtitle">Decks:</h2>
+              {canEdit ? (
+                <Button variant="contained" color="primary">
+                  <Link to="/add-deck">Add New Deck</Link>
+                </Button>
+              ) : (
+                <></>
+              )}
+            </div>
             <div className="profile__decks-wrapper">
               {decks
                 .sort(

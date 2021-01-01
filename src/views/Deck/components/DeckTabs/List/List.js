@@ -6,6 +6,7 @@ import db from "../../../../../firebase";
 import { DeckContext } from "../../../Deck";
 import { useStateValue } from "../../../../../StateProvider";
 import { parseTextForSymbols } from "../../../../../helpers";
+import Search from "../../Search/Search";
 
 import {
   TextField,
@@ -51,6 +52,8 @@ function List() {
     providerCanEdit: { canEdit },
     providerLoading: { loading },
     providerIsNewDeck: { isNewDeck },
+    providerUpdateLog: { updateLog, setUpdateLog },
+    providerLog: { log, setLog },
   } = useContext(DeckContext);
 
   const history = useHistory();
@@ -74,7 +77,7 @@ function List() {
     setDeckName(e.target.value);
   };
 
-  const addCard = (board, sectionKey, cardKey) => {
+  const addCard = (item, board, sectionKey, cardKey) => {
     let updatedList = list;
     updatedList[board + "_quantity"]++;
     updatedList[board][sectionKey].quantity++;
@@ -109,13 +112,43 @@ function List() {
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     };
     setDeck(updatedDeck);
+
+    // let newLog = updateLog;
+    // let checkExisting = false;
+
+    // for (let i = 0; i < newLog.length; i++) {
+    //   if (newLog[i].name === item.name) {
+    //     checkExisting = true;
+    //     newLog[i].quantity++;
+    //   }
+    // }
+
+    // if (!checkExisting) {
+    //   newLog.push({
+    //     name: item.name,
+    //     quantity: 1,
+    //   });
+    // }
+
+    // setUpdateLog(newLog);
+
+    // console.log(updateLog);
   };
 
-  const removeCard = (board, sectionKey, cardKey) => {
+  const removeCard = (item, board, sectionKey, cardKey) => {
     let updatedList = list;
     updatedList[board + "_quantity"]--;
+    if (updatedList[board + "_quantity"] < 0) {
+      updatedList[board + "_quantity"] = 0;
+    }
     updatedList[board][sectionKey].quantity--;
+    if (updatedList[board][sectionKey].quantity < 0) {
+      updatedList[board][sectionKey].quantity = 0;
+    }
     updatedList[board][sectionKey].cards[cardKey].quantity--;
+    if (updatedList[board][sectionKey].cards[cardKey].quantity < 0) {
+      updatedList[board][sectionKey].cards[cardKey].quantity = 0;
+    }
     if (updatedList[board][sectionKey].cards[cardKey].quantity === 0) {
       updatedList[board][sectionKey].cards.splice(cardKey, 1);
     }
@@ -133,6 +166,27 @@ function List() {
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     };
     setDeck(updatedDeck);
+
+    // let newLog = updateLog;
+    // let checkExisting = false;
+
+    // for (let i = 0; i < newLog.length; i++) {
+    //   if (newLog[i].name === item.name) {
+    //     checkExisting = true;
+    //     newLog[i].quantity--;
+    //   }
+    // }
+
+    // if (!checkExisting) {
+    //   newLog.push({
+    //     name: item.name,
+    //     quantity: -1,
+    //   });
+    // }
+
+    // setUpdateLog(newLog);
+
+    // console.log(updateLog);
   };
 
   const getSectionTitle = (key) => {
@@ -236,12 +290,45 @@ function List() {
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         list: deck.list,
       });
+    // console.log(updateLog);
+    // const updateLogDB = async () => {
+    //   const docRef = db.collection("deckLogs").doc(deckId);
+    //   const doc = await docRef.get();
+    //   if (doc.exists) {
+    //     docRef.onSnapshot((snapshot) => {
+    //       const deckLog = snapshot.data();
+    //       if (deckLog) {
+    //         setLog(deckLog);
+    //       }
+    //       console.log(deckLog);
+    //     });
+    //     if (updateLog.length) {
+    //       console.log(log.log);
+    //       let addLog = JSON.parse(log.log);
+    //       addLog.push({
+    //         timestamp: new Date(),
+    //         log: JSON.stringify(updateLog),
+    //       });
+    //       db.collection("deckLogs")
+    //         .doc(deckId)
+    //         .update({
+    //           log: JSON.stringify(addLog),
+    //         });
+    //     }
+    //   } else {
+    //     db.collection("deckLogs").doc(deckId).set({
+    //       timestamp: new Date(),
+    //       log: [],
+    //     });
+    //   }
+    //   setUpdateLog([]);
+    //   setLog({});
+    // };
+    // updateLogDB();
     handleSnackbarOpen("success", "Deck saved!");
   };
 
-  const saveNewDeck = (e) => {
-    e.preventDefault();
-
+  const saveNewDeck = () => {
     // if (!deck.commander_name || !deck.commander_id) {
     //   handleSnackbarOpen("error", "No deck image set.");
     //   return;
@@ -264,6 +351,7 @@ function List() {
       .add(data)
       .then((deck) => {
         assignDeckToUser(deck, data);
+        createNewLog(deck);
       });
 
     handleSnackbarOpen("success", "Deck added!");
@@ -285,6 +373,13 @@ function List() {
       .then(() => {
         history.push("/d/" + deck.id);
       });
+  };
+
+  const createNewLog = (deck) => {
+    db.collection("deckLogs").doc(deck.id).set({
+      timestamp: new Date(),
+      log: [],
+    });
   };
 
   const modalBody = (
@@ -393,7 +488,7 @@ function List() {
                                   <AddCircleIcon
                                     className="decklist__button decklist__button--add"
                                     onClick={() =>
-                                      addCard(key, sectionKey, cardKey)
+                                      addCard(card, key, sectionKey, cardKey)
                                     }
                                   ></AddCircleIcon>
                                 ) : (
@@ -406,7 +501,7 @@ function List() {
                                   <RemoveCircleIcon
                                     className="decklist__button decklist__button--remove"
                                     onClick={() =>
-                                      removeCard(key, sectionKey, cardKey)
+                                      removeCard(card, key, sectionKey, cardKey)
                                     }
                                   ></RemoveCircleIcon>
                                 ) : (
@@ -503,6 +598,7 @@ function List() {
       ) : (
         <></>
       )}
+      <Search />
     </>
   );
 }

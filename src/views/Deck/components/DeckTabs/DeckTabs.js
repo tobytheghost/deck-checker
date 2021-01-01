@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 
 // App
 import List from "./List/List";
+// import Logs from "./Logs/Logs";
 
 // Styles
 import { Tab, Tabs, AppBar } from "@material-ui/core";
@@ -58,7 +59,7 @@ function DeckTabs() {
         </div>
       </TabPanel>
       <TabPanel value={tabValue} index={1}>
-        <div className="deck__section">Here</div>
+        <div className="deck__section">{/* <Logs /> */}</div>
       </TabPanel>
       <TabPanel value={tabValue} index={2}>
         <div className="deck__section">Here</div>

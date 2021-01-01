@@ -4,6 +4,7 @@
   flex-wrap: wrap;
   margin-left: -0.5rem;
   margin-right: -0.5rem;
+  flex: 1;
   section {
     padding-right: 0.5rem;
     padding-left: 0.5rem;
@@ -31,7 +32,11 @@
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 1rem;
-    place-content: space-between;
+    // place-content: space-between;
+    place-content: stretch;
+    > * {
+      flex: 1;
+    }
   }
   &__decks-wrapper {
     flex: 1;
@@ -41,11 +46,48 @@
     margin-right: -0.5rem;
     padding: 1rem;
     padding-bottom: 0;
+    &--top {
+      width: 100%;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      place-content: space-between;
+      place-items: center;
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+    }
+    &--bottom {
+      width: 100%;
+      margin: 0;
+      padding-bottom: 1rem;
+    }
+  }
+  &__subtitle {
+    margin: 0;
+    padding: 0;
   }
   &__deck-wrapper {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
     margin-bottom: 1rem;
+    width: calc(100% - 1rem);
+    @media (min-width: 575px) {
+      width: calc(100% - 1rem);
+    }
+    @media (min-width: 768px) {
+      width: calc(50% - 1rem);
+    }
+    @media (min-width: 1024px) {
+      width: calc(33.33% - 1rem);
+    }
+    @media (min-width: 1200px) {
+      width: calc(25% - 1rem);
+    }
+    @media (min-width: 1600px) {
+      width: calc(20% - 1rem);
+    }
   }
   &__info {
     @media (max-width: 768px) {
@@ -54,7 +96,7 @@
   }
   &__deck {
     position: relative;
-    max-width: 320px;
+    max-width: 100%;
     padding: 1rem;
     display: flex;
     flex-direction: column;
@@ -82,6 +124,7 @@
     }
   }
   &__image {
+    text-align: center;
     flex-grow: 1;
   }
   &__commander {

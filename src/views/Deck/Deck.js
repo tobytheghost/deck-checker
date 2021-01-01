@@ -5,7 +5,7 @@ import firebase from "firebase";
 import db from "../../firebase";
 import { useStateValue } from "../../StateProvider";
 import { QR } from "../../components";
-import { Search, DeckTabs } from "./components";
+import { DeckTabs } from "./components";
 import { Error } from "../../views";
 
 import { Card, CircularProgress } from "@material-ui/core";
@@ -22,6 +22,11 @@ function Deck() {
   const [loadingMessage, setLoadingMessage] = useState("");
   const [isNewDeck, setIsNewDeck] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [updateLog, setUpdateLog] = useState([]);
+  const [log, setLog] = useState({
+    log: "[]",
+    timestamp: "",
+  });
   const { deckId } = useParams();
 
   const location = useLocation();
@@ -44,6 +49,11 @@ function Deck() {
     isNewDeck,
     setIsNewDeck,
   ]);
+  const providerUpdateLog = useMemo(() => ({ updateLog, setUpdateLog }), [
+    updateLog,
+    setUpdateLog,
+  ]);
+  const providerLog = useMemo(() => ({ log, setLog }), [log, setLog]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -110,6 +120,8 @@ function Deck() {
             providerLoading,
             providerLoadingMessage,
             providerIsNewDeck,
+            providerUpdateLog,
+            providerLog,
           }}
         >
           {loading ? (
@@ -131,7 +143,6 @@ function Deck() {
                     </div>
                   </Card>
                 </div>
-                <Search />
               </section>
               <section className="section">
                 {canEdit ? (

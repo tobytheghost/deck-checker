@@ -63,7 +63,7 @@
     }
   }
   &__actions {
-    padding: 1rem;
+    //padding: 1rem;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -73,6 +73,7 @@
     &--bottom {
       margin-bottom: unset;
       padding-bottom: 0;
+      margin-bottom: 2rem;
     }
     > div {
     }

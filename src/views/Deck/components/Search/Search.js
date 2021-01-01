@@ -207,121 +207,115 @@ function Search(props) {
       {canEdit || isNewDeck ? (
         <>
           <div className="section__card section__card--search">
-            <Card className="deck__card">
-              <section className="deck__actions deck__actions--top">
-                <div className="deck__action deck__action--info">
-                  <h3 className="deck__action-title">
-                    Add card(s) using search:
-                  </h3>
-                </div>
-                <div className="deck__action deck__action--search">
-                  <TextField
-                    label="Search"
-                    variant="outlined"
-                    name="addCard"
-                    type="text"
-                    placeholder="Search Cards ..."
-                    value={addCard}
-                    onChange={handleFormOnChange}
-                  />
-                  <div className="deck__clear-button">
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      onClick={clearSearch}
-                    >
-                      Clear Search
-                    </Button>
-                  </div>
-                </div>
-                {searching ? (
-                  <div className="deck__search-list">Searching ...</div>
-                ) : addCard.length > 2 && cardList.length > 0 ? (
-                  <ul className="deck__search-list">
-                    {cardList
-                      .filter((item, i) => {
-                        if (!addCard) return true;
-                        if (
-                          item.name
-                            .toLowerCase()
-                            .includes(addCard.toLowerCase())
-                        ) {
-                          return true;
-                        }
-                        return false;
-                      })
-                      .slice(0, 100)
-                      .map((item, i) => (
-                        <li className="deck__search-item" key={i}>
-                          <span>
-                            <div className="deck__search-name">{item.name}</div>
-                            <div className="deck__search-buttons">
-                              <Button
-                                variant="outlined"
-                                color="primary"
-                                onClick={() => {
-                                  addNewCard(item);
-                                }}
-                              >
-                                Add to Main
-                              </Button>
-                              <Button
-                                variant="outlined"
-                                color="primary"
-                                onClick={() => {
-                                  addNewCard(item, 1, "side");
-                                }}
-                              >
-                                Add to Side
-                              </Button>
-                              <Button
-                                variant="outlined"
-                                onClick={() => {
-                                  addNewCommander(item);
-                                }}
-                              >
-                                Set Deck Image
-                              </Button>
-                            </div>
-                          </span>
-                        </li>
-                      ))}
-                  </ul>
-                ) : cardList.length ? (
-                  <div className="search__list"></div>
-                ) : (
-                  <></>
-                )}
-              </section>
-            </Card>
-          </div>
-          <div className="section__card section__card--import">
-            <Card className="deck__card">
-              <section className="deck__actions deck__actions--top">
-                <div className="deck__action deck__action--info">
-                  <h3 className="deck__action-title">Add card(s) from list:</h3>
-                </div>
-                <div className="deck__action deck__action--search">
-                  <TextField
-                    label="Import cards from list"
-                    variant="outlined"
-                    name="importCards"
-                    multiline
-                    value={importCards}
-                    onChange={handleFormOnChange}
-                  />
-                </div>
-                <div className="deck__import">
+            {/* <Card className="deck__card"> */}
+            <section className="deck__actions deck__actions--top">
+              <div className="deck__action deck__action--info">
+                <h3 className="deck__action-title">
+                  Add card(s) using search:
+                </h3>
+              </div>
+              <div className="deck__action deck__action--search">
+                <TextField
+                  label="Search"
+                  variant="outlined"
+                  name="addCard"
+                  type="text"
+                  placeholder="Search Cards ..."
+                  value={addCard}
+                  onChange={handleFormOnChange}
+                />
+                <div className="deck__clear-button">
                   <Button
-                    variant="contained"
+                    variant="outlined"
                     color="primary"
-                    onClick={runImport}
+                    onClick={clearSearch}
                   >
-                    Import
+                    Clear Search
                   </Button>
                 </div>
-              </section>
-            </Card>
+              </div>
+              {searching ? (
+                <div className="deck__search-list">Searching ...</div>
+              ) : addCard.length > 2 && cardList.length > 0 ? (
+                <ul className="deck__search-list">
+                  {cardList
+                    .filter((item, i) => {
+                      if (!addCard) return true;
+                      if (
+                        item.name.toLowerCase().includes(addCard.toLowerCase())
+                      ) {
+                        return true;
+                      }
+                      return false;
+                    })
+                    .slice(0, 100)
+                    .map((item, i) => (
+                      <li className="deck__search-item" key={i}>
+                        <span>
+                          <div className="deck__search-name">{item.name}</div>
+                          <div className="deck__search-buttons">
+                            <Button
+                              variant="outlined"
+                              color="primary"
+                              onClick={() => {
+                                addNewCard(item);
+                              }}
+                            >
+                              Add to Main
+                            </Button>
+                            <Button
+                              variant="outlined"
+                              color="primary"
+                              onClick={() => {
+                                addNewCard(item, 1, "side");
+                              }}
+                            >
+                              Add to Side
+                            </Button>
+                            <Button
+                              variant="outlined"
+                              onClick={() => {
+                                addNewCommander(item);
+                              }}
+                            >
+                              Set Deck Image
+                            </Button>
+                          </div>
+                        </span>
+                      </li>
+                    ))}
+                </ul>
+              ) : cardList.length ? (
+                <div className="search__list"></div>
+              ) : (
+                <></>
+              )}
+            </section>
+            {/* </Card> */}
+          </div>
+          <div className="section__card section__card--import">
+            {/* <Card className="deck__card"> */}
+            <section className="deck__actions deck__actions--top">
+              <div className="deck__action deck__action--info">
+                <h3 className="deck__action-title">Add card(s) from list:</h3>
+              </div>
+              <div className="deck__action deck__action--search">
+                <TextField
+                  label="Import cards from list"
+                  variant="outlined"
+                  name="importCards"
+                  multiline
+                  value={importCards}
+                  onChange={handleFormOnChange}
+                />
+              </div>
+              <div className="deck__import">
+                <Button variant="contained" color="primary" onClick={runImport}>
+                  Import
+                </Button>
+              </div>
+            </section>
+            {/* </Card> */}
           </div>
         </>
       ) : (
