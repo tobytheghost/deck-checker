@@ -88,10 +88,18 @@ function Profile() {
                           <div className="profile__image">
                             <img
                               width="488"
-                              key={deck.commander_image}
+                              key={deck.data.timestamp.seconds}
                               className="profile__commander"
-                              src={deck.data.commander_image}
-                              alt={deck.data.commander_name}
+                              src={
+                                deck.data.commander_image
+                                  ? deck.data.commander_image
+                                  : "/card_back.jpg"
+                              }
+                              alt={
+                                deck.data.commander_name
+                                  ? deck.data.commander_name
+                                  : deck.data.deck_name
+                              }
                             />
                           </div>
                         </Link>

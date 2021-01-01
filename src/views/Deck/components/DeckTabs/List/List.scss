@@ -109,6 +109,14 @@
       box-shadow: none;
     }
   }
+  &__mana-split {
+    display: flex;
+    width: 1.3em;
+    height: 1.3em;
+    place-content: center;
+    place-items: center;
+    margin-left: 0.2rem;
+  }
   &__card-name {
     margin-right: 1rem;
   }

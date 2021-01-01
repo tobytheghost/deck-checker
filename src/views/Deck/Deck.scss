@@ -116,6 +116,9 @@
         }
       }
     }
+    &--bottom {
+      margin-top: 1rem;
+    }
   }
   &__action-title {
     padding: 0;
@@ -175,5 +178,8 @@
   }
   &__name-input {
     margin-bottom: 1rem !important;
+  }
+  &__import {
+    margin-top: 1rem;
   }
 }

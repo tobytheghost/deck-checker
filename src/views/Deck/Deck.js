@@ -19,6 +19,7 @@ function Deck() {
   const [list, setList] = useState({});
   const [canEdit, setCanEdit] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [loadingMessage, setLoadingMessage] = useState("");
   const [isNewDeck, setIsNewDeck] = useState(false);
   const [isError, setIsError] = useState(false);
   const { deckId } = useParams();
@@ -35,6 +36,10 @@ function Deck() {
     loading,
     setLoading,
   ]);
+  const providerLoadingMessage = useMemo(
+    () => ({ loadingMessage, setLoadingMessage }),
+    [loadingMessage, setLoadingMessage]
+  );
   const providerIsNewDeck = useMemo(() => ({ isNewDeck, setIsNewDeck }), [
     isNewDeck,
     setIsNewDeck,
@@ -61,8 +66,11 @@ function Deck() {
         if (location.pathname === "/add-deck") {
           const newList = {
             main: [],
+            main_quantity: 0,
             side: [],
+            side_quantity: 0,
             maybe: [],
+            maybe_quantity: 0,
           };
           const newDeck = {
             deck_name: "",
@@ -100,11 +108,17 @@ function Deck() {
             providerList,
             providerCanEdit,
             providerLoading,
+            providerLoadingMessage,
             providerIsNewDeck,
           }}
         >
           {loading ? (
             <div className="section__loading">
+              {loadingMessage ? (
+                <div className="section__loading-message">{loadingMessage}</div>
+              ) : (
+                ""
+              )}
               <CircularProgress />
             </div>
           ) : (

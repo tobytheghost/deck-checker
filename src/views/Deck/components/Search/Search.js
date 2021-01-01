@@ -12,11 +12,14 @@ function Search(props) {
     providerList: { list, setList },
     providerCanEdit: { canEdit },
     providerIsNewDeck: { isNewDeck },
+    providerLoading: { setLoading },
+    providerLoadingMessage: { setLoadingMessage },
   } = useContext(DeckContext);
 
   const [cardList, setCardList] = useState([]);
   const [searching, setSearching] = useState(false);
   const [addCard, setAddCard] = useState("");
+  const [importCards, setImportCards] = useState();
   // eslint-disable-next-line
   const [deckName, setDeckName] = useState("");
 
@@ -31,6 +34,9 @@ function Search(props) {
         break;
       case "addCard":
         setAddCard(value);
+        break;
+      case "importCards":
+        setImportCards(value);
         break;
       default:
         break;
@@ -56,10 +62,7 @@ function Search(props) {
       });
   };
 
-  const addNewCommander = (item, board = "main", limit = 1) => {
-    //const updatedList = addCardToDeck(list, item, board, limit);
-    //console.log(item);
-    //setList(updatedList);
+  const addNewCommander = (item, quantity = 1, board = "main", limit = 1) => {
     let updatedDeck;
     if (item.layout === "transform") {
       updatedDeck = {
@@ -88,8 +91,8 @@ function Search(props) {
     setDeck(updatedDeck);
   };
 
-  const addNewCard = (item, board = "main", limit = null) => {
-    const updatedList = addCardToDeck(list, item, board, limit);
+  const addNewCard = (item, quantity = 1, board = "main", limit = null) => {
+    const updatedList = addCardToDeck(list, item, quantity, board, limit);
     setList(updatedList);
     const updatedDeck = {
       deck_name: deck.deck_name,
@@ -108,6 +111,87 @@ function Search(props) {
     setCardList([]);
   };
 
+  const importCard = (cardName, quantity, board = "main") => {
+    const url = "https://api.scryfall.com/cards/named?fuzzy=";
+    fetch(url + cardName)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("404");
+        } else {
+          return response.json();
+        }
+      })
+      .then((data) => {
+        addNewCard(data, quantity, board);
+      })
+      .catch((error) => {});
+  };
+
+  const throttledProcess = (items, numberOfCards, interval) => {
+    if (items.length === 0) {
+      setLoadingMessage("");
+      setLoading(false);
+      return;
+    }
+    setLoadingMessage(
+      "Importing card list ... " +
+        (items.length - numberOfCards) * -1 +
+        " of " +
+        numberOfCards
+    );
+
+    importCard(items[0].name, items[0].quantity, items[0].board);
+
+    setTimeout(
+      () => throttledProcess(items.slice(1), numberOfCards, interval), // wrap in an arrow function to defer evaluation
+      interval
+    );
+  };
+
+  const runImport = () => {
+    setLoadingMessage("Importing card list ... ");
+    setLoading(true);
+    let board = "main";
+    let importList = [];
+    importCards
+      .replace(/\r\n/g, "\n")
+      .split("\n")
+      .map((line) => {
+        const lineItem = line.trim();
+        console.log(lineItem);
+        if (lineItem === "" || lineItem.toLowerCase() === "sideboard") {
+          board = "side";
+          return true;
+        }
+        const lineItemSplit = lineItem.match(/^(\S+)\s(.*)/);
+        if (!lineItemSplit) {
+          return true;
+        }
+        const lineItemArray = lineItemSplit.slice(1);
+        if (lineItemArray.length !== 2) {
+          return true;
+        }
+        const quantity = parseInt(lineItemArray[0]);
+        if (isNaN(quantity)) {
+          return true;
+        }
+        const name = lineItemArray[1];
+        importList.push({ quantity: quantity, name: name, board: board });
+        return true;
+      });
+    // console.log(importList);
+
+    const numberOfCards = importList.length;
+
+    if (!numberOfCards) {
+      return;
+    }
+
+    setLoadingMessage("Importing card list ... 0 of " + numberOfCards);
+
+    throttledProcess(importList, numberOfCards, 200);
+  };
+
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       if (addCard.length > 2) {
@@ -121,91 +205,125 @@ function Search(props) {
   return (
     <>
       {canEdit || isNewDeck ? (
-        <div className="section__card section__card--search">
-          <Card className="deck__card">
-            <section className="deck__actions deck__actions--top">
-              <div className="deck__action deck__action--info">
-                <h3 className="deck__action-title">Add Card(s) to deck:</h3>
-              </div>
-              <div className="deck__action deck__action--search">
-                <TextField
-                  label="Search"
-                  variant="outlined"
-                  name="addCard"
-                  type="text"
-                  placeholder="Search Cards ..."
-                  value={addCard}
-                  onChange={handleFormOnChange}
-                />
-                <div className="deck__clear-button">
-                  <Button
+        <>
+          <div className="section__card section__card--search">
+            <Card className="deck__card">
+              <section className="deck__actions deck__actions--top">
+                <div className="deck__action deck__action--info">
+                  <h3 className="deck__action-title">
+                    Add card(s) using search:
+                  </h3>
+                </div>
+                <div className="deck__action deck__action--search">
+                  <TextField
+                    label="Search"
                     variant="outlined"
+                    name="addCard"
+                    type="text"
+                    placeholder="Search Cards ..."
+                    value={addCard}
+                    onChange={handleFormOnChange}
+                  />
+                  <div className="deck__clear-button">
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      onClick={clearSearch}
+                    >
+                      Clear Search
+                    </Button>
+                  </div>
+                </div>
+                {searching ? (
+                  <div className="deck__search-list">Searching ...</div>
+                ) : addCard.length > 2 && cardList.length > 0 ? (
+                  <ul className="deck__search-list">
+                    {cardList
+                      .filter((item, i) => {
+                        if (!addCard) return true;
+                        if (
+                          item.name
+                            .toLowerCase()
+                            .includes(addCard.toLowerCase())
+                        ) {
+                          return true;
+                        }
+                        return false;
+                      })
+                      .slice(0, 100)
+                      .map((item, i) => (
+                        <li className="deck__search-item" key={i}>
+                          <span>
+                            <div className="deck__search-name">{item.name}</div>
+                            <div className="deck__search-buttons">
+                              <Button
+                                variant="outlined"
+                                color="primary"
+                                onClick={() => {
+                                  addNewCard(item);
+                                }}
+                              >
+                                Add to Main
+                              </Button>
+                              <Button
+                                variant="outlined"
+                                color="primary"
+                                onClick={() => {
+                                  addNewCard(item, 1, "side");
+                                }}
+                              >
+                                Add to Side
+                              </Button>
+                              <Button
+                                variant="outlined"
+                                onClick={() => {
+                                  addNewCommander(item);
+                                }}
+                              >
+                                Set Deck Image
+                              </Button>
+                            </div>
+                          </span>
+                        </li>
+                      ))}
+                  </ul>
+                ) : cardList.length ? (
+                  <div className="search__list"></div>
+                ) : (
+                  <></>
+                )}
+              </section>
+            </Card>
+          </div>
+          <div className="section__card section__card--import">
+            <Card className="deck__card">
+              <section className="deck__actions deck__actions--top">
+                <div className="deck__action deck__action--info">
+                  <h3 className="deck__action-title">Add card(s) from list:</h3>
+                </div>
+                <div className="deck__action deck__action--search">
+                  <TextField
+                    label="Import cards from list"
+                    variant="outlined"
+                    name="importCards"
+                    multiline
+                    value={importCards}
+                    onChange={handleFormOnChange}
+                  />
+                </div>
+                <div className="deck__import">
+                  <Button
+                    variant="contained"
                     color="primary"
-                    onClick={clearSearch}
+                    onClick={runImport}
                   >
-                    Clear Search
+                    Import
                   </Button>
                 </div>
-              </div>
-              {searching ? (
-                <div className="deck__search-list">Searching ...</div>
-              ) : addCard.length > 2 && cardList.length > 0 ? (
-                <ul className="deck__search-list">
-                  {cardList
-                    .filter((item, i) => {
-                      if (!addCard) return true;
-                      if (
-                        item.name.toLowerCase().includes(addCard.toLowerCase())
-                      ) {
-                        return true;
-                      }
-                      return false;
-                    })
-                    .slice(0, 100)
-                    .map((item, i) => (
-                      <li className="deck__search-item" key={i}>
-                        <span>
-                          <div className="deck__search-name">{item.name}</div>
-                          <div className="deck__search-buttons">
-                            <Button
-                              variant="outlined"
-                              color="primary"
-                              onClick={() => {
-                                addNewCard(item);
-                              }}
-                            >
-                              Add to Main
-                            </Button>
-                            <Button
-                              variant="outlined"
-                              color="primary"
-                              onClick={() => {
-                                addNewCard(item, "side");
-                              }}
-                            >
-                              Add to Side
-                            </Button>
-                            <Button
-                              variant="outlined"
-                              onClick={() => {
-                                addNewCommander(item);
-                              }}
-                            >
-                              Set Deck Image
-                            </Button>
-                          </div>
-                        </span>
-                      </li>
-                    ))}
-                </ul>
-              ) : cardList.length ? (
-                <div className="search__list"></div>
-              ) : (
-                <></>
-              )}
-            </section>
-          </Card>
-        </div>
+              </section>
+            </Card>
+          </div>
+        </>
       ) : (
         <></>
       )}

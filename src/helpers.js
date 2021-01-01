@@ -1,7 +1,7 @@
 const parseTextForSymbols = (text) => {
   const regex = /{(.*?)}/g;
   let parsedCost = [];
-  text.replaceAll(regex, function (match, string) {
+  text.replace(" // ", "{|}").replaceAll(regex, function (match, string) {
     // return `<i class="ms ms-${string.toLowerCase()}"></i>`;
     parsedCost.push(string.toLowerCase().replace("/", ""));
   });
@@ -48,13 +48,19 @@ const checkCardType = (card) => {
   }
 };
 
-const addCardToDeck = (list, item, board = "main", limit = null) => {
-  // console.log(item);
-  //console.log(list, item);
+const addCardToDeck = (
+  list,
+  item,
+  quantity = 1,
+  board = "main",
+  limit = null
+) => {
   let newDeck = list;
   const cardType = checkCardType(item);
   let checkExistingType = false;
   let typeKey = null;
+
+  newDeck[board + "_quantity"] = newDeck[board + "_quantity"] + quantity;
 
   for (let i = 0; i < newDeck[board].length; i++) {
     if (newDeck[board][i].type === cardType) {
@@ -77,9 +83,10 @@ const addCardToDeck = (list, item, board = "main", limit = null) => {
     }
 
     if (checkExisting && itemKey != null) {
-      if (!limit || limit > newDeck[board][typeKey].cards[itemKey].quantity) {
-        newDeck[board][typeKey].cards[itemKey].quantity++;
-      }
+      // if (!limit || limit > newDeck[board][typeKey].cards[itemKey].quantity) {
+      newDeck[board][typeKey].cards[itemKey].quantity =
+        newDeck[board][typeKey].cards[itemKey].quantity + quantity;
+      // }
     } else {
       if (item.layout === "transform") {
         newDeck[board][typeKey].cards.push({
@@ -87,7 +94,7 @@ const addCardToDeck = (list, item, board = "main", limit = null) => {
           cmc: item.cmc,
           mana_cost: item.card_faces[0].mana_cost,
           image: item.card_faces[0].image_uris.normal,
-          quantity: 1,
+          quantity: quantity,
         });
       } else {
         newDeck[board][typeKey].cards.push({
@@ -95,13 +102,14 @@ const addCardToDeck = (list, item, board = "main", limit = null) => {
           cmc: item.cmc,
           mana_cost: item.mana_cost,
           image: item.image_uris.normal,
-          quantity: 1,
+          quantity: quantity,
         });
       }
     }
-    if (!limit || (limit > newDeck[board][typeKey].quantity && checkExisting)) {
-      newDeck[board][typeKey].quantity++;
-    }
+    // if (!limit || (limit > newDeck[board][typeKey].quantity && checkExisting)) {
+    newDeck[board][typeKey].quantity =
+      newDeck[board][typeKey].quantity + quantity;
+    // }
 
     newDeck[board][typeKey].cards
       .sort((a, b) => {
@@ -126,28 +134,28 @@ const addCardToDeck = (list, item, board = "main", limit = null) => {
     if (item.layout === "transform") {
       newDeck[board].push({
         type: cardType,
-        quantity: 1,
+        quantity: quantity,
         cards: [
           {
             name: item.name,
             cmc: item.cmc,
             mana_cost: item.card_faces[0].mana_cost,
             image: item.card_faces[0].image_uris.normal,
-            quantity: 1,
+            quantity: quantity,
           },
         ],
       });
     } else {
       newDeck[board].push({
         type: cardType,
-        quantity: 1,
+        quantity: quantity,
         cards: [
           {
             name: item.name,
             cmc: item.cmc,
             mana_cost: item.mana_cost,
             image: item.image_uris.normal,
-            quantity: 1,
+            quantity: quantity,
           },
         ],
       });
