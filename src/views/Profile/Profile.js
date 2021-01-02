@@ -19,9 +19,10 @@ function Profile() {
 
   useEffect(() => {
     const unsubscribe = db
-      .collection("users")
-      .doc(userId)
+      // .collection("users")
+      // .doc(userId)
       .collection("decks")
+      .where("user_id", "==", userId)
       .onSnapshot((snapshot) => {
         setDecks(
           snapshot.docs.map((doc) => ({

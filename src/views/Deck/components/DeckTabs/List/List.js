@@ -52,8 +52,8 @@ function List() {
     providerCanEdit: { canEdit },
     providerLoading: { loading },
     providerIsNewDeck: { isNewDeck },
-    providerUpdateLog: { updateLog, setUpdateLog },
-    providerLog: { log, setLog },
+    //providerUpdateLog: { updateLog, setUpdateLog },
+    //providerLog: { log, setLog },
   } = useContext(DeckContext);
 
   const history = useHistory();
@@ -236,23 +236,23 @@ function List() {
       .delete()
       .then(function () {
         //console.log("Deck successfully deleted!");
-        history.push("/");
+        history.push("/u/" + user.uid);
       })
       .catch(function (error) {
         console.error("Error removing deck: ", error);
       });
-    db.collection("users")
-      .doc(user.uid)
-      .collection("decks")
-      .doc(deckId)
-      .delete()
-      .then(function () {
-        //console.log("User deck successfully deleted!");
-        history.push("/u/" + user.uid);
-      })
-      .catch(function (error) {
-        console.error("Error removing user deck: ", error);
-      });
+    // db.collection("users")
+    //   .doc(user.uid)
+    //   .collection("decks")
+    //   .doc(deckId)
+    //   .delete()
+    //   .then(function () {
+    //     //console.log("User deck successfully deleted!");
+    //     history.push("/u/" + user.uid);
+    //   })
+    //   .catch(function (error) {
+    //     console.error("Error removing user deck: ", error);
+    //   });
     handleSnackbarOpen("success", "Deck deleted!");
   };
 
@@ -269,17 +269,17 @@ function List() {
     };
     setDeck(updatedDeck);
 
-    db.collection("users")
-      .doc(user.uid)
-      .collection("decks")
-      .doc(deckId)
-      .update({
-        deck_name: deckName ? deckName : deck.deck_name,
-        commander_name: deck.commander_name,
-        commander_id: deck.commander_id,
-        commander_image: deck.commander_image,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      });
+    // db.collection("users")
+    //   .doc(user.uid)
+    //   .collection("decks")
+    //   .doc(deckId)
+    //   .update({
+    //     deck_name: deckName ? deckName : deck.deck_name,
+    //     commander_name: deck.commander_name,
+    //     commander_id: deck.commander_id,
+    //     commander_image: deck.commander_image,
+    //     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    //   });
     db.collection("decks")
       .doc(deckId)
       .update({
@@ -350,30 +350,31 @@ function List() {
     db.collection("decks")
       .add(data)
       .then((deck) => {
-        assignDeckToUser(deck, data);
+        //assignDeckToUser(deck, data);
         createNewLog(deck);
+        history.push("/d/" + deck.id);
       });
 
     handleSnackbarOpen("success", "Deck added!");
   };
 
-  const assignDeckToUser = (deck, data) => {
-    //console.log(deck, data);
-    db.collection("users")
-      .doc(user.uid)
-      .collection("decks")
-      .doc(deck.id)
-      .set({
-        deck_name: deckName ? deckName : data.commander_name,
-        commander_name: data.commander_name,
-        commander_id: data.commander_id,
-        commander_image: data.commander_image,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      })
-      .then(() => {
-        history.push("/d/" + deck.id);
-      });
-  };
+  // const assignDeckToUser = (deck, data) => {
+  //   //console.log(deck, data);
+  //   db.collection("users")
+  //     .doc(user.uid)
+  //     .collection("decks")
+  //     .doc(deck.id)
+  //     .set({
+  //       deck_name: deckName ? deckName : data.commander_name,
+  //       commander_name: data.commander_name,
+  //       commander_id: data.commander_id,
+  //       commander_image: data.commander_image,
+  //       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+  //     })
+  //     .then(() => {
+  //       history.push("/d/" + deck.id);
+  //     });
+  // };
 
   const createNewLog = (deck) => {
     db.collection("deckLogs").doc(deck.id).set({
