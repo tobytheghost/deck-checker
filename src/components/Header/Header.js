@@ -28,6 +28,13 @@ function Header() {
 
   return (
     <header className="header">
+      <Link to="/">
+        <div className="header__button header__logo">
+          <img src="/favicon.ico" />
+
+          <h1 className="header__title">Deck Checker</h1>
+        </div>
+      </Link>
       <button className="header__button header__hamburger" onClick={openMenu}>
         <MenuIcon />
       </button>

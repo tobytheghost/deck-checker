@@ -14,10 +14,15 @@ import {
   makeStyles,
   Modal,
   Snackbar,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Chip,
 } from "@material-ui/core";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import MuiAlert from "@material-ui/lab/Alert";
+import Select from "@material-ui/core/Select";
 import { Mana } from "@saeris/react-mana";
 import "./List.scss";
 
@@ -61,13 +66,16 @@ function List() {
 
   const [modalOpen, setModalOpen] = useState(false);
   const [modalStyle] = useState(getModalStyle);
-  const [deckName, setDeckName] = useState(deck.deck_name);
+  const [deckName, setDeckName] = useState(
+    deck.deck_name ? deck.deck_name : ""
+  );
   const [editTitle, setEditTitle] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [ratingWindowOpen, setRatingWindowOpen] = useState(false);
   const [currentRating, setCurrentRating] = useState(0);
   const [deckRating, setDeckRating] = useState(0);
   const [yourRating, setYourRating] = useState(0);
+  const [tag, setTag] = useState(deck.tag ? deck.tag : "");
 
   const classes = useStyles();
 
@@ -113,6 +121,7 @@ function List() {
       commander_image: deck.commander_image,
       user_id: deck.user_id,
       list: JSON.stringify(updatedList),
+      tag: deck.tag,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     };
     setDeck(updatedDeck);
@@ -167,6 +176,7 @@ function List() {
       commander_image: deck.commander_image,
       user_id: deck.user_id,
       list: JSON.stringify(updatedList),
+      tag: deck.tag,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     };
     setDeck(updatedDeck);
@@ -269,6 +279,7 @@ function List() {
       commander_image: deck.commander_image,
       user_id: deck.user_id,
       list: deck.list,
+      tag: tag ? tag : deck.tag,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     };
     setDeck(updatedDeck);
@@ -293,6 +304,7 @@ function List() {
         commander_image: deck.commander_image,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
         list: deck.list,
+        tag: tag ? tag : deck.tag,
       });
     // console.log(updateLog);
     // const updateLogDB = async () => {
@@ -348,6 +360,7 @@ function List() {
       commander_image: deck.commander_image,
       user_id: user.uid,
       list: deck.list,
+      tag: tag ? tag : deck.tag,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     };
 
@@ -450,7 +463,7 @@ function List() {
               rating = rating + data.rating;
               items++;
 
-              if (data.user_id === user.uid) {
+              if (user && data.user_id === user.uid) {
                 setYourRating(data.rating);
               }
 
@@ -467,6 +480,49 @@ function List() {
       fetch();
     }
   }, [deckId, user]);
+
+  const handleSelectChange = (e) => {
+    setTag(e.target.value);
+  };
+
+  const menuItems = [
+    {
+      label: "Brawl",
+      value: "brawl",
+    },
+    {
+      label: "EDH / Commander",
+      value: "edh",
+    },
+    {
+      label: "Historic",
+      value: "historic",
+    },
+    {
+      label: "Legacy",
+      value: "legacy",
+    },
+    {
+      label: "Modern",
+      value: "modern",
+    },
+    {
+      label: "Pauper",
+      value: "pauper",
+    },
+    {
+      label: "Pioneer",
+      value: "pioneer",
+    },
+    {
+      label: "Standard",
+      value: "standard",
+    },
+    {
+      label: "Vintage",
+      value: "vintage",
+    },
+  ];
 
   return (
     <>
@@ -497,6 +553,22 @@ function List() {
             )}
           </h2>
         )}
+        {tag ? (
+          <div className="deck__tags">
+            {console.log(tag.indexOf(" "))}
+            <Chip
+              className={
+                "deck__chip deck__chip--" +
+                (tag.indexOf("/") !== -1
+                  ? tag.slice(0, tag.indexOf(" ")).toLowerCase()
+                  : tag.toLowerCase())
+              }
+              label={tag}
+            />
+          </div>
+        ) : (
+          ""
+        )}
         <div className="deck__image">
           <img
             className="decks__commander"
@@ -511,6 +583,35 @@ function List() {
             key={deck.commander}
           />
         </div>
+        {canEdit ? (
+          <div className="deck__tag">
+            <FormControl variant="outlined" className={classes.formControl}>
+              <InputLabel id="demo-simple-select-outlined-label">
+                Format
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-outlined-label"
+                id="demo-simple-select-outlined"
+                value={tag}
+                onChange={handleSelectChange}
+                label="Format"
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {menuItems.map((item, i) => {
+                  return (
+                    <MenuItem key={i} value={item.label}>
+                      {item.label}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </div>
+        ) : (
+          ""
+        )}
         {!isNewDeck ? (
           <>
             <div className="deck__deck-header">
@@ -521,14 +622,18 @@ function List() {
                 </div>
               </div>
             </div>
-            <div className="deck__deck-header">
-              <h3 className="deck__power-rating">Your Rating: </h3>
-              <div className="deck__rating">
-                <div className="deck__score">
-                  {yourRating ? yourRating : "-"}
+            {user ? (
+              <div className="deck__deck-header">
+                <h3 className="deck__power-rating">Your Rating: </h3>
+                <div className="deck__rating">
+                  <div className="deck__score">
+                    {yourRating ? yourRating : "-"}
+                  </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <></>
+            )}
             {user ? (
               <>
                 <div className="deck-rating">

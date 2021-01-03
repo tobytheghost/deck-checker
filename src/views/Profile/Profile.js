@@ -8,7 +8,7 @@ import { useStateValue } from "../../StateProvider";
 import { setRating } from "../../helpers";
 
 // Styles
-import { Card, Button, Snackbar } from "@material-ui/core";
+import { Card, Button, Snackbar, Chip } from "@material-ui/core";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -211,6 +211,23 @@ function Profile() {
                             </div>
                           </div>
                         </div>
+                        {deck.data.tag ? (
+                          <div className="profile__tags">
+                            <Chip
+                              className={
+                                "profile__chip profile__chip--" +
+                                (deck.data.tag.indexOf("/") !== -1
+                                  ? deck.data.tag
+                                      .slice(0, deck.data.tag.indexOf(" "))
+                                      .toLowerCase()
+                                  : deck.data.tag.toLowerCase())
+                              }
+                              label={deck.data.tag}
+                            />
+                          </div>
+                        ) : (
+                          ""
+                        )}
                         <Link to={`/d/${deck.id}`}>
                           <div className="profile__image">
                             <img

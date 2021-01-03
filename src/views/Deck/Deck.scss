@@ -48,7 +48,7 @@
   &__name {
     padding: 0;
     margin: 0;
-    padding-bottom: 1rem;
+    padding-bottom: 0.5rem;
     font-size: 1.25rem;
     display: flex;
     place-content: space-between;
@@ -206,5 +206,44 @@
   &__power-rating {
     margin: 0;
     padding: 0;
+  }
+  &__tags {
+    margin-bottom: 0.5rem;
+  }
+  &__tag {
+    width: 100%;
+    .MuiFormControl-root {
+      margin-bottom: 1rem;
+      width: 100%;
+    }
+  }
+  &__chip {
+    &--edh {
+      background-color: #ffb74d !important;
+    }
+    &--legacy {
+      background-color: #9575cd !important;
+    }
+    &--modern {
+      background-color: #81c784 !important;
+    }
+    &--pauper {
+      background-color: #e0e0e0 !important;
+    }
+    &--standard {
+      background-color: #e57373 !important;
+    }
+    &--vintage {
+      background-color: #4dd0e1 !important;
+    }
+    &--pioneer {
+      background-color: #64b5f6 !important;
+    }
+    &--brawl {
+      background-color: #a1887f !important;
+    }
+    &--historic {
+      background-color: #90a4ae !important;
+    }
   }
 }

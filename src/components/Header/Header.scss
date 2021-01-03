@@ -6,6 +6,12 @@
   //left: 0;
   //right: 0;
   background: #fff;
+  display: flex;
+  flex-wrap: wrap;
+  > a {
+    text-decoration: none;
+    color: inherit;
+  }
   &__menu {
     padding: 0;
     list-style: none;
@@ -59,5 +65,19 @@
   &__hamburger {
     margin: 1rem;
     margin-left: auto;
+  }
+  &__logo {
+    margin: 1rem;
+    img {
+      width: 32px;
+      height: 32px;
+    }
+  }
+  &__title {
+    padding: 0;
+    margin: 0;
+    font-size: 1.75rem;
+    line-height: 2rem;
+    margin-left: 0.5rem;
   }
 }

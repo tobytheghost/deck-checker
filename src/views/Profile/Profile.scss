@@ -155,9 +155,11 @@
   // }
   &__deck-header {
     display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     justify-content: space-between;
+  }
+  &__tags {
+    margin-bottom: 0.5rem;
   }
   &__rating {
     width: 3rem;
@@ -171,6 +173,35 @@
   &__add-score {
     text-align: center;
     margin-top: 1rem;
+  }
+  &__chip {
+    &--edh {
+      background-color: #ffb74d !important;
+    }
+    &--legacy {
+      background-color: #9575cd !important;
+    }
+    &--modern {
+      background-color: #81c784 !important;
+    }
+    &--pauper {
+      background-color: #e0e0e0 !important;
+    }
+    &--standard {
+      background-color: #e57373 !important;
+    }
+    &--vintage {
+      background-color: #4dd0e1 !important;
+    }
+    &--pioneer {
+      background-color: #64b5f6 !important;
+    }
+    &--brawl {
+      background-color: #a1887f !important;
+    }
+    &--historic {
+      background-color: #90a4ae !important;
+    }
   }
 }
 
