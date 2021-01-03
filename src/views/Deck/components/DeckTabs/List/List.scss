@@ -139,3 +139,64 @@
     }
   }
 }
+
+.deck-rating {
+  &__info {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  &__rating {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-color: #efefef;
+    display: flex;
+    place-items: center;
+    place-content: center;
+  }
+  &__add-score {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  &__score {
+    font-size: 2rem;
+    text-align: center;
+  }
+  &__buttons {
+    display: flex;
+    place-content: center;
+    place-items: center;
+  }
+  &__button {
+    cursor: pointer;
+    &.MuiSvgIcon-root {
+      width: 2em;
+      height: 2em;
+      font-size: 1.5em;
+      margin: 1rem;
+    }
+    &--add {
+      color: #0277bd;
+      &:hover {
+        color: #004c8c;
+      }
+    }
+    &--subtract {
+      color: #f44336;
+      &:hover {
+        color: #aa2e25;
+      }
+    }
+  }
+  &__actions {
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+    button {
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+    }
+  }
+}

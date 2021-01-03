@@ -183,4 +183,28 @@
   &__import {
     margin-top: 1rem;
   }
+  &__score {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  &__deck-header {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    place-items: center;
+    justify-content: space-between;
+  }
+  &__rating {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: #efefef;
+    display: flex;
+    place-items: center;
+    place-content: center;
+  }
+  &__power-rating {
+    margin: 0;
+    padding: 0;
+  }
 }

@@ -1,3 +1,5 @@
+import db from "./firebase";
+
 const parseTextForSymbols = (text) => {
   const regex = /{(.*?)}/g;
   let parsedCost = [];
@@ -175,4 +177,36 @@ const addCardToDeck = (
   return newDeck;
 };
 
-export { parseTextForSymbols, convertQR, checkCardType, addCardToDeck };
+// const getDeckRatings = (deckId) => {
+//   const ratingsRef = db.collection("ratings").where("deck_id", "==", deckId);
+//   return ratingsRef.onSnapshot((snapshot) => {
+//     if (snapshot.metadata.fromCache) {
+//       console.log(true);
+//     } else {
+//       console.log(false);
+//     }
+//     return snapshot.docs.map((doc) => ({
+//       id: doc.id,
+//       data: doc.data(),
+//     }));
+//   });
+// };
+
+const setRating = async (userId, deckId, value) => {
+  const rating = { user_id: userId, deck_id: deckId, rating: value };
+  const docRef = db.collection("ratings").doc(deckId + "_" + userId);
+  const doc = await docRef.get();
+  if (doc.exists) {
+    docRef.update(rating);
+  } else {
+    docRef.set(rating);
+  }
+};
+
+export {
+  parseTextForSymbols,
+  convertQR,
+  checkCardType,
+  addCardToDeck,
+  setRating,
+};

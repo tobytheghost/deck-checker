@@ -138,21 +138,104 @@
   &__name {
     margin: 0;
     padding: 0;
-    text-align: center;
+    //text-align: center;
     padding-bottom: 0.5rem;
     font-size: 1.25rem;
   }
   &__score {
-    padding: 0.5rem;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     text-align: center;
   }
   &__date {
     font-size: 0.75rem;
-    text-align: center;
-    margin-bottom: 1rem;
+    //text-align: center;
   }
   // &__card {
   //   background-color: #fefefe;
   // }
+  &__deck-header {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    justify-content: space-between;
+  }
+  &__rating {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: #efefef;
+    display: flex;
+    place-items: center;
+    place-content: center;
+  }
+  &__add-score {
+    text-align: center;
+    margin-top: 1rem;
+  }
+}
+
+.rating {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  display: flex;
+  place-items: center;
+  place-content: center;
+  padding: 1rem;
+  flex-direction: column;
+  &__info {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  &__rating {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-color: #efefef;
+    display: flex;
+    place-items: center;
+    place-content: center;
+  }
+  &__score {
+    font-size: 2rem;
+    text-align: center;
+  }
+  &__buttons {
+    display: flex;
+    place-content: center;
+    place-items: center;
+  }
+  &__button {
+    cursor: pointer;
+    &.MuiSvgIcon-root {
+      width: 2em;
+      height: 2em;
+      font-size: 1.5em;
+      margin: 1rem;
+    }
+    &--add {
+      color: #0277bd;
+      &:hover {
+        color: #004c8c;
+      }
+    }
+    &--subtract {
+      color: #f44336;
+      &:hover {
+        color: #aa2e25;
+      }
+    }
+  }
+  &__actions {
+    margin-top: 2rem;
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+    button {
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+    }
+  }
 }

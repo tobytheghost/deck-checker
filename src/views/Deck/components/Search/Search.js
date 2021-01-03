@@ -4,7 +4,7 @@ import firebase from "firebase";
 import { DeckContext } from "../../Deck";
 import { addCardToDeck } from "../../../../helpers";
 
-import { Card, TextField, Button } from "@material-ui/core";
+import { TextField, Button } from "@material-ui/core";
 
 function Search(props) {
   const {
