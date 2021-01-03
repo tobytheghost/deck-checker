@@ -30,9 +30,6 @@ const checkCardType = (card) => {
   if (types.includes("Creature")) {
     return "Creatures";
   }
-  if (types.includes("Land")) {
-    return "Lands";
-  }
   if (types.includes("Instant")) {
     return "Instants";
   }
@@ -47,6 +44,9 @@ const checkCardType = (card) => {
   }
   if (types.includes("Planeswalker")) {
     return "Planeswalkers";
+  }
+  if (types.includes("Land")) {
+    return "Lands";
   }
 };
 
