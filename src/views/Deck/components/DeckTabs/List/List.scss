@@ -11,6 +11,7 @@
     padding-right: 1.5rem;
     @media (max-width: 768px) {
       width: 100%;
+      padding-right: 0.5rem;
     }
     &--title {
       column-span: all;
@@ -33,13 +34,19 @@
   &__main {
     flex: 1;
     margin-bottom: 1rem;
-    columns: 2;
+    columns: 3;
     -moz-column-fill: auto;
     column-fill: auto;
     > div {
       -webkit-column-break-inside: avoid;
       page-break-inside: avoid;
       break-inside: avoid;
+    }
+    @media (max-width: 1700px) {
+      columns: 2;
+    }
+    @media (max-width: 1300px) {
+      columns: 1;
     }
     @media (max-width: 768px) {
       width: 100%;

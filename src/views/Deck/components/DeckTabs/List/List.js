@@ -747,12 +747,12 @@ function List() {
                             >
                               <span className="decklist__quantity">
                                 {canEdit || isNewDeck ? (
-                                  <AddCircleIcon
-                                    className="decklist__button decklist__button--add"
+                                  <RemoveCircleIcon
+                                    className="decklist__button decklist__button--remove"
                                     onClick={() =>
-                                      addCard(card, key, sectionKey, cardKey)
+                                      removeCard(card, key, sectionKey, cardKey)
                                     }
-                                  ></AddCircleIcon>
+                                  ></RemoveCircleIcon>
                                 ) : (
                                   <></>
                                 )}
@@ -760,12 +760,12 @@ function List() {
                                   {card.quantity}
                                 </span>
                                 {canEdit || isNewDeck ? (
-                                  <RemoveCircleIcon
-                                    className="decklist__button decklist__button--remove"
+                                  <AddCircleIcon
+                                    className="decklist__button decklist__button--add"
                                     onClick={() =>
-                                      removeCard(card, key, sectionKey, cardKey)
+                                      addCard(card, key, sectionKey, cardKey)
                                     }
-                                  ></RemoveCircleIcon>
+                                  ></AddCircleIcon>
                                 ) : (
                                   <></>
                                 )}

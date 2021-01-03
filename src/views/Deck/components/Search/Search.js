@@ -213,6 +213,9 @@ function Search(props) {
                 <h3 className="deck__action-title">
                   Add card(s) using search:
                 </h3>
+                <div className="deck__action-info">
+                  Search for cards using the card database.
+                </div>
               </div>
               <div className="deck__action deck__action--search">
                 <TextField
@@ -298,6 +301,16 @@ function Search(props) {
             <section className="deck__actions deck__actions--top">
               <div className="deck__action deck__action--info">
                 <h3 className="deck__action-title">Add card(s) from list:</h3>
+                <div className="deck__action-info">
+                  Import cards in the following format:{" "}
+                  <pre>
+                    1 Forest
+                    <br />1 Island
+                    <br />1 Swamp
+                  </pre>
+                  Cards listed below a blank line or the word `Sideboard` will
+                  add to the sideboard.
+                </div>
               </div>
               <div className="deck__action deck__action--search">
                 <TextField
