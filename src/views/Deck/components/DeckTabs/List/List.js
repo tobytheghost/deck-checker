@@ -370,7 +370,7 @@ function List() {
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     };
 
-    console.log(data);
+    //console.log(data);
 
     db.collection("decks")
       .add(data)
