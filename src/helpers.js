@@ -192,8 +192,13 @@ const addCardToDeck = (
 //   });
 // };
 
-const setRating = async (userId, deckId, value) => {
-  const rating = { user_id: userId, deck_id: deckId, rating: value };
+const setRating = async (userId, deckId, ownerId, value) => {
+  const rating = {
+    user_id: userId,
+    deck_id: deckId,
+    rating: value,
+    owner_id: ownerId,
+  };
   const docRef = db.collection("ratings").doc(deckId + "_" + userId);
   const doc = await docRef.get();
   if (doc.exists) {

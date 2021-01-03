@@ -425,7 +425,7 @@ function List() {
   };
 
   const submitRating = (deckId) => {
-    setRating(user.uid, deckId, currentRating);
+    setRating(user.uid, userId, deckId, currentRating);
     //setCurrentRating(deckRating);
     setRatingWindowOpen(false);
   };

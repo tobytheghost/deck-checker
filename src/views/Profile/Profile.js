@@ -68,7 +68,7 @@ function Profile() {
   };
 
   const submitRating = (deckId) => {
-    setRating(user.uid, deckId, currentRating);
+    setRating(user.uid, userId, deckId, currentRating);
     setRatingWindow(-1);
   };
 
@@ -100,43 +100,45 @@ function Profile() {
   useEffect(() => {
     if (decks.length > 0) {
       const fetch = async () => {
-        db.collection("ratings").onSnapshot((snapshot) => {
-          if (snapshot.metadata.fromCache) {
-            console.log(true);
-          } else {
-            console.log(false);
-          }
-          let ratings = [];
-          snapshot.docs.map((doc, i) => {
-            const data = doc.data();
-            //console.log(data);
-            if (ratings[data.deck_id]) {
-              ratings[data.deck_id].rating =
-                ratings[data.deck_id].rating + data.rating;
-              ratings[data.deck_id].items++;
+        db.collection("ratings")
+          .where("owner_id", "==", userId)
+          .onSnapshot((snapshot) => {
+            if (snapshot.metadata.fromCache) {
+              console.log(true);
             } else {
-              ratings[data.deck_id] = {};
-              ratings[data.deck_id].rating = data.rating;
-              ratings[data.deck_id].items = 1;
+              console.log(false);
             }
-
-            if (i + 1 === snapshot.docs.length) {
-              let deckRatings = [];
-              for (const item in ratings) {
-                deckRatings[item] = Math.round(
-                  ratings[item].rating / ratings[item].items
-                );
+            let ratings = [];
+            snapshot.docs.map((doc, i) => {
+              const data = doc.data();
+              //console.log(data);
+              if (ratings[data.deck_id]) {
+                ratings[data.deck_id].rating =
+                  ratings[data.deck_id].rating + data.rating;
+                ratings[data.deck_id].items++;
+              } else {
+                ratings[data.deck_id] = {};
+                ratings[data.deck_id].rating = data.rating;
+                ratings[data.deck_id].items = 1;
               }
-              setDeckRatings(deckRatings);
-            }
-            return true;
+
+              if (i + 1 === snapshot.docs.length) {
+                let deckRatings = [];
+                for (const item in ratings) {
+                  deckRatings[item] = Math.round(
+                    ratings[item].rating / ratings[item].items
+                  );
+                }
+                setDeckRatings(deckRatings);
+              }
+              return true;
+            });
           });
-        });
       };
 
       fetch();
     }
-  }, [decks]);
+  }, [decks, userId]);
 
   //console.log("DeckRatings", deckRatings);
 
