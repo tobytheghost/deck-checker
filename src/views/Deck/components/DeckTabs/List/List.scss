@@ -5,13 +5,23 @@
   flex-direction: column;
   margin-left: -0.5rem;
   margin-right: -0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-bottom: 1rem;
+  @media (max-width: 768px) {
+    padding: 0;
+  }
+  > .MuiCard-root {
+    @media (max-width: 768px) {
+      border: none;
+    }
+  }
   &__section {
     padding-bottom: 1rem;
     padding-left: 0.5rem;
-    padding-right: 1.5rem;
+    padding-right: 0.5rem;
     @media (max-width: 768px) {
       width: 100%;
-      padding-right: 0.5rem;
     }
     &--title {
       column-span: all;
@@ -33,15 +43,12 @@
   }
   &__main {
     flex: 1;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     columns: 3;
     -moz-column-fill: auto;
     column-fill: auto;
-    > div {
-      // -webkit-column-break-inside: avoid;
-      // page-break-inside: avoid;
-      // break-inside: avoid;
-    }
+    padding: 0.5rem;
+    padding-top: 1rem;
     @media (max-width: 1700px) {
       columns: 2;
     }
@@ -50,6 +57,7 @@
     }
     @media (max-width: 768px) {
       width: 100%;
+      padding: 0;
       columns: 1;
     }
   }

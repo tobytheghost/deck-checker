@@ -18,6 +18,7 @@ import {
   MenuItem,
   FormControl,
   Chip,
+  Card,
 } from "@material-ui/core";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
@@ -714,100 +715,107 @@ function List() {
       <div className="deck__decklist">
         {!loading ? (
           <div className="decklist">
-            <div className="decklist__main">
-              {Object.keys(list).map((key) => (
-                <React.Fragment key={key}>
-                  {Array.isArray(list[key]) && list[key].length ? (
-                    <div className="decklist__section decklist__section--title">
-                      <h2 className="decklist__title">
-                        {getSectionTitle(key)} ({list[key + "_quantity"]})
-                      </h2>
-                    </div>
-                  ) : (
-                    <></>
-                  )}
-                  {Array.isArray(list[key]) &&
-                    list[key].map((section, sectionKey) => (
-                      <div
-                        className="decklist__section"
-                        key={section.type + section.quantity}
-                      >
-                        <h3 className="decklist__subtitle">
-                          {section.type} ({section.quantity})
-                        </h3>
-                        <ul>
-                          {section.cards.map((card, cardKey) => (
-                            <li
-                              className="decklist__item"
-                              key={cardKey}
-                              onMouseEnter={() => {
-                                setPreviewImage(card.image);
-                              }}
-                              onMouseLeave={() => {
-                                setPreviewImage("");
-                              }}
-                            >
-                              <span className="decklist__quantity">
-                                {canEdit || isNewDeck ? (
-                                  <RemoveCircleIcon
-                                    className="decklist__button decklist__button--remove"
-                                    onClick={() =>
-                                      removeCard(card, key, sectionKey, cardKey)
-                                    }
-                                  ></RemoveCircleIcon>
-                                ) : (
-                                  <></>
-                                )}
-                                <span className="decklist__quantity-number">
-                                  {card.quantity}
-                                </span>
-                                {canEdit || isNewDeck ? (
-                                  <AddCircleIcon
-                                    className="decklist__button decklist__button--add"
-                                    onClick={() =>
-                                      addCard(card, key, sectionKey, cardKey)
-                                    }
-                                  ></AddCircleIcon>
-                                ) : (
-                                  <></>
-                                )}
-                              </span>
-                              <span className="decklist__card-name">
-                                {card.name}
-                              </span>
-                              <span className="decklist__mana">
-                                {card.mana_cost
-                                  ? parseTextForSymbols(card.mana_cost).map(
-                                      (item, i) => {
-                                        if (item === "|") {
-                                          return (
-                                            <span className="decklist__mana-split">
-                                              {"//"}
-                                            </span>
-                                          );
-                                        } else {
-                                          return (
-                                            <Mana
-                                              key={i}
-                                              symbol={item}
-                                              shadow
-                                              fixed
-                                              size="1x"
-                                            />
-                                          );
-                                        }
-                                      }
-                                    )
-                                  : ""}
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
+            <Card variant="outlined">
+              <div className="decklist__main">
+                {Object.keys(list).map((key) => (
+                  <React.Fragment key={key}>
+                    {Array.isArray(list[key]) && list[key].length ? (
+                      <div className="decklist__section decklist__section--title">
+                        <h2 className="decklist__title">
+                          {getSectionTitle(key)} ({list[key + "_quantity"]})
+                        </h2>
                       </div>
-                    ))}
-                </React.Fragment>
-              ))}
-            </div>
+                    ) : (
+                      <></>
+                    )}
+                    {Array.isArray(list[key]) &&
+                      list[key].map((section, sectionKey) => (
+                        <div
+                          className="decklist__section"
+                          key={section.type + section.quantity}
+                        >
+                          <h3 className="decklist__subtitle">
+                            {section.type} ({section.quantity})
+                          </h3>
+                          <ul>
+                            {section.cards.map((card, cardKey) => (
+                              <li
+                                className="decklist__item"
+                                key={cardKey}
+                                onMouseEnter={() => {
+                                  setPreviewImage(card.image);
+                                }}
+                                onMouseLeave={() => {
+                                  setPreviewImage("");
+                                }}
+                              >
+                                <span className="decklist__quantity">
+                                  {canEdit || isNewDeck ? (
+                                    <RemoveCircleIcon
+                                      className="decklist__button decklist__button--remove"
+                                      onClick={() =>
+                                        removeCard(
+                                          card,
+                                          key,
+                                          sectionKey,
+                                          cardKey
+                                        )
+                                      }
+                                    ></RemoveCircleIcon>
+                                  ) : (
+                                    <></>
+                                  )}
+                                  <span className="decklist__quantity-number">
+                                    {card.quantity}
+                                  </span>
+                                  {canEdit || isNewDeck ? (
+                                    <AddCircleIcon
+                                      className="decklist__button decklist__button--add"
+                                      onClick={() =>
+                                        addCard(card, key, sectionKey, cardKey)
+                                      }
+                                    ></AddCircleIcon>
+                                  ) : (
+                                    <></>
+                                  )}
+                                </span>
+                                <span className="decklist__card-name">
+                                  {card.name}
+                                </span>
+                                <span className="decklist__mana">
+                                  {card.mana_cost
+                                    ? parseTextForSymbols(card.mana_cost).map(
+                                        (item, i) => {
+                                          if (item === "|") {
+                                            return (
+                                              <span className="decklist__mana-split">
+                                                {"//"}
+                                              </span>
+                                            );
+                                          } else {
+                                            return (
+                                              <Mana
+                                                key={i}
+                                                symbol={item}
+                                                shadow
+                                                fixed
+                                                size="1x"
+                                              />
+                                            );
+                                          }
+                                        }
+                                      )
+                                    : ""}
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                  </React.Fragment>
+                ))}
+              </div>
+            </Card>
           </div>
         ) : (
           <></>
