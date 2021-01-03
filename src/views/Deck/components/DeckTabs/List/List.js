@@ -431,38 +431,40 @@ function List() {
   };
 
   useEffect(() => {
-    const fetch = async () => {
-      db.collection("ratings")
-        .where("deck_id", "==", deckId)
-        .onSnapshot((snapshot) => {
-          if (snapshot.metadata.fromCache) {
-            console.log(true);
-          } else {
-            console.log(false);
-          }
-          let rating = 0;
-          let items = 0;
-          snapshot.docs.map((doc, i) => {
-            const data = doc.data();
-            //console.log(data);
-            rating = rating + data.rating;
-            items++;
-
-            if (data.user_id === user.uid) {
-              setYourRating(data.rating);
+    if (deckId) {
+      const fetch = async () => {
+        db.collection("ratings")
+          .where("deck_id", "==", deckId)
+          .onSnapshot((snapshot) => {
+            if (snapshot.metadata.fromCache) {
+              console.log(true);
+            } else {
+              console.log(false);
             }
+            let rating = 0;
+            let items = 0;
+            snapshot.docs.map((doc, i) => {
+              const data = doc.data();
+              //console.log(data);
+              rating = rating + data.rating;
+              items++;
 
-            if (i + 1 === snapshot.docs.length) {
-              let deckRating = Math.round(rating / items);
-              setDeckRating(deckRating);
-              setCurrentRating(deckRating);
-            }
-            return true;
+              if (data.user_id === user.uid) {
+                setYourRating(data.rating);
+              }
+
+              if (i + 1 === snapshot.docs.length) {
+                let deckRating = Math.round(rating / items);
+                setDeckRating(deckRating);
+                setCurrentRating(deckRating);
+              }
+              return true;
+            });
           });
-        });
-    };
+      };
 
-    fetch();
+      fetch();
+    }
   }, [deckId, user]);
 
   return (
@@ -508,75 +510,87 @@ function List() {
             key={deck.commander}
           />
         </div>
-        <div className="deck__deck-header">
-          <h3 className="deck__power-rating">Community Rating: </h3>
-          <div className="deck__rating">
-            <div className="deck__score">{deckRating ? deckRating : "-"}</div>
-          </div>
-        </div>
-        <div className="deck__deck-header">
-          <h3 className="deck__power-rating">Your Rating: </h3>
-          <div className="deck__rating">
-            <div className="deck__score">{yourRating ? yourRating : "-"}</div>
-          </div>
-        </div>
-        {user ? (
+        {!isNewDeck ? (
           <>
-            <div className="deck-rating">
-              <div className="deck-rating__info">
-                Rate this deck's power level based on the{" "}
-                <strong>Deck Checker</strong> rating scale found{" "}
-                <a href="#!" target="_blank">
-                  here.
-                </a>
-              </div>
-              {!ratingWindowOpen ? (
-                <div className="deck-rating__add-score">
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    onClick={() => {
-                      setRatingWindowOpen(true);
-                    }}
-                  >
-                    Set Power Rating
-                  </Button>
+            <div className="deck__deck-header">
+              <h3 className="deck__power-rating">Community Rating: </h3>
+              <div className="deck__rating">
+                <div className="deck__score">
+                  {deckRating ? deckRating : "-"}
                 </div>
-              ) : (
-                <>
-                  <div className="deck-rating__buttons">
-                    <RemoveCircleIcon
-                      className="deck-rating__button deck-rating__button--subtract"
-                      onClick={decreaseRating}
-                    ></RemoveCircleIcon>
-                    <div className="deck-rating__rating">
-                      <div className="deck-rating__score">{currentRating}</div>
-                    </div>
-                    <AddCircleIcon
-                      className="deck-rating__button deck-rating__button--add"
-                      onClick={increaseRating}
-                    ></AddCircleIcon>
-                  </div>
-                  <div className="deck-rating__actions">
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      className="deck-rating__submit"
-                      onClick={() => submitRating(deckId)}
-                    >
-                      Submit
-                    </Button>
-                    <Button
-                      variant="outlined"
-                      className="deck-rating__submit"
-                      onClick={() => setRatingWindowOpen(false)}
-                    >
-                      Cancel
-                    </Button>
-                  </div>
-                </>
-              )}
+              </div>
             </div>
+            <div className="deck__deck-header">
+              <h3 className="deck__power-rating">Your Rating: </h3>
+              <div className="deck__rating">
+                <div className="deck__score">
+                  {yourRating ? yourRating : "-"}
+                </div>
+              </div>
+            </div>
+            {user ? (
+              <>
+                <div className="deck-rating">
+                  <div className="deck-rating__info">
+                    Rate this deck's power level based on the{" "}
+                    <strong>Deck Checker</strong> rating scale found{" "}
+                    <a href="#!" target="_blank">
+                      here.
+                    </a>
+                  </div>
+                  {!ratingWindowOpen ? (
+                    <div className="deck-rating__add-score">
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => {
+                          setRatingWindowOpen(true);
+                        }}
+                      >
+                        Set Power Rating
+                      </Button>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="deck-rating__buttons">
+                        <RemoveCircleIcon
+                          className="deck-rating__button deck-rating__button--subtract"
+                          onClick={decreaseRating}
+                        ></RemoveCircleIcon>
+                        <div className="deck-rating__rating">
+                          <div className="deck-rating__score">
+                            {currentRating}
+                          </div>
+                        </div>
+                        <AddCircleIcon
+                          className="deck-rating__button deck-rating__button--add"
+                          onClick={increaseRating}
+                        ></AddCircleIcon>
+                      </div>
+                      <div className="deck-rating__actions">
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          className="deck-rating__submit"
+                          onClick={() => submitRating(deckId)}
+                        >
+                          Submit
+                        </Button>
+                        <Button
+                          variant="outlined"
+                          className="deck-rating__submit"
+                          onClick={() => setRatingWindowOpen(false)}
+                        >
+                          Cancel
+                        </Button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </>
+            ) : (
+              ""
+            )}
           </>
         ) : (
           ""
