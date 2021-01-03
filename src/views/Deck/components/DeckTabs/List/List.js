@@ -425,9 +425,10 @@ function List() {
   };
 
   const submitRating = (deckId) => {
-    setRating(user.uid, userId, deckId, currentRating);
+    setRating(user.uid, deck.user_id, deckId, currentRating);
     //setCurrentRating(deckRating);
     setRatingWindowOpen(false);
+    handleSnackbarOpen("success", "Rating submitted!");
   };
 
   useEffect(() => {

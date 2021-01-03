@@ -8,10 +8,10 @@ import { useStateValue } from "../../StateProvider";
 import { setRating } from "../../helpers";
 
 // Styles
-import { Card, Button /*, Snackbar*/ } from "@material-ui/core";
+import { Card, Button, Snackbar } from "@material-ui/core";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-// import MuiAlert from "@material-ui/lab/Alert";
+import MuiAlert from "@material-ui/lab/Alert";
 import "./Profile.scss";
 
 function Profile() {
@@ -24,27 +24,27 @@ function Profile() {
   const [openRatingWindow, setOpenRatingWindow] = useState(-1);
   const [currentRating, setCurrentRating] = useState(0);
   const [deckRatings, setDeckRatings] = useState([]);
-  // const [openSnackbar, setSnackbarOpen] = useState(false);
-  // const [snackbarMessage, setSnackbarMessage] = useState("");
-  // const [snackbarStatus, setSnackbarStatus] = useState("");
+  const [openSnackbar, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarStatus, setSnackbarStatus] = useState("");
 
-  // const Alert = (props) => (
-  //   <MuiAlert elevation={6} variant="filled" {...props} />
-  // );
+  const Alert = (props) => (
+    <MuiAlert elevation={6} variant="filled" {...props} />
+  );
 
-  // const handleSnackbarOpen = (status, message) => {
-  //   setSnackbarStatus(status);
-  //   setSnackbarMessage(message);
-  //   setSnackbarOpen(true);
-  // };
+  const handleSnackbarOpen = (status, message) => {
+    setSnackbarStatus(status);
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+  };
 
-  // const handleSnackbarClose = (event, reason) => {
-  //   if (reason === "clickaway") {
-  //     return;
-  //   }
+  const handleSnackbarClose = () => {
+    // if (reason === "clickaway") {
+    //   return;
+    // }
 
-  //   setSnackbarOpen(false);
-  // };
+    setSnackbarOpen(false);
+  };
 
   const setRatingWindow = (index, rating) => {
     setCurrentRating(rating);
@@ -70,6 +70,7 @@ function Profile() {
   const submitRating = (deckId) => {
     setRating(user.uid, userId, deckId, currentRating);
     setRatingWindow(-1);
+    handleSnackbarOpen("success", "Rating submitted!");
   };
 
   useEffect(() => {
@@ -314,6 +315,15 @@ function Profile() {
       ) : (
         <></>
       )}
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={4000}
+        onClose={handleSnackbarClose}
+      >
+        <Alert onClose={handleSnackbarClose} severity={snackbarStatus}>
+          <div>{snackbarMessage}</div>
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

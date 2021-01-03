@@ -192,7 +192,7 @@ const addCardToDeck = (
 //   });
 // };
 
-const setRating = async (userId, deckId, ownerId, value) => {
+const setRating = async (userId, ownerId, deckId, value) => {
   const rating = {
     user_id: userId,
     deck_id: deckId,
