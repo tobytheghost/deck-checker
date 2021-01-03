@@ -38,9 +38,9 @@
     -moz-column-fill: auto;
     column-fill: auto;
     > div {
-      -webkit-column-break-inside: avoid;
-      page-break-inside: avoid;
-      break-inside: avoid;
+      // -webkit-column-break-inside: avoid;
+      // page-break-inside: avoid;
+      // break-inside: avoid;
     }
     @media (max-width: 1700px) {
       columns: 2;
@@ -77,6 +77,8 @@
     display: flex;
     place-items: center;
     line-height: 1.5rem;
+    break-inside: avoid-column;
+    margin-bottom: 0.2rem;
     svg {
       cursor: pointer;
     }

@@ -353,14 +353,16 @@ function List() {
     //   return;
     // }
 
+    let name;
     if (deckName === "" && deck.commander_name === "") {
-      setDeckName("New Deck");
+      name = "New Deck";
+    } else {
+      name = deckName ? deckName : deck.commander_name;
     }
-
     //console.log(tag);
 
     const data = {
-      deck_name: deckName ? deckName : deck.commander_name,
+      deck_name: name,
       commander_name: deck.commander_name,
       commander_id: deck.commander_id,
       commander_image: deck.commander_image,

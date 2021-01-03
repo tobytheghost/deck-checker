@@ -8,7 +8,16 @@ import { useStateValue } from "../../StateProvider";
 import { setRating } from "../../helpers";
 
 // Styles
-import { Card, Button, Snackbar, Chip } from "@material-ui/core";
+import {
+  Card,
+  Button,
+  Snackbar,
+  Chip,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@material-ui/core";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -27,6 +36,7 @@ function Profile() {
   const [openSnackbar, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarStatus, setSnackbarStatus] = useState("");
+  const [sortBy, setSortBy] = useState("updatedDesc");
 
   const Alert = (props) => (
     <MuiAlert elevation={6} variant="filled" {...props} />
@@ -143,6 +153,78 @@ function Profile() {
 
   //console.log("DeckRatings", deckRatings);
 
+  const sortDecks = (a, b) => {
+    switch (sortBy) {
+      // case "powerDesc":
+      //   return b.data.rating - a.data.rating;
+      // case "powerAsc":
+      //   return a.data.rating - b.data.rating;
+      case "az":
+        if (a.data.deck_name < b.data.deck_name) {
+          return -1;
+        }
+        if (a.data.deck_name > b.data.deck_name) {
+          return 1;
+        }
+        return 0;
+      case "za":
+        if (a.data.deck_name < b.data.deck_name) {
+          return 1;
+        }
+        if (a.data.deck_name > b.data.deck_name) {
+          return -1;
+        }
+        return 0;
+      case "format":
+        if (a.data.tag < b.data.tag) {
+          return -1;
+        }
+        if (a.data.tag > b.data.tag) {
+          return 1;
+        }
+        return 0;
+      case "updatedAsc":
+        return a.data.timestamp.seconds - b.data.timestamp.seconds;
+      default:
+        return b.data.timestamp.seconds - a.data.timestamp.seconds;
+    }
+  };
+
+  const handleSelectChange = (e) => {
+    setSortBy(e.target.value);
+  };
+
+  const sortByItems = [
+    {
+      label: "Last Updated (Desc)",
+      value: "updatedDesc",
+    },
+    {
+      label: "Last Updated (Asc)",
+      value: "updatedAsc",
+    },
+    // {
+    //   label: "Power Rating (Desc)",
+    //   value: "powerDesc",
+    // },
+    // {
+    //   label: "Power Rating (Asc)",
+    //   value: "powerAsc",
+    // },
+    {
+      label: "A-Z",
+      value: "az",
+    },
+    {
+      label: "Z-A",
+      value: "za",
+    },
+    {
+      label: "Format",
+      value: "format",
+    },
+  ];
+
   return (
     <div className="profile">
       {!decks.length ? (
@@ -150,17 +232,44 @@ function Profile() {
           <Card>
             <div className="profile__decks-wrapper profile__decks-wrapper--top">
               <h2 className="profile__subtitle">Decks:</h2>
-              {canEdit ? (
-                <Button variant="contained" color="primary">
-                  <Link to="/add-deck">Add New Deck</Link>
-                </Button>
-              ) : (
-                <></>
-              )}
+              <FormControl variant="outlined">
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Sort By
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={sortBy}
+                  onChange={handleSelectChange}
+                  label="Format"
+                >
+                  {sortByItems.map((item, i) => {
+                    return (
+                      <MenuItem key={i} value={item.value}>
+                        {item.label}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
             </div>
-            <div className="profile__decks-wrapper profile__decks-wrapper--bottom">
-              Nothing to see here ...
-            </div>
+            {canEdit ? (
+              <div className="profile__decks-wrapper">
+                <div className="profile__deck-wrapper profile__deck-wrapper--add">
+                  <Card variant="outlined" className="profile__card">
+                    <div className="profile__deck ">
+                      <Button variant="contained" color="primary">
+                        <Link to="/add-deck">Add New Deck</Link>
+                      </Button>
+                    </div>
+                  </Card>
+                </div>
+              </div>
+            ) : (
+              <div className="profile__decks-wrapper profile__decks-wrapper--bottom">
+                Nothing to see here ...
+              </div>
+            )}
           </Card>
         </section>
       ) : (
@@ -168,19 +277,30 @@ function Profile() {
           <Card>
             <div className="profile__decks-wrapper profile__decks-wrapper--top">
               <h2 className="profile__subtitle">Decks:</h2>
-              {canEdit ? (
-                <Button variant="contained" color="primary">
-                  <Link to="/add-deck">Add New Deck</Link>
-                </Button>
-              ) : (
-                <></>
-              )}
+              <FormControl variant="outlined">
+                <InputLabel id="demo-simple-select-outlined-label">
+                  Sort By
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-outlined-label"
+                  id="demo-simple-select-outlined"
+                  value={sortBy}
+                  onChange={handleSelectChange}
+                  label="Format"
+                >
+                  {sortByItems.map((item, i) => {
+                    return (
+                      <MenuItem key={i} value={item.value}>
+                        {item.label}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </FormControl>
             </div>
             <div className="profile__decks-wrapper">
               {decks
-                .sort(
-                  (b, a) => a.data.timestamp.seconds - b.data.timestamp.seconds
-                )
+                .sort((a, b) => sortDecks(a, b))
                 .map((deck, i) => (
                   <div
                     className="profile__deck-wrapper"
@@ -319,6 +439,19 @@ function Profile() {
                     </Card>
                   </div>
                 ))}
+              {canEdit ? (
+                <div className="profile__deck-wrapper profile__deck-wrapper--add">
+                  <Card variant="outlined" className="profile__card">
+                    <div className="profile__deck ">
+                      <Button variant="contained" color="primary">
+                        <Link to="/add-deck">Add New Deck</Link>
+                      </Button>
+                    </div>
+                  </Card>
+                </div>
+              ) : (
+                <></>
+              )}
             </div>
           </Card>
         </section>
