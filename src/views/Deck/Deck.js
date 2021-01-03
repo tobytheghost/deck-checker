@@ -88,6 +88,7 @@ function Deck() {
             commander_id: "",
             commander_image: "",
             user_id: user.uid,
+            tag: "",
             list: JSON.stringify(newList),
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
           };

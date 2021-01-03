@@ -77,6 +77,8 @@ function List() {
   const [yourRating, setYourRating] = useState(0);
   const [tag, setTag] = useState(deck.tag ? deck.tag : "");
 
+  console.log(tag, tag.length);
+
   const classes = useStyles();
 
   useEffect(() => {
@@ -295,6 +297,7 @@ function List() {
     //     commander_image: deck.commander_image,
     //     timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     //   });
+
     db.collection("decks")
       .doc(deckId)
       .update({
@@ -353,6 +356,9 @@ function List() {
     if (deckName === "" && deck.commander_name === "") {
       setDeckName("New Deck");
     }
+
+    //console.log(tag);
+
     const data = {
       deck_name: deckName ? deckName : deck.commander_name,
       commander_name: deck.commander_name,
@@ -360,15 +366,17 @@ function List() {
       commander_image: deck.commander_image,
       user_id: user.uid,
       list: deck.list,
-      tag: tag ? tag : deck.tag,
+      tag: tag,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     };
+
+    console.log(data);
 
     db.collection("decks")
       .add(data)
       .then((deck) => {
         //assignDeckToUser(deck, data);
-        createNewLog(deck);
+        //createNewLog(deck);
         history.push("/d/" + deck.id);
       });
 
@@ -393,12 +401,12 @@ function List() {
   //     });
   // };
 
-  const createNewLog = (deck) => {
-    db.collection("deckLogs").doc(deck.id).set({
-      timestamp: new Date(),
-      log: [],
-    });
-  };
+  // const createNewLog = (deck) => {
+  //   db.collection("deckLogs").doc(deck.id).set({
+  //     timestamp: new Date(),
+  //     log: [],
+  //   });
+  // };
 
   const modalBody = (
     <div style={modalStyle} className={classes.paper + " modal"}>
