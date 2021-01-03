@@ -158,7 +158,7 @@ function Search(props) {
       .split("\n")
       .map((line) => {
         const lineItem = line.trim();
-        console.log(lineItem);
+        //console.log(lineItem);
         if (lineItem === "" || lineItem.toLowerCase() === "sideboard") {
           board = "side";
           return true;

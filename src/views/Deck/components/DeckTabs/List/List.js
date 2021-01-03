@@ -77,7 +77,7 @@ function List() {
   const [yourRating, setYourRating] = useState(0);
   const [tag, setTag] = useState(deck.tag ? deck.tag : "");
 
-  console.log(tag, tag.length);
+  //console.log(tag, tag.length);
 
   const classes = useStyles();
 
@@ -459,9 +459,9 @@ function List() {
           .where("deck_id", "==", deckId)
           .onSnapshot((snapshot) => {
             if (snapshot.metadata.fromCache) {
-              console.log(true);
+              //console.log(true);
             } else {
-              console.log(false);
+              //console.log(false);
             }
             let rating = 0;
             let items = 0;
@@ -563,7 +563,6 @@ function List() {
         )}
         {tag ? (
           <div className="deck__tags">
-            {console.log(tag.indexOf(" "))}
             <Chip
               className={
                 "deck__chip deck__chip--" +

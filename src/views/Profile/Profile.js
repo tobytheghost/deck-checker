@@ -105,9 +105,9 @@ function Profile() {
           .where("owner_id", "==", userId)
           .onSnapshot((snapshot) => {
             if (snapshot.metadata.fromCache) {
-              console.log(true);
+              //console.log(true);
             } else {
-              console.log(false);
+              //console.log(false);
             }
             let ratings = [];
             snapshot.docs.map((doc, i) => {
