@@ -98,24 +98,8 @@ function List() {
     updatedList[board][sectionKey].quantity++;
     updatedList[board][sectionKey].cards[cardKey].quantity++;
     updatedList[board][sectionKey].cards
-      .sort((a, b) => {
-        if (a.name < b.name) {
-          return -1;
-        }
-        if (a.name > b.name) {
-          return 1;
-        }
-        return 0;
-      })
-      .sort((a, b) => {
-        if (a.cmc < b.cmc) {
-          return -1;
-        }
-        if (a.cmc > b.cmc) {
-          return 1;
-        }
-        return 0;
-      });
+      .sort((a, b) => a.name < b.name)
+      .sort((a, b) => a.cmc < b.cmc);
     setList(updatedList);
     const updatedDeck = {
       deck_name: deck.deck_name,

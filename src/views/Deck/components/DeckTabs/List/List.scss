@@ -25,6 +25,8 @@
     }
     &--title {
       column-span: all;
+      column-span: all;
+      padding-top: 1rem;
     }
   }
   &__title {
@@ -48,7 +50,10 @@
     -moz-column-fill: auto;
     column-fill: auto;
     padding: 0.5rem;
-    padding-top: 1rem;
+    padding-top: 0;
+    column-rule-style: solid;
+    column-rule-color: #efefef;
+    column-rule-width: 1px;
     @media (max-width: 1700px) {
       columns: 2;
     }
