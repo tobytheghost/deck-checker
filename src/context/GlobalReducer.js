@@ -1,16 +1,16 @@
-export const initialState = {
+export const initialGlobalState = {
   user: localStorage.getItem("authUser")
     ? JSON.parse(localStorage.getItem("authUser"))
     : null,
 };
 
-export const actionTypes = {
+export const globalActionTypes = {
   SET_USER: "SET_USER",
 };
 
-const reducer = (state, action) => {
+const globalReducer = (state, action) => {
   switch (action.type) {
-    case actionTypes.SET_USER:
+    case globalActionTypes.SET_USER:
       return {
         ...state,
         user: action.user,
@@ -20,4 +20,4 @@ const reducer = (state, action) => {
   }
 };
 
-export default reducer;
+export default globalReducer;

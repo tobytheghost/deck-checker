@@ -3,17 +3,20 @@ import ReactDOM from "react-dom";
 
 // App
 import App from "./App";
-import reducer, { initialState } from "./context/Reducer";
-import { StateProvider } from "./context/StateProvider";
+import globalReducer, { initialGlobalState } from "./context/GlobalReducer";
+import { GlobalStateProvider } from "./context/GlobalStateProvider";
 
 // Styles
 import "./index.css";
 
 ReactDOM.render(
   <React.StrictMode>
-    <StateProvider initialState={initialState} reducer={reducer}>
+    <GlobalStateProvider
+      initialState={initialGlobalState}
+      reducer={globalReducer}
+    >
       <App />
-    </StateProvider>
+    </GlobalStateProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
