@@ -10,13 +10,13 @@ import { GlobalStateProvider } from "./context/GlobalStateProvider";
 import "./index.css";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <GlobalStateProvider
-      initialState={initialGlobalState}
-      reducer={globalReducer}
-    >
-      <App />
-    </GlobalStateProvider>
-  </React.StrictMode>,
+  //   <React.StrictMode> // Disabled due to issues with material UI and Strict Mode
+  <GlobalStateProvider
+    initialState={initialGlobalState}
+    reducer={globalReducer}
+  >
+    <App />
+  </GlobalStateProvider>,
+  //   </React.StrictMode>,
   document.getElementById("root")
 );

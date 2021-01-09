@@ -9,224 +9,224 @@
     padding-right: 0.5rem;
     padding-left: 0.5rem;
   }
-  //   &__actions {
-  //     width: 100%;
-  //     margin-bottom: 1rem;
-  //     ul {
-  //       list-style: none;
-  //       padding: 1rem;
-  //       margin: 0;
-  //     }
-  //   }
-  //   &__action {
-  //     display: inline-block;
-  //     button {
-  //       a {
-  //         text-decoration: none;
-  //         color: inherit;
-  //       }
-  //     }
-  //   }
-  //   &__decks {
-  //     flex: 1;
-  //     display: flex;
-  //     flex-wrap: wrap;
-  //     margin-bottom: 1rem;
-  //     // place-content: space-between;
-  //     place-content: stretch;
-  //     > * {
-  //       flex: 1;
-  //     }
-  //   }
-  //   &__decks-wrapper {
-  //     flex: 1;
-  //     display: flex;
-  //     flex-wrap: wrap;
-  //     margin-left: -0.5rem;
-  //     margin-right: -0.5rem;
-  //     padding: 1rem;
-  //     padding-bottom: 0;
-  //     &--top {
-  //       width: 100%;
-  //       margin: 0;
-  //       display: flex;
-  //       flex-wrap: wrap;
-  //       place-content: space-between;
-  //       place-items: center;
-  //       a {
-  //         text-decoration: none;
-  //         color: inherit;
-  //       }
-  //     }
-  //     &--bottom {
-  //       width: 100%;
-  //       margin: 0;
-  //       padding-bottom: 1rem;
-  //     }
-  //     .MuiFormControl-root {
-  //       min-width: 200px;
-  //     }
-  //   }
-  //   &__subtitle {
-  //     margin: 0;
-  //     padding: 0;
-  //   }
-  //   &__deck-wrapper {
-  //     margin-left: 0.5rem;
-  //     margin-right: 0.5rem;
-  //     margin-bottom: 1rem;
-  //     width: calc(100% - 1rem);
-  //     @media (min-width: 575px) {
-  //       width: calc(100% - 1rem);
-  //     }
-  //     @media (min-width: 768px) {
-  //       width: calc(50% - 1rem);
-  //     }
-  //     @media (min-width: 1024px) {
-  //       width: calc(33.33% - 1rem);
-  //     }
-  //     @media (min-width: 1200px) {
-  //       width: calc(25% - 1rem);
-  //     }
-  //     @media (min-width: 1600px) {
-  //       width: calc(20% - 1rem);
-  //     }
-  //     &--add {
-  //       .profile__card {
-  //         display: flex;
-  //         place-items: center;
-  //         place-content: center;
-  //         button {
-  //           margin-top: 3rem;
-  //           margin-bottom: 3rem;
-  //         }
-  //         a {
-  //           color: inherit;
-  //           text-decoration: none;
-  //         }
-  //       }
-  //     }
-  //   }
-  //   &__card {
-  //     height: 100%;
-  //   }
-  //   &__info {
-  //     @media (max-width: 768px) {
-  //       width: 100%;
-  //     }
-  //   }
-  //   &__deck {
-  //     position: relative;
-  //     max-width: 100%;
-  //     padding: 1rem;
-  //     display: flex;
-  //     flex-direction: column;
-  //     height: 100%;
-  //     place-content: center;
-  //     @media (max-width: 500px) {
-  //       max-width: unset;
-  //     }
-  //     &--partner {
-  //       #{ $self }__commander {
-  //         padding-right: 3rem;
-  //         padding-bottom: 3rem;
-  //         &--commander2 {
-  //           position: absolute;
-  //           top: 0;
-  //           left: 0;
-  //           padding: 0;
-  //           padding-left: 3rem;
-  //           padding-top: 3rem;
-  //         }
-  //       }
-  //     }
-  //     a {
-  //       display: flex;
-  //       flex-direction: column;
-  //       //flex-grow: 1;
-  //     }
-  //   }
-  //   &__image {
-  //     text-align: center;
-  //     flex-grow: 1;
-  //   }
-  //   &__commander {
-  //     max-width: 100%;
-  //     &--commander2 {
-  //       position: absolute;
-  //       top: 3rem;
-  //       left: 3rem;
-  //     }
-  //   }
-  //   &__name {
-  //     margin: 0;
-  //     padding: 0;
-  //     //text-align: center;
-  //     padding-bottom: 0.5rem;
-  //     font-size: 1.25rem;
-  //   }
-  //   &__score {
-  //     font-size: 1.5rem;
-  //     text-align: center;
-  //   }
-  //   &__date {
-  //     font-size: 0.75rem;
-  //     //text-align: center;
-  //   }
-  //   // &__card {
-  //   //   background-color: #fefefe;
-  //   // }
-  //   &__deck-header {
-  //     display: flex;
-  //     margin-bottom: 0.5rem;
-  //     justify-content: space-between;
-  //     flex: 1;
-  //   }
-  //   &__tags {
-  //     margin-bottom: 0.5rem;
-  //   }
-  //   &__rating {
-  //     width: 3rem;
-  //     height: 3rem;
-  //     border-radius: 50%;
-  //     background-color: #efefef;
-  //     display: flex;
-  //     place-items: center;
-  //     place-content: center;
-  //   }
-  //   &__add-score {
-  //     text-align: center;
-  //     margin-top: 1rem;
-  //   }
-  //   &__chip {
-  //     &--edh {
-  //       background-color: #ffb74d !important;
-  //     }
-  //     &--legacy {
-  //       background-color: #9575cd !important;
-  //     }
-  //     &--modern {
-  //       background-color: #81c784 !important;
-  //     }
-  //     &--pauper {
-  //       background-color: #e0e0e0 !important;
-  //     }
-  //     &--standard {
-  //       background-color: #e57373 !important;
-  //     }
-  //     &--vintage {
-  //       background-color: #4dd0e1 !important;
-  //     }
-  //     &--pioneer {
-  //       background-color: #64b5f6 !important;
-  //     }
-  //     &--brawl {
-  //       background-color: #a1887f !important;
-  //     }
-  //     &--historic {
-  //       background-color: #90a4ae !important;
-  //     }
-  //   }
+  &__actions {
+    width: 100%;
+    margin-bottom: 1rem;
+    ul {
+      list-style: none;
+      padding: 1rem;
+      margin: 0;
+    }
+  }
+  &__action {
+    display: inline-block;
+    button {
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+    }
+  }
+  &__decks {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    // place-content: space-between;
+    place-content: stretch;
+    > * {
+      flex: 1;
+    }
+  }
+  &__decks-wrapper {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+    padding: 1rem;
+    padding-bottom: 0;
+    &--top {
+      width: 100%;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      place-content: space-between;
+      place-items: center;
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+    }
+    &--bottom {
+      width: 100%;
+      margin: 0;
+      padding-bottom: 1rem;
+    }
+    .MuiFormControl-root {
+      min-width: 200px;
+    }
+  }
+  &__subtitle {
+    margin: 0;
+    padding: 0;
+  }
+  &__deck-wrapper {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    margin-bottom: 1rem;
+    width: calc(100% - 1rem);
+    @media (min-width: 575px) {
+      width: calc(100% - 1rem);
+    }
+    @media (min-width: 768px) {
+      width: calc(50% - 1rem);
+    }
+    @media (min-width: 1024px) {
+      width: calc(33.33% - 1rem);
+    }
+    @media (min-width: 1200px) {
+      width: calc(25% - 1rem);
+    }
+    @media (min-width: 1600px) {
+      width: calc(20% - 1rem);
+    }
+    &--add {
+      .profile__card {
+        display: flex;
+        place-items: center;
+        place-content: center;
+        button {
+          margin-top: 3rem;
+          margin-bottom: 3rem;
+        }
+        a {
+          color: inherit;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+  &__card {
+    height: 100%;
+  }
+  &__info {
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+  }
+  &__deck {
+    position: relative;
+    max-width: 100%;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    place-content: center;
+    @media (max-width: 500px) {
+      max-width: unset;
+    }
+    &--partner {
+      #{ $self }__commander {
+        padding-right: 3rem;
+        padding-bottom: 3rem;
+        &--commander2 {
+          position: absolute;
+          top: 0;
+          left: 0;
+          padding: 0;
+          padding-left: 3rem;
+          padding-top: 3rem;
+        }
+      }
+    }
+    a {
+      display: flex;
+      flex-direction: column;
+      //flex-grow: 1;
+    }
+  }
+  &__image {
+    text-align: center;
+    flex-grow: 1;
+  }
+  &__commander {
+    max-width: 100%;
+    &--commander2 {
+      position: absolute;
+      top: 3rem;
+      left: 3rem;
+    }
+  }
+  &__name {
+    margin: 0;
+    padding: 0;
+    //text-align: center;
+    padding-bottom: 0.5rem;
+    font-size: 1.25rem;
+  }
+  &__score {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+  &__date {
+    font-size: 0.75rem;
+    //text-align: center;
+  }
+  // &__card {
+  //   background-color: #fefefe;
+  // }
+  &__deck-header {
+    display: flex;
+    margin-bottom: 0.5rem;
+    justify-content: space-between;
+    flex: 1;
+  }
+  &__tags {
+    margin-bottom: 0.5rem;
+  }
+  &__rating {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: #efefef;
+    display: flex;
+    place-items: center;
+    place-content: center;
+  }
+  &__add-score {
+    text-align: center;
+    margin-top: 1rem;
+  }
+  &__chip {
+    &--edh {
+      background-color: #ffb74d !important;
+    }
+    &--legacy {
+      background-color: #9575cd !important;
+    }
+    &--modern {
+      background-color: #81c784 !important;
+    }
+    &--pauper {
+      background-color: #e0e0e0 !important;
+    }
+    &--standard {
+      background-color: #e57373 !important;
+    }
+    &--vintage {
+      background-color: #4dd0e1 !important;
+    }
+    &--pioneer {
+      background-color: #64b5f6 !important;
+    }
+    &--brawl {
+      background-color: #a1887f !important;
+    }
+    &--historic {
+      background-color: #90a4ae !important;
+    }
+  }
 }
 
 .rating {

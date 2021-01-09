@@ -2,7 +2,12 @@ import React from "react";
 import { Card, Chip } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
+import DeckPreviewRatingWindow from "../../components/DeckPreviewRatingWindow/DeckPreviewRatingWindow";
+
 type DeckPreviewTypes = {
+  functions: {
+    handleSubmitRating: (deckId: string, rating: number) => void;
+  };
   deck: {
     id: string;
     data: {
@@ -16,10 +21,14 @@ type DeckPreviewTypes = {
       timestamp: any;
     };
   };
-  index: number;
+  rating: string | number;
 };
 
-const DeckPreview = ({ deck, index }: DeckPreviewTypes) => {
+const DeckPreview = ({
+  deck,
+  rating,
+  functions: { handleSubmitRating },
+}: DeckPreviewTypes) => {
   return (
     <div className="profile__deck-wrapper" key={deck.data.timestamp.seconds}>
       <Card variant="outlined" className="profile__card">
@@ -32,9 +41,7 @@ const DeckPreview = ({ deck, index }: DeckPreviewTypes) => {
               </div>
             </div>
             <div className="profile__rating">
-              <div className="profile__score">
-                {/* {deckRatings[deck.id] ? deckRatings[deck.id] : "-"} */}
-              </div>
+              <div className="profile__score">{rating}</div>
             </div>
           </div>
           {deck.data.tag && (
@@ -63,71 +70,10 @@ const DeckPreview = ({ deck, index }: DeckPreviewTypes) => {
               />
             </div>
           </Link>
-          {/* {user ? (
-                      <>
-                        <div className="profile__add-score">
-                          <Button
-                            variant="outlined"
-                            color="primary"
-                            onClick={() =>
-                              setRatingWindow(
-                                i,
-                                deckRatings[deck.id] ? deckRatings[deck.id] : 5
-                              )
-                            }
-                          >
-                            Set Power Rating
-                          </Button>
-                        </div>
-                        {openRatingWindow >= 0 && openRatingWindow === i ? (
-                          <div className="rating">
-                            <div className="rating__info">
-                              Rate this deck's power level based on the{" "}
-                              <strong>Deck Checker</strong> rating scale found{" "}
-                              <a href="#!" target="_blank">
-                                here.
-                              </a>
-                            </div>
-                            <div className="rating__buttons">
-                              <RemoveCircleIcon
-                                className="rating__button rating__button--subtract"
-                                onClick={decreaseRating}
-                              ></RemoveCircleIcon>
-                              <div className="rating__rating">
-                                <div className="rating__score">
-                                  {currentRating}
-                                </div>
-                              </div>
-                              <AddCircleIcon
-                                className="rating__button rating__button--add"
-                                onClick={increaseRating}
-                              ></AddCircleIcon>
-                            </div>
-                            <div className="rating__actions">
-                              <Button
-                                variant="contained"
-                                color="primary"
-                                className="rating__submit"
-                                onClick={() => submitRating(deck.id)}
-                              >
-                                Submit
-                              </Button>
-                              <Button
-                                variant="outlined"
-                                className="rating__submit"
-                                onClick={() => setRatingWindow(-1, 0)}
-                              >
-                                Cancel
-                              </Button>
-                            </div>
-                          </div>
-                        ) : (
-                          <></>
-                        )}
-                      </>
-                    ) : (
-                      ""
-                    )} */}
+          <DeckPreviewRatingWindow
+            deckId={deck.id}
+            handleSubmitRating={handleSubmitRating}
+          />
         </div>
       </Card>
     </div>

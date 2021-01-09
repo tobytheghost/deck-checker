@@ -6,6 +6,10 @@ export const initialProfileState = {
     canEdit: false,
     canDelete: false,
   },
+  loading: {
+    profile: true,
+    decks: true,
+  },
 };
 
 export const profileActionTypes = {
@@ -21,6 +25,10 @@ const profileReducer = (state, action) => {
       return {
         ...state,
         profile: action.profile,
+        loading: {
+          ...state.loading,
+          profile: false,
+        },
       };
     case profileActionTypes.SET_FILTER:
       return {
@@ -31,6 +39,10 @@ const profileReducer = (state, action) => {
       return {
         ...state,
         decks: action.decks,
+        loading: {
+          ...state.loading,
+          decks: false,
+        },
       };
     case profileActionTypes.SET_CAN_EDIT:
       return {
