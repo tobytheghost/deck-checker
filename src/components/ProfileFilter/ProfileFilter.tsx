@@ -11,7 +11,9 @@ const ProfileFilter = () => {
   const handleSelectChange = (e: any) => {
     profileDispatch({
       type: profileActionTypes.SET_FILTER,
-      filter: e.target.value,
+      payload: {
+        filter: e.target.value,
+      },
     });
   };
 

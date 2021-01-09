@@ -48,7 +48,9 @@ const ProfileContainerInner = () => {
         });
         profileDispatch({
           type: profileActionTypes.SET_DECKS,
-          decks: decks,
+          payload: {
+            decks: decks,
+          },
         });
         console.log(`Fetched decks for user ${userId}`);
       });
@@ -56,7 +58,9 @@ const ProfileContainerInner = () => {
     if (user && userId === user.uid) {
       profileDispatch({
         type: profileActionTypes.SET_CAN_EDIT,
-        canEdit: true,
+        payload: {
+          canEdit: true,
+        },
       });
     }
 

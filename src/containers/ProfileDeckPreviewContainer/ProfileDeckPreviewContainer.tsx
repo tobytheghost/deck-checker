@@ -4,20 +4,12 @@ import DeckPreview from "../../components/DeckPreview/DeckPreview";
 import db from "../../firebase/firebase";
 import { useGlobalState } from "../../context/GlobalStateProvider";
 import PopupBar from "../../components/PopupBar/PopupBar";
+import { DeckTypes } from "../../types/types";
 
-type DeckPreviewContainerTypes = {
+type ProfileDeckPreviewContainerTypes = {
   deck: {
     id: string;
-    data: {
-      commander_id: string;
-      commander_image: string;
-      commander_name: string;
-      deck_name: string;
-      list: string;
-      user_id: string;
-      tag: string;
-      timestamp: any;
-    };
+    data: DeckTypes;
   };
 };
 
@@ -28,7 +20,9 @@ type Rating = {
   rating: number;
 };
 
-const DeckPreviewContainer = ({ deck }: DeckPreviewContainerTypes) => {
+const ProfileDeckPreviewContainer = ({
+  deck,
+}: ProfileDeckPreviewContainerTypes) => {
   const [rating, setRating] = useState<string | number>("");
   const [{ user }, globalDispatch] = useGlobalState();
   const { id } = deck;
@@ -89,6 +83,8 @@ const DeckPreviewContainer = ({ deck }: DeckPreviewContainerTypes) => {
     setPopupOpen(false);
   };
 
+  console.log(deck);
+
   return (
     <>
       <DeckPreview
@@ -106,4 +102,4 @@ const DeckPreviewContainer = ({ deck }: DeckPreviewContainerTypes) => {
   );
 };
 
-export default DeckPreviewContainer;
+export default ProfileDeckPreviewContainer;

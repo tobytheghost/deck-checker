@@ -1,4 +1,25 @@
-export const initialProfileState = {
+type ProfileStateTypes = {
+  profile: {};
+  filter: string;
+  decks: [];
+  permissions: {
+    canEdit: boolean;
+    canDelete: boolean;
+  };
+  loading: {
+    profile: boolean; // Set to false as no profile information is being loaded
+    decks: boolean;
+  };
+};
+
+type ProfileActionTypes = {
+  type: string;
+  payload: {
+    [x: string]: any;
+  };
+};
+
+export const initialProfileState: ProfileStateTypes = {
   profile: {},
   filter: "updatedDesc",
   decks: [],
@@ -7,7 +28,7 @@ export const initialProfileState = {
     canDelete: false,
   },
   loading: {
-    profile: true,
+    profile: false, // Set to false as no profile information is being loaded
     decks: true,
   },
 };
@@ -19,12 +40,15 @@ export const profileActionTypes = {
   SET_CAN_EDIT: "SET_CAN_EDIT",
 };
 
-const profileReducer = (state, action) => {
+const profileReducer = (
+  state: ProfileStateTypes,
+  action: ProfileActionTypes
+) => {
   switch (action.type) {
     case profileActionTypes.SET_PROFILE:
       return {
         ...state,
-        profile: action.profile,
+        profile: action.payload.profile,
         loading: {
           ...state.loading,
           profile: false,
@@ -33,12 +57,12 @@ const profileReducer = (state, action) => {
     case profileActionTypes.SET_FILTER:
       return {
         ...state,
-        filter: action.filter,
+        filter: action.payload.filter,
       };
     case profileActionTypes.SET_DECKS:
       return {
         ...state,
-        decks: action.decks,
+        decks: action.payload.decks,
         loading: {
           ...state.loading,
           decks: false,
@@ -49,7 +73,7 @@ const profileReducer = (state, action) => {
         ...state,
         permissions: {
           ...state.permissions,
-          canEdit: action.canEdit,
+          canEdit: action.payload.canEdit,
         },
       };
     default:

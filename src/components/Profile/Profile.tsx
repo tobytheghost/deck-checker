@@ -5,7 +5,7 @@ import { Card, Button } from "@material-ui/core";
 // App
 import Filter from "../../components/ProfileFilter/ProfileFilter";
 import QR from "../../components/QR/QR";
-import DeckPreviewContainer from "../../containers/DeckPreviewContainer/DeckPreviewContainer";
+import ProfileDeckPreviewContainer from "../../containers/ProfileDeckPreviewContainer/ProfileDeckPreviewContainer";
 
 // Styles
 import "./Profile.scss";
@@ -55,9 +55,10 @@ const Profile = ({
                   Nothing to see here ...
                 </div>
               ))}
-            {decks?.map((deck: any) => (
-              <DeckPreviewContainer deck={deck} key={deck.id} />
-            ))}
+            {decks?.map((deck: any) => {
+              console.log(deck);
+              return <ProfileDeckPreviewContainer deck={deck} key={deck.id} />;
+            })}
             {canEdit && !loading.decks && (
               <div className="profile__deck-wrapper profile__deck-wrapper--add">
                 <Card variant="outlined" className="profile__card">

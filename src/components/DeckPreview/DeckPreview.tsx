@@ -3,6 +3,7 @@ import { Card, Chip } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 import DeckPreviewRatingWindow from "../../components/DeckPreviewRatingWindow/DeckPreviewRatingWindow";
+import { DeckTypes } from "../../types/types";
 
 type DeckPreviewTypes = {
   functions: {
@@ -10,16 +11,7 @@ type DeckPreviewTypes = {
   };
   deck: {
     id: string;
-    data: {
-      commander_id: string;
-      commander_image: string;
-      commander_name: string;
-      deck_name: string;
-      list: string;
-      user_id: string;
-      tag: string;
-      timestamp: any;
-    };
+    data: DeckTypes;
   };
   rating: string | number;
 };

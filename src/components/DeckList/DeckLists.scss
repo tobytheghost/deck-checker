@@ -1,0 +1,224 @@
+.decklist {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  margin-bottom: 1rem;
+  @media (max-width: 768px) {
+    padding: 0;
+  }
+  > .MuiCard-root {
+    @media (max-width: 768px) {
+      border: none;
+    }
+  }
+  &__section {
+    padding-bottom: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    @media (max-width: 768px) {
+      width: 100%;
+    }
+    &--title {
+      column-span: all;
+      column-span: all;
+      padding-top: 1rem;
+    }
+  }
+  &__title {
+    padding: 0;
+    margin: 0;
+  }
+  &__subtitle {
+    padding: 0;
+    margin: 0;
+    padding-bottom: 1rem;
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  &__main {
+    flex: 1;
+    margin-bottom: 0.5rem;
+    columns: 3;
+    -moz-column-fill: auto;
+    column-fill: auto;
+    padding: 0.5rem;
+    padding-top: 0;
+    column-rule-style: solid;
+    column-rule-color: #efefef;
+    column-rule-width: 1px;
+    @media (max-width: 1700px) {
+      columns: 2;
+    }
+    @media (max-width: 1300px) {
+      columns: 1;
+    }
+    @media (max-width: 768px) {
+      width: 100%;
+      padding: 0;
+      columns: 1;
+    }
+  }
+  &__side,
+  &__maybe {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+    margin-bottom: 1rem;
+    columns: 2;
+    -moz-column-fill: auto;
+    column-fill: auto;
+    > div {
+      -webkit-column-break-inside: avoid;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    @media (max-width: 768px) {
+      width: 100%;
+      columns: 1;
+    }
+  }
+  &__item {
+    display: flex;
+    place-items: center;
+    line-height: 1.5rem;
+    break-inside: avoid-column;
+    margin-bottom: 0.2rem;
+    svg {
+      cursor: pointer;
+    }
+  }
+  > div:last-of-type {
+    margin-bottom: unset;
+  }
+  &__button {
+    &--add {
+      color: #0277bd;
+      &:hover {
+        color: #004c8c;
+      }
+    }
+    &--remove {
+      color: #f44336;
+      &:hover {
+        color: #aa2e25;
+      }
+    }
+  }
+  &__quantity {
+    display: flex;
+    place-content: center;
+    place-items: center;
+    margin-right: 1rem;
+  }
+  &__quantity-number {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+  }
+  &__mana {
+    margin-left: auto;
+    display: flex;
+    .ms-cost.ms-shadow {
+      margin-left: 0.2rem;
+      box-shadow: none;
+    }
+  }
+  &__mana-split {
+    display: flex;
+    width: 1.3em;
+    height: 1.3em;
+    place-content: center;
+    place-items: center;
+    margin-left: 0.2rem;
+  }
+  &__card-name {
+    margin-right: 1rem;
+  }
+}
+
+.modal {
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  &__action {
+    margin-right: 0.5rem;
+    &--delete {
+      button {
+        background-color: #f44336;
+        &:hover {
+          background-color: #aa2e25;
+        }
+      }
+    }
+  }
+}
+
+.deck-rating {
+  &__info {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  &__rating {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-color: #efefef;
+    display: flex;
+    place-items: center;
+    place-content: center;
+  }
+  &__add-score {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  &__score {
+    font-size: 2rem;
+    text-align: center;
+  }
+  &__buttons {
+    display: flex;
+    place-content: center;
+    place-items: center;
+  }
+  &__button {
+    cursor: pointer;
+    &.MuiSvgIcon-root {
+      width: 2em;
+      height: 2em;
+      font-size: 1.5em;
+      margin: 1rem;
+    }
+    &--add {
+      color: #0277bd;
+      &:hover {
+        color: #004c8c;
+      }
+    }
+    &--subtract {
+      color: #f44336;
+      &:hover {
+        color: #aa2e25;
+      }
+    }
+  }
+  &__actions {
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+    button {
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+    }
+  }
+}
