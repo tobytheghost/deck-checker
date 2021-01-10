@@ -112,7 +112,7 @@ const DeckListContainer = () => {
   };
 
   const handleSaveNewDeck = async () => {
-    console.log(deck);
+    console.log(deck, deck.list.length, user);
     if (!deck || !deck.list.length || !user) {
       setPopupMessage("Unable to save new deck.");
       setPopupStatus("error");

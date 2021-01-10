@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  TextField,
-  Button,
-  Chip,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-} from "@material-ui/core";
+import { TextField, Button, Chip } from "@material-ui/core";
 
 import db from "../../firebase/firebase";
 import { DeckTypes } from "../../types/types";
@@ -24,7 +16,6 @@ type DeckListPreviewTypes = {
     isNewDeck: boolean;
   };
   permissions: {
-    canRate: boolean;
     canEdit: boolean;
     canDelete: boolean;
   };
@@ -32,11 +23,10 @@ type DeckListPreviewTypes = {
 
 const DeckListPreview = ({
   state: { deck, previewImage, isNewDeck },
-  permissions: { canRate, canEdit, canDelete },
+  permissions: { canEdit, canDelete },
 }: DeckListPreviewTypes) => {
   const [{ user }] = useGlobalState();
   const [editTitle, setEditTitle] = useState(false);
-  const [deckName, setDeckName] = useState(deck.deck_name || "");
   const [rating, setRating]: any = useState();
   const [yourRating, setYourRating]: any = useState();
   const [{ id }, deckDispatch] = useDeckState();
@@ -73,6 +63,9 @@ const DeckListPreview = ({
         );
       });
     return () => {
+      if (!id) {
+        return;
+      }
       unsubscribeRatings();
     };
   }, [id, user]);
