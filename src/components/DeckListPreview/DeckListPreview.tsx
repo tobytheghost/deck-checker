@@ -123,7 +123,7 @@ const DeckListPreview = ({
           key={deck.commander_name}
         />
       </div>
-      {canEdit && <DeckPreviewTag />}
+      {(canEdit || isNewDeck) && <DeckPreviewTag />}
       {!isNewDeck && (
         <>
           <div className="deck__deck-header">

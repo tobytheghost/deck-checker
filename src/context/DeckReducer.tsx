@@ -25,7 +25,7 @@ export type DeckActionTypes = {
 export const initialDeckState: DeckStateTypes = {
   id: "",
   deck: {
-    commander_image: "",
+    commander_image: "/card_back.jpg",
     commander_name: "",
     deck_name: "",
     list: [],
