@@ -5,6 +5,7 @@ import { Button } from "@material-ui/core";
 // App
 
 // Styles
+import "./Nav.scss";
 
 type NavProps = {
   functions: {
@@ -25,11 +26,11 @@ const Nav = ({ functions: { closeMenu, userLogout }, user }: NavProps) => {
             Home
           </Link>
         </li>
-        <li className="nav__item">
+        {/* <li className="nav__item">
           <Link to="/search" onClick={closeMenu}>
             Search
           </Link>
-        </li>
+        </li> */}
         {user != null && (
           <>
             <li className="nav__item">

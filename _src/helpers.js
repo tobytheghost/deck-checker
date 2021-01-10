@@ -48,6 +48,8 @@ const checkCardType = (card) => {
   if (types.includes("Land")) {
     return "Lands";
   }
+
+  return "";
 };
 
 const addCardToDeck = (

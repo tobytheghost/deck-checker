@@ -56,7 +56,7 @@ const Profile = ({
                 </div>
               ))}
             {decks?.map((deck: any) => {
-              console.log(deck);
+              //console.log(deck);
               return <ProfileDeckPreviewContainer deck={deck} key={deck.id} />;
             })}
             {canEdit && !loading.decks && (

@@ -12,6 +12,7 @@
     padding: 0;
   }
   > .MuiCard-root {
+    flex: 1;
     @media (max-width: 768px) {
       border: none;
     }
@@ -20,6 +21,7 @@
     padding-bottom: 1rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
+    break-inside: avoid;
     @media (max-width: 768px) {
       width: 100%;
     }
@@ -46,9 +48,7 @@
   &__main {
     flex: 1;
     margin-bottom: 0.5rem;
-    columns: 3;
-    -moz-column-fill: auto;
-    column-fill: auto;
+    columns: 2;
     padding: 0.5rem;
     padding-top: 0;
     column-rule-style: solid;

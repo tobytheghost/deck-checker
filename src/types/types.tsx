@@ -1,5 +1,4 @@
 export type DeckTypes = {
-  commander_id: string;
   commander_image: string;
   commander_name: string;
   deck_name: string;
@@ -11,9 +10,11 @@ export type DeckTypes = {
 
 export type CardItemTypes = {
   name: string;
+  cmc: number;
   quantity: number;
   board: string;
   type: string;
-  image: string;
+  layout: string;
   mana_cost: string;
+  image: string;
 };

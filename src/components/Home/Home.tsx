@@ -76,7 +76,9 @@ function Home() {
               somewhere handy so that other players can easily scan it to be
               able to rate your deck.
             </p>
-            <p>[PLACEHOLDER IMAGE - QR CODE]</p>
+            <p>
+              <img src="/deckbox.jpg" alt="Deckbox with QR code" />
+            </p>
           </div>
         </div>
       </Card>

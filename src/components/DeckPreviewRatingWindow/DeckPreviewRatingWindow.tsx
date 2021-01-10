@@ -30,7 +30,7 @@ const DeckPreviewRatingWindow = ({
   };
 
   const submitRating = () => {
-    console.log(deckId, currentRating);
+    //console.log(deckId, currentRating);
     setOpenRatingWindow(false);
     handleSubmitRating(deckId, currentRating);
   };

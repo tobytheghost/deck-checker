@@ -83,7 +83,7 @@ const ProfileDeckPreviewContainer = ({
     setPopupOpen(false);
   };
 
-  console.log(deck);
+  //console.log(deck);
 
   return (
     <>

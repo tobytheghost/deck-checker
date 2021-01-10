@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   TextField,
   Button,
@@ -9,12 +9,14 @@ import {
   MenuItem,
 } from "@material-ui/core";
 
+import db from "../../firebase/firebase";
 import { DeckTypes } from "../../types/types";
+import DeckPreviewTag from "../DeckPreviewTag/DeckPreviewTag";
+import { useDeckState } from "../../context/DeckStateProvider";
+import { useGlobalState } from "../../context/GlobalStateProvider";
+import DeckListRatingWindow from "../DeckListRatingWindow/DeckListRatingWindow";
 
 type DeckListPreviewTypes = {
-  functions: {
-    handleDeckNameChange: (deckName: string) => void;
-  };
   state: {
     deck: DeckTypes;
     previewImage: string;
@@ -28,17 +30,46 @@ type DeckListPreviewTypes = {
 };
 
 const DeckListPreview = ({
-  functions: { handleDeckNameChange },
   state: { deck, previewImage, isNewDeck },
   permissions: { canRate, canEdit, canDelete },
 }: DeckListPreviewTypes) => {
+  const [{ user }] = useGlobalState();
   const [editTitle, setEditTitle] = useState(false);
   const [deckName, setDeckName] = useState(deck.deck_name);
+  const [rating, setRating]: any = useState();
+  const [yourRating, setYourRating]: any = useState();
+  const [{ id }] = useDeckState();
   const { tag } = deck;
 
   const updateDeckName = () => {
     setDeckName(deckName);
   };
+
+  useEffect(() => {
+    if (!id) {
+      return;
+    }
+    const unsubscribeRatings = db
+      .collection("ratings")
+      .where("deck_id", "==", id)
+      .onSnapshot((snapshot) => {
+        const ratings = snapshot.docs.map((doc, i) => {
+          const data = doc.data();
+          if (user && data.user_id === user.uid) {
+            setYourRating(data.rating);
+          }
+          return data.rating;
+        });
+        setRating(
+          ratings.length
+            ? ratings.reduce((total, val) => total + val) / snapshot.docs.length
+            : "-"
+        );
+      });
+    return () => {
+      unsubscribeRatings();
+    };
+  }, [id, user]);
 
   return (
     <div className="deck__preview">
@@ -93,18 +124,16 @@ const DeckListPreview = ({
           key={deck.commander_name}
         />
       </div>
-      {/* {canEdit && (
-        <DeckPreviewTag/>
-      )}
+      {canEdit && <DeckPreviewTag />}
       {!isNewDeck && (
         <>
           <div className="deck__deck-header">
             <h3 className="deck__power-rating">Community Rating: </h3>
             <div className="deck__rating">
-              <div className="deck__score">{deckRating ? deckRating : "-"}</div>
+              <div className="deck__score">{rating}</div>
             </div>
           </div>
-          {canRate && (
+          {user && (
             <div className="deck__deck-header">
               <h3 className="deck__power-rating">Your Rating: </h3>
               <div className="deck__rating">
@@ -114,9 +143,9 @@ const DeckListPreview = ({
               </div>
             </div>
           )}
-          <RatingWindow/>
+          <DeckListRatingWindow />
         </>
-      )} */}
+      )}
     </div>
   );
 };

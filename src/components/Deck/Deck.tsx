@@ -4,22 +4,24 @@ import { Card } from "@material-ui/core";
 import { DeckTypes } from "../../types/types";
 import QR from "../../components/QR/QR";
 import DeckTabsContainer from "../../containers/DeckTabsContainer/DeckTabsContainer";
+import { useDeckState } from "../../context/DeckStateProvider";
+
+import "./Deck.scss";
 
 type DeckPropTypes = {
-  functions: {};
   state: {
-    deckId: string;
     deck: DeckTypes;
     permissions: {
       canEdit: boolean;
     };
+    isNewDeck: boolean;
   };
 };
 
 const Deck = ({
-  functions: {},
-  state: { deckId, deck, permissions: canEdit },
+  state: { deck, permissions: canEdit, isNewDeck },
 }: DeckPropTypes) => {
+  const [{ id }] = useDeckState();
   return (
     <>
       <section className="section section--deck">
@@ -31,10 +33,10 @@ const Deck = ({
           </Card>
         </div>
       </section>
-      {canEdit && (
+      {canEdit && !isNewDeck && (
         <section className="section">
           <div className="section__card">
-            <QR imageName={deckId} qrTitle="Deck QR Code"></QR>
+            <QR imageName={id} qrTitle="Deck QR Code"></QR>
           </div>
         </section>
       )}

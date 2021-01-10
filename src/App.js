@@ -44,12 +44,12 @@ function App() {
               <Route
                 exact
                 path="/d/:deckId"
-                component={() => <DeckContainer newDeck={false} />}
+                component={() => <DeckContainer isNewDeck={false} />}
               />
               <Route
                 exact
                 path="/add-deck"
-                component={() => <DeckContainer newDeck={true} />}
+                component={() => <DeckContainer isNewDeck={true} />}
               />
               {/* <Route exact path="/search" component={SearchPage} />
             <Route exact path="/add-deck" component={Deck} />*/}

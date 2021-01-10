@@ -11,25 +11,40 @@ import { initialDeckState } from "../../context/DeckReducer";
 import { deckActionTypes } from "../../context/DeckReducer";
 import Deck from "../../components/Deck/Deck";
 import { useGlobalState } from "../../context/GlobalStateProvider";
+import { CircularProgress } from "@material-ui/core";
 
 type DeckParamsTypes = {
   deckId: string;
 };
 
-const DeckContainer = () => {
+const DeckContainer = ({ isNewDeck }: any) => {
   return (
     <DeckStateProvider initialState={initialDeckState} reducer={deckReducer}>
-      <DeckContainerInner />
+      <DeckContainerInner isNewDeck={isNewDeck} />
     </DeckStateProvider>
   );
 };
 
-const DeckContainerInner = () => {
+const DeckContainerInner = ({ isNewDeck }: any) => {
   const [{ deck, loading, permissions }, deckDispatch] = useDeckState();
   const [{ user }] = useGlobalState();
   const { deckId }: DeckParamsTypes = useParams();
 
   useEffect(() => {
+    if (isNewDeck) {
+      if (loading.deck) {
+        deckDispatch({
+          type: deckActionTypes.SET_NEW_DECK,
+          payload: {
+            loading: {
+              ...loading,
+              canEdit: true,
+            },
+          },
+        });
+      }
+      return;
+    }
     const getDeckById = async (deckId: string) => {
       const docRef = db.collection("decks").doc(deckId);
       const doc = await docRef.get();
@@ -40,6 +55,7 @@ const DeckContainerInner = () => {
           deckDispatch({
             type: deckActionTypes.SET_DECK,
             payload: {
+              id: snapshot.id,
               deck: {
                 ...newDeck,
                 list: list,
@@ -66,13 +82,18 @@ const DeckContainerInner = () => {
     if (loading.deck) {
       getDeckById(deckId);
     }
-  }, [deckId, deckDispatch, loading, user]);
+  }, [deckId, deckDispatch, loading, user, isNewDeck]);
 
   if (loading.deck) {
-    return <div>Loading Deck ...</div>;
+    return (
+      <div className="section__loading section__loading--deck">
+        <div className="section__loading-message">Loading Deck ...</div>
+        <CircularProgress />
+      </div>
+    );
   }
 
-  return <Deck functions={{}} state={{ deckId, deck, permissions }} />;
+  return <Deck state={{ deck, permissions, isNewDeck }} />;
 };
 
 export default DeckContainer;

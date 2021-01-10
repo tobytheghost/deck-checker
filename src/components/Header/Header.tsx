@@ -28,23 +28,30 @@ const Header = ({
 }: HeaderProps) => {
   return (
     <header className="header">
-      <Link to="/">
-        <div className="header__button header__logo">
-          <img src="/favicon.ico" alt="Deck Checker" />
-          <h1 className="header__title">Deck Checker</h1>
-        </div>
-      </Link>
-      <button className="header__button header__hamburger" onClick={openMenu}>
-        <MenuIcon />
-      </button>
-      {menuOpen && (
-        <div className="header__container">
-          <button className="header__button header__close" onClick={closeMenu}>
-            <CloseIcon />
-          </button>
-          <Nav functions={{ closeMenu, userLogout }} user={user} />
-        </div>
-      )}
+      <div className="header__inner">
+        <Link to="/">
+          <div className="header__button header__logo">
+            <img src="/favicon.ico" alt="Deck Checker" />
+            <h1 className="header__title">Deck Checker</h1>
+          </div>
+        </Link>
+        <button className="header__button header__hamburger" onClick={openMenu}>
+          <MenuIcon />
+        </button>
+        {menuOpen && (
+          <div className="header__container">
+            <div className="header__inner">
+              <button
+                className="header__button header__close"
+                onClick={closeMenu}
+              >
+                <CloseIcon />
+              </button>
+              <Nav functions={{ closeMenu, userLogout }} user={user} />
+            </div>
+          </div>
+        )}
+      </div>
     </header>
   );
 };

@@ -5,7 +5,7 @@ import { CardItemTypes } from "../../types/types";
 import { cardGroups, boards } from "../../helpers/decklist";
 import DeckListItem from "../../components/DeckListItem/DeckListItem";
 
-import "./DeckLists.scss";
+import "./DeckList.scss";
 
 type DeckListTypes = {
   functions: {
@@ -24,6 +24,10 @@ type DeckListTypes = {
 const DeckList = ({ functions, state, permissions }: DeckListTypes) => {
   const { list } = state;
 
+  if (!list.length) {
+    return <></>;
+  }
+
   const deckList = boards.map((board) => {
     let boardCount = 0; // Start counting items
 
@@ -35,7 +39,9 @@ const DeckList = ({ functions, state, permissions }: DeckListTypes) => {
 
       // Map filtered items
       const sectionItems = filteredSection.map((card: CardItemTypes) => {
-        return <DeckListItem card={card} functions={functions} />;
+        return (
+          <DeckListItem key={card.name} card={card} functions={functions} />
+        );
       });
 
       // If no items, return blank
@@ -58,7 +64,7 @@ const DeckList = ({ functions, state, permissions }: DeckListTypes) => {
         <React.Fragment key={type + total}>
           <div className="decklist__section" key={type + total}>
             <h3 className="decklist__subtitle">
-              {type} ({total})
+              {type === "Commander" && total > 1 ? `${type}s` : type} ({total})
             </h3>
             <ul>{sectionItems}</ul>
           </div>
@@ -81,7 +87,7 @@ const DeckList = ({ functions, state, permissions }: DeckListTypes) => {
     );
   });
 
-  console.log(deckList);
+  //console.log(deckList);
 
   return (
     <div className="deck__decklist">

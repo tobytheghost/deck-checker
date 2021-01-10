@@ -3,6 +3,7 @@ import firebase from "firebase";
 import { DeckTypes } from "../types/types";
 
 export type DeckStateTypes = {
+  id: string;
   deck: DeckTypes;
   loading: {
     deck: boolean;
@@ -11,6 +12,7 @@ export type DeckStateTypes = {
     canEdit: boolean;
     canDelete: boolean;
   };
+  isNewDeck: boolean;
 };
 
 export type DeckActionTypes = {
@@ -21,8 +23,8 @@ export type DeckActionTypes = {
 };
 
 export const initialDeckState: DeckStateTypes = {
+  id: "",
   deck: {
-    commander_id: "",
     commander_image: "",
     commander_name: "",
     deck_name: "",
@@ -38,12 +40,16 @@ export const initialDeckState: DeckStateTypes = {
     canEdit: false,
     canDelete: false,
   },
+  isNewDeck: false,
 };
 
 export const deckActionTypes = {
   SET_DECK: "SET_DECK",
   SET_CAN_EDIT: "SET_CAN_EDIT",
   SET_LIST: "SET_LIST",
+  SET_NEW_DECK: "SET_NEW_DECK",
+  SET_DECK_TAG: "SET_DECK_TAG",
+  SET_DECK_IMAGE: "SET_DECK_IMAGE",
 };
 
 const deckReducer = (state: DeckStateTypes, action: DeckActionTypes) => {
@@ -51,14 +57,36 @@ const deckReducer = (state: DeckStateTypes, action: DeckActionTypes) => {
     case deckActionTypes.SET_DECK:
       return {
         ...state,
+        id: action.payload.id,
         deck: action.payload.deck,
         loading: {
           ...state.loading,
           deck: false,
         },
       };
+    case deckActionTypes.SET_NEW_DECK:
+      return {
+        ...state,
+        loading: {
+          ...state.loading,
+          deck: false,
+        },
+        permissions: {
+          ...state.permissions,
+          canEdit: action.payload.canEdit,
+        },
+        isNewDeck: true,
+      };
+    case deckActionTypes.SET_DECK_TAG:
+      return {
+        ...state,
+        deck: {
+          ...state.deck,
+          tag: action.payload.tag,
+        },
+      };
     case deckActionTypes.SET_LIST:
-      console.log(state);
+      //console.log(state);
       return {
         ...state,
         deck: {
@@ -72,6 +100,15 @@ const deckReducer = (state: DeckStateTypes, action: DeckActionTypes) => {
         permissions: {
           ...state.permissions,
           canEdit: action.payload.canEdit,
+        },
+      };
+    case deckActionTypes.SET_DECK_IMAGE:
+      return {
+        ...state,
+        deck: {
+          ...state.deck,
+          commander_image: action.payload.commander_image,
+          commander_name: action.payload.commander_name,
         },
       };
     default:
