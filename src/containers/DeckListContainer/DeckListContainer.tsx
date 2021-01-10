@@ -112,17 +112,17 @@ const DeckListContainer = () => {
   };
 
   const handleSaveNewDeck = async () => {
-    console.log(deck, deck.list.length, user);
+    //console.log(deck, deck.list.length, user);
     if (!deck || !deck.list.length || !user) {
       setPopupMessage("Unable to save new deck.");
       setPopupStatus("error");
       setPopupOpen(true);
       return;
     }
-    console.log(user);
+    //console.log(user);
     const newList = JSON.stringify(deck.list);
     const newDeck = { ...deck, list: newList, user_id: user.uid };
-    console.log(newDeck);
+    //console.log(newDeck);
     try {
       await db
         .collection("decks")

@@ -55,7 +55,7 @@ const DeckListImportContainer = () => {
         importList.push(item);
         return true;
       });
-    console.log(importList);
+    //console.log(importList);
 
     const numberOfCards = importList.length;
     if (!numberOfCards) {
@@ -132,7 +132,7 @@ const DeckListImportContainer = () => {
       }
       return card;
     });
-    console.log(importList);
+    //console.log(importList);
     deckDispatch({
       type: deckActionTypes.SET_LIST,
       payload: {

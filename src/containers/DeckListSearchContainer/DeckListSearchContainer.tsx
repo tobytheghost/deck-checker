@@ -36,7 +36,7 @@ const DeckListSearchContainer = ({
 
     const formattedCard = formatCard(card, board, 1, type);
 
-    console.log(formattedCard);
+    //console.log(formattedCard);
 
     handleAddCard(formattedCard);
   };
