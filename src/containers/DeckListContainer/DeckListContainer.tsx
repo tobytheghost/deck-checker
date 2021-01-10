@@ -12,10 +12,12 @@ import db from "../../firebase/firebase";
 import PopupBar from "../../components/PopupBar/PopupBar";
 import DeckListSearchContainer from "../DeckListSearchContainer/DeckListSearchContainer";
 import DeckListImportContainer from "../DeckListImportContainer/DeckListImportContainer";
+import { useGlobalState } from "../../context/GlobalStateProvider";
 
 const DeckListContainer = () => {
   const [previewImage, setPreviewImage] = useState("");
   const [{ deck, id, permissions, isNewDeck }, deckDispatch] = useDeckState();
+  const [{ user }] = useGlobalState();
   const { list } = deck;
   const { canEdit } = permissions;
   const history = useHistory();
@@ -157,8 +159,12 @@ const DeckListContainer = () => {
           state={{ isNewDeck }}
         />
       )}
-      <DeckListSearchContainer functions={{ handleAddCard }} />
-      <DeckListImportContainer functions={{ handleAddCard }} />
+      {user && (
+        <>
+          <DeckListSearchContainer functions={{ handleAddCard }} />
+          <DeckListImportContainer functions={{ handleAddCard }} />
+        </>
+      )}
       <PopupBar
         open={popupOpen}
         message={popupMessage}

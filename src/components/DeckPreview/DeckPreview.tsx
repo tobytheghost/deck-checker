@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import DeckPreviewRatingWindow from "../../components/DeckPreviewRatingWindow/DeckPreviewRatingWindow";
 import { DeckTypes } from "../../types/types";
+import { useGlobalState } from "../../context/GlobalStateProvider";
 
 type DeckPreviewTypes = {
   functions: {
@@ -21,6 +22,7 @@ const DeckPreview = ({
   rating,
   functions: { handleSubmitRating },
 }: DeckPreviewTypes) => {
+  const [{ user }] = useGlobalState();
   return (
     <div className="profile__deck-wrapper" key={deck.data.timestamp.seconds}>
       <Card variant="outlined" className="profile__card">
@@ -62,10 +64,12 @@ const DeckPreview = ({
               />
             </div>
           </Link>
-          <DeckPreviewRatingWindow
-            deckId={deck.id}
-            handleSubmitRating={handleSubmitRating}
-          />
+          {user && (
+            <DeckPreviewRatingWindow
+              deckId={deck.id}
+              handleSubmitRating={handleSubmitRating}
+            />
+          )}
         </div>
       </Card>
     </div>

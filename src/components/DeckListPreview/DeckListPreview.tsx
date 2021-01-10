@@ -134,16 +134,18 @@ const DeckListPreview = ({
             </div>
           </div>
           {user && (
-            <div className="deck__deck-header">
-              <h3 className="deck__power-rating">Your Rating: </h3>
-              <div className="deck__rating">
-                <div className="deck__score">
-                  {yourRating ? yourRating : "-"}
+            <>
+              <div className="deck__deck-header">
+                <h3 className="deck__power-rating">Your Rating: </h3>
+                <div className="deck__rating">
+                  <div className="deck__score">
+                    {yourRating ? yourRating : "-"}
+                  </div>
                 </div>
               </div>
-            </div>
+              <DeckListRatingWindow />
+            </>
           )}
-          <DeckListRatingWindow />
         </>
       )}
     </div>

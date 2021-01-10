@@ -7,6 +7,7 @@ import DeckTabsContainer from "../../containers/DeckTabsContainer/DeckTabsContai
 import { useDeckState } from "../../context/DeckStateProvider";
 
 import "./Deck.scss";
+import { useGlobalState } from "../../context/GlobalStateProvider";
 
 type DeckPropTypes = {
   state: {
@@ -22,6 +23,7 @@ const Deck = ({
   state: { deck, permissions: canEdit, isNewDeck },
 }: DeckPropTypes) => {
   const [{ id }] = useDeckState();
+  const [{ user }] = useGlobalState();
   return (
     <>
       <section className="section section--deck">
@@ -33,7 +35,7 @@ const Deck = ({
           </Card>
         </div>
       </section>
-      {canEdit && !isNewDeck && (
+      {canEdit && !isNewDeck && user && user.uid === deck.user_id && (
         <section className="section">
           <div className="section__card">
             <QR imageName={id} qrTitle="Deck QR Code"></QR>
