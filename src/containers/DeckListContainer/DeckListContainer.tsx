@@ -77,6 +77,10 @@ const DeckListContainer = () => {
   };
 
   const handleSaveDeck = async () => {
+    if (!id) {
+      handleSaveNewDeck();
+      return;
+    }
     const docRef = db.collection("decks").doc(id);
     const doc = await docRef.get();
     if (doc.exists) {
@@ -101,30 +105,59 @@ const DeckListContainer = () => {
         setPopupOpen(true);
       }
     } else {
-      try {
-        await db
-          .collection("decks")
-          .add(deck)
-          .then((deck) => {
-            history.push("/d/" + id);
-          });
-
-        setPopupMessage("New Deck Saved.");
-        setPopupStatus("success");
-        setPopupOpen(true);
-      } catch (error) {
-        console.error(`Unable to save new deck: ${error}`);
-
-        setPopupMessage("Unable to save new deck.");
-        setPopupStatus("error");
-        setPopupOpen(true);
-      }
+      setPopupMessage("Unable to save deck.");
+      setPopupStatus("error");
+      setPopupOpen(true);
     }
   };
 
-  //console.log(deck);
+  const handleSaveNewDeck = async () => {
+    console.log(deck);
+    if (!deck || !deck.list.length || !user) {
+      setPopupMessage("Unable to save new deck.");
+      setPopupStatus("error");
+      setPopupOpen(true);
+      return;
+    }
+    console.log(user);
+    const newList = JSON.stringify(deck.list);
+    const newDeck = { ...deck, list: newList, user_id: user.uid };
+    console.log(newDeck);
+    try {
+      await db
+        .collection("decks")
+        .add(newDeck)
+        .then((deck) => {
+          history.push("/d/" + deck.id);
+        });
 
-  const handleDeleteDeck = () => {};
+      setPopupMessage("New Deck Saved.");
+      setPopupStatus("success");
+      setPopupOpen(true);
+    } catch (error) {
+      console.error(`Unable to save new deck: ${error}`);
+
+      setPopupMessage("Unable to save new deck.");
+      setPopupStatus("error");
+      setPopupOpen(true);
+    }
+  };
+
+  const handleDeleteDeck = () => {
+    db.collection("decks")
+      .doc(id)
+      .delete()
+      .then(function () {
+        history.push("/u/" + user.uid);
+      })
+      .catch(function (error) {
+        console.error("Error removing deck: ", error);
+      });
+
+    setPopupMessage("Deck deleted.");
+    setPopupStatus("success");
+    setPopupOpen(true);
+  };
 
   const handleChangePreviewImage = (imageUrl: string) => {
     setPreviewImage(imageUrl);
@@ -162,7 +195,7 @@ const DeckListContainer = () => {
       {user && (
         <>
           <DeckListSearchContainer functions={{ handleAddCard }} />
-          <DeckListImportContainer functions={{ handleAddCard }} />
+          <DeckListImportContainer />
         </>
       )}
       <PopupBar

@@ -48,7 +48,8 @@ export const checkCardType = (card) => {
 };
 
 export const formatCard = (card, board, quantity, type) => {
-  if (card.layout !== "transform") {
+  if (card.layout !== "transform" && card.layout !== "modal_dfc") {
+    console.log(card);
     return {
       name: card.name,
       cmc: card.cmc,

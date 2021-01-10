@@ -7,14 +7,7 @@ import { CardItemTypes } from "../../types/types";
 import { useDeckState } from "../../context/DeckStateProvider";
 import { deckActionTypes } from "../../context/DeckReducer";
 
-type DeckListImportContainerTypes = {
-  functions: {
-    handleAddCard: (card: CardItemTypes) => void;
-  };
-};
-const DeckListImportContainer = ({
-  functions: { handleAddCard },
-}: DeckListImportContainerTypes) => {
+const DeckListImportContainer = () => {
   const [importCards, setImportCards] = useState("");
   const [importing, setImporting] = useState(false);
   const [importingMessage, setImportingMessage] = useState("");

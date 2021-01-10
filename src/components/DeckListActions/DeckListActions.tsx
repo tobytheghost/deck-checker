@@ -27,7 +27,7 @@ const DeckListActions = ({
           {isNewDeck ? "Save New Deck" : "Save Changes"}
         </Button>
       </div>
-      {!isNewDeck && (
+      {/* {!isNewDeck && (
         <div className="deck__action deck__action--delete">
           <Button
             type="submit"
@@ -38,7 +38,7 @@ const DeckListActions = ({
             Delete Deck
           </Button>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // import firebase from "firebase";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 // App
 import db from "../../firebase/firebase";
@@ -12,6 +12,7 @@ import { deckActionTypes } from "../../context/DeckReducer";
 import Deck from "../../components/Deck/Deck";
 import { useGlobalState } from "../../context/GlobalStateProvider";
 import { CircularProgress } from "@material-ui/core";
+import Error from "../../components/Error/Error";
 
 type DeckParamsTypes = {
   deckId: string;
@@ -29,6 +30,7 @@ const DeckContainerInner = ({ isNewDeck }: any) => {
   const [{ deck, loading, permissions }, deckDispatch] = useDeckState();
   const [{ user }] = useGlobalState();
   const { deckId }: DeckParamsTypes = useParams();
+  const [isError, setIsError] = useState(false);
 
   useEffect(() => {
     if (isNewDeck) {
@@ -51,6 +53,10 @@ const DeckContainerInner = ({ isNewDeck }: any) => {
       if (doc.exists) {
         docRef.onSnapshot((snapshot: any) => {
           const newDeck = snapshot.data();
+          if (!newDeck && !newDeck.list) {
+            setIsError(true);
+            return;
+          }
           const list = JSON.parse(newDeck.list);
           deckDispatch({
             type: deckActionTypes.SET_DECK,
@@ -77,12 +83,18 @@ const DeckContainerInner = ({ isNewDeck }: any) => {
           }
           console.log(`Fetched deck: ${deckId}`);
         });
+      } else {
+        setIsError(true);
       }
     };
     if (loading.deck) {
       getDeckById(deckId);
     }
   }, [deckId, deckDispatch, loading, user, isNewDeck]);
+
+  if (isError) {
+    return <Error errorCode={404} errorMessage={"Deck Not Found"} />;
+  }
 
   if (loading.deck) {
     return (

@@ -15,6 +15,7 @@ import DeckPreviewTag from "../DeckPreviewTag/DeckPreviewTag";
 import { useDeckState } from "../../context/DeckStateProvider";
 import { useGlobalState } from "../../context/GlobalStateProvider";
 import DeckListRatingWindow from "../DeckListRatingWindow/DeckListRatingWindow";
+import { deckActionTypes } from "../../context/DeckReducer";
 
 type DeckListPreviewTypes = {
   state: {
@@ -35,14 +36,19 @@ const DeckListPreview = ({
 }: DeckListPreviewTypes) => {
   const [{ user }] = useGlobalState();
   const [editTitle, setEditTitle] = useState(false);
-  const [deckName, setDeckName] = useState(deck.deck_name);
+  const [deckName, setDeckName] = useState(deck.deck_name || "");
   const [rating, setRating]: any = useState();
   const [yourRating, setYourRating]: any = useState();
-  const [{ id }] = useDeckState();
+  const [{ id }, deckDispatch] = useDeckState();
   const { tag } = deck;
 
-  const updateDeckName = () => {
-    setDeckName(deckName);
+  const handleUpdateDeckName = (e: any) => {
+    deckDispatch({
+      type: deckActionTypes.SET_DECK_NAME,
+      payload: {
+        deck_name: e.target.value,
+      },
+    });
   };
 
   useEffect(() => {
@@ -73,14 +79,14 @@ const DeckListPreview = ({
 
   return (
     <div className="deck__preview">
-      {editTitle ? (
+      {editTitle || isNewDeck ? (
         <TextField
           label="Deck Name"
           variant="outlined"
           name="deckName"
           type="text"
-          value={deckName}
-          onChange={updateDeckName}
+          value={deck.deck_name}
+          onChange={handleUpdateDeckName}
         />
       ) : (
         <h2 className="deck__name">

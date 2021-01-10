@@ -17,8 +17,6 @@ type DeckListItemTypes = {
   };
 };
 
-const isNewDeck = false;
-
 const DeckListItem = ({
   card,
   functions: { handleChangePreviewImage, handleAddCard, handleRemoveCard },
@@ -26,6 +24,7 @@ const DeckListItem = ({
   const [
     {
       permissions: { canEdit },
+      isNewDeck,
     },
   ] = useDeckState();
 

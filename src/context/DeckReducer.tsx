@@ -50,6 +50,7 @@ export const deckActionTypes = {
   SET_NEW_DECK: "SET_NEW_DECK",
   SET_DECK_TAG: "SET_DECK_TAG",
   SET_DECK_IMAGE: "SET_DECK_IMAGE",
+  SET_DECK_NAME: "SET_DECK_NAME",
 };
 
 const deckReducer = (state: DeckStateTypes, action: DeckActionTypes) => {
@@ -83,6 +84,14 @@ const deckReducer = (state: DeckStateTypes, action: DeckActionTypes) => {
         deck: {
           ...state.deck,
           tag: action.payload.tag,
+        },
+      };
+    case deckActionTypes.SET_DECK_NAME:
+      return {
+        ...state,
+        deck: {
+          ...state.deck,
+          deck_name: action.payload.deck_name,
         },
       };
     case deckActionTypes.SET_LIST:
